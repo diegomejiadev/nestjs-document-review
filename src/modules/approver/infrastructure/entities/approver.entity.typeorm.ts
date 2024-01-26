@@ -3,10 +3,12 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { IApprover } from '../../domain/interfaces/approver.interface';
+import { DocumentEntityTypeorm } from 'src/modules/document/infrastructure/entities/document.entity.typeorm';
 
 @Entity({ name: 'approver' })
 export class ApproverEntityTypeorm implements IApprover {
@@ -18,6 +20,12 @@ export class ApproverEntityTypeorm implements IApprover {
 
   @Column()
   lastname: string;
+
+  @OneToMany(
+    () => DocumentEntityTypeorm,
+    (document) => document.approverAssigned,
+  )
+  assignedDocuments: DocumentEntityTypeorm[];
 
   @CreateDateColumn({
     name: 'created_at',

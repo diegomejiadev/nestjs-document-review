@@ -16,6 +16,7 @@ import { ApplicantEntityTypeorm } from 'src/modules/applicant/infrastructure/ent
 import { CommentEntityTypeorm } from 'src/modules/comment/infrastructure/entities/comment.entity.typeorm';
 import { ReviewerEntityTypeorm } from 'src/modules/reviewer/infrastructure/entities/reviewer.entity.typeorm';
 import { EditorEntityTypeorm } from 'src/modules/editor/infrastructure/entities/editor.entity.typeorm';
+import { ApproverEntityTypeorm } from 'src/modules/approver/infrastructure/entities/approver.entity.typeorm';
 
 @Entity({
   name: 'document',
@@ -50,7 +51,11 @@ export class DocumentEntityTypeorm implements IDocument {
   @JoinColumn({ name: 'editor_id' })
   editor: EditorEntityTypeorm;
 
-  @Column()
+  @Column({
+    name: 'file_url',
+    type: 'varchar',
+    length: 511,
+  })
   fileUrl: string;
 
   @Column()
@@ -68,6 +73,14 @@ export class DocumentEntityTypeorm implements IDocument {
     enum: DOCUMENT_TYPE,
   })
   type: DOCUMENT_TYPE;
+
+  @ManyToOne(
+    () => ApproverEntityTypeorm,
+    (approver) => approver.assignedDocuments,
+    { onDelete: 'SET NULL', onUpdate: 'CASCADE' },
+  )
+  @JoinColumn({ name: 'approver_id' })
+  approverAssigned: ApproverEntityTypeorm;
 
   @CreateDateColumn({
     name: 'created_at',
