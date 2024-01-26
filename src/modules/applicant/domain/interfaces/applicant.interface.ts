@@ -7,6 +7,6 @@ export interface IApplicant {
   email: string;
   password: string;
   // sentDocuments: IDocument[];
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
