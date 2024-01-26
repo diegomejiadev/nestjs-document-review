@@ -6,6 +6,8 @@ export class ApplicantEntity implements IApplicant {
   id: string;
   name: string;
   lastname: string;
+  email: string;
+  password: string;
   sentDocuments: DocumentEntity[];
   createdAt: Date;
   updatedAt: Date;

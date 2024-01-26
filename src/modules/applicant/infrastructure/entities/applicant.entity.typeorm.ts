@@ -26,6 +26,14 @@ export class ApplicantEntityTypeorm implements IApplicant {
   @OneToMany(() => DocumentEntityTypeorm, (document) => document.applicant)
   sentDocuments: DocumentEntityTypeorm[];
 
+  @Column({
+    unique: true,
+  })
+  email: string;
+
+  @Column()
+  password: string;
+
   @CreateDateColumn({
     name: 'created_at',
   })

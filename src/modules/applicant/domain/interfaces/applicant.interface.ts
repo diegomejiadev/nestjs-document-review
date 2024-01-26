@@ -4,6 +4,8 @@ export interface IApplicant {
   id: string;
   name: string;
   lastname: string;
+  email: string;
+  password: string;
   // sentDocuments: IDocument[];
   createdAt: Date;
   updatedAt: Date;
