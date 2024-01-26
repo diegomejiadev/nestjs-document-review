@@ -9,9 +9,9 @@ export interface IDocument {
   fileUrl: string;
   type: DOCUMENT_TYPE;
   applicantId: string;
-  applicant: IApplicant;
+  // applicant?: IApplicant;
   status: DOCUMENT_STATUS;
-  comments: IComment[];
+  // comments?: IComment[];
   createdAt: Date;
   updatedAt: Date;
 }

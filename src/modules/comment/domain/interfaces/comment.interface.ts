@@ -5,9 +5,9 @@ export interface IComment {
   id: string;
   comment: string;
   reviewerId: string;
-  reviewer: IReviewer;
+  // reviewer: IReviewer;
   documentId: string;
-  document: IDocument;
+  // document: IDocument;
   createdAt: Date;
   updatedAt: Date;
 }

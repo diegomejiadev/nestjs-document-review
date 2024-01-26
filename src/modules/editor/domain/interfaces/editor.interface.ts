@@ -4,7 +4,7 @@ export interface IEditor {
   id: string;
   name: string;
   lastname: string;
-  editingDocuments: IDocument[];
+  // editingDocuments: IDocument[];
   createdAt: Date;
   updatedAt: Date;
 }

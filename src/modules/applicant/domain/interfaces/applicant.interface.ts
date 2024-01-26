@@ -4,7 +4,7 @@ export interface IApplicant {
   id: string;
   name: string;
   lastname: string;
-  sentDocuments: IDocument[];
+  // sentDocuments: IDocument[];
   createdAt: Date;
   updatedAt: Date;
 }
