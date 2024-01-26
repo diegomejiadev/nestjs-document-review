@@ -2,7 +2,7 @@ import * as bcrypt from 'bcrypt';
 
 export const hashPassword = (plainPassword: string) => {
   const SALT = bcrypt.genSaltSync(parseInt(process.env.SALT_ROUNDS));
-  return bcrypt.hash(plainPassword, SALT);
+  return bcrypt.hashSync(plainPassword, SALT);
 };
 
 export const comparePassword = (
