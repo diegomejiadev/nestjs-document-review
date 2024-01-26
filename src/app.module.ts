@@ -10,6 +10,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { validate } from './core/config/.env.validation';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { validate } from './core/config/.env.validation';
       envFilePath: [`.env.development`],
       validate,
     }),
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
