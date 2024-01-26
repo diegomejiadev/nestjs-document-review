@@ -28,6 +28,9 @@ class EnvironmentVariables {
 
   @IsNumber()
   DB_PORT: number;
+
+  @IsNumber()
+  SALT_ROUNDS: number;
 }
 
 export function validate(config: Record<string, unknown>) {
