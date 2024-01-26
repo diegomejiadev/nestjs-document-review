@@ -1,9 +1,10 @@
-import { IDocument } from 'src/modules/document/domain/interfaces/document.interface';
+import { DocumentEntityTypeorm } from 'src/modules/document/infrastructure/entities/document.entity.typeorm';
 import { IEditor } from '../../domain/interfaces/editor.interface';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -20,7 +21,9 @@ export class EditorEntityTypeorm implements IEditor {
 
   @Column()
   lastname: string;
-  // editingDocuments: IDocument[];
+
+  @OneToMany(() => DocumentEntityTypeorm, (document) => document.editor)
+  editingDocuments: DocumentEntityTypeorm[];
 
   @CreateDateColumn()
   createdAt: Date;

@@ -5,9 +5,13 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { DocumentEntityTypeorm } from 'src/modules/document/infrastructure/entities/document.entity.typeorm';
+import { ReviewerEntityTypeorm } from 'src/modules/reviewer/infrastructure/entities/reviewer.entity.typeorm';
 
 @Entity({ name: 'comment' })
 export class CommentEntityTypeorm implements IComment {
@@ -17,9 +21,21 @@ export class CommentEntityTypeorm implements IComment {
   @Column({
     type: 'text',
   })
-  comment: string;
-  reviewerId: string;
-  documentId: string;
+  description: string;
+
+  @ManyToOne(() => ReviewerEntityTypeorm, (reviewer) => reviewer.comments, {
+    onDelete: 'SET NULL',
+    onUpdate: 'CASCADE',
+  })
+  @JoinColumn({ name: 'reviewer_id' })
+  reviewer: ReviewerEntityTypeorm;
+
+  @ManyToOne(() => DocumentEntityTypeorm, (document) => document.comments, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
+  @JoinColumn({ name: 'document_id' })
+  document: DocumentEntityTypeorm;
 
   @CreateDateColumn()
   createdAt: Date;

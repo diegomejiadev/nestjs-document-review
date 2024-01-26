@@ -8,7 +8,7 @@ export interface IDocument {
   title: string;
   fileUrl: string;
   type: DOCUMENT_TYPE;
-  applicantId: string;
+  // applicantId: string;
   // applicant?: IApplicant;
   status: DOCUMENT_STATUS;
   // comments?: IComment[];

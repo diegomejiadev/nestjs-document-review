@@ -1,9 +1,10 @@
-import { IDocument } from 'src/modules/document/domain/interfaces/document.interface';
+import { DocumentEntityTypeorm } from 'src/modules/document/infrastructure/entities/document.entity.typeorm';
 import { IApplicant } from '../../domain/interfaces/applicant.interface';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -21,7 +22,8 @@ export class ApplicantEntityTypeorm implements IApplicant {
   @Column()
   lastname: string;
 
-  // sentDocuments: IDocument[];
+  @OneToMany(() => DocumentEntityTypeorm, (document) => document.applicant)
+  sentDocuments: DocumentEntityTypeorm[];
 
   @CreateDateColumn()
   createdAt: Date;

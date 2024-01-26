@@ -3,10 +3,10 @@ import { IReviewer } from 'src/modules/reviewer/domain/interfaces/reviewer.inter
 
 export interface IComment {
   id: string;
-  comment: string;
-  reviewerId: string;
+  description: string;
+  // reviewerId: string;
   // reviewer: IReviewer;
-  documentId: string;
+  // documentId: string;
   // document: IDocument;
   createdAt: Date;
   updatedAt: Date;

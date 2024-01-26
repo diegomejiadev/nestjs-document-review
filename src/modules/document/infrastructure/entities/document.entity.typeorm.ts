@@ -2,14 +2,19 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { IDocument } from '../../domain/interfaces/document.interface';
-import { IApplicant } from 'src/modules/applicant/domain/interfaces/applicant.interface';
-import { IComment } from 'src/modules/comment/domain/interfaces/comment.interface';
 import { DOCUMENT_STATUS } from 'src/core/constants/document-status.cst';
 import { DOCUMENT_TYPE } from 'src/core/constants/document-type.cst';
+import { ApplicantEntityTypeorm } from 'src/modules/applicant/infrastructure/entities/applicant.entity.typeorm';
+import { CommentEntityTypeorm } from 'src/modules/comment/infrastructure/entities/comment.entity.typeorm';
+import { ReviewerEntityTypeorm } from 'src/modules/reviewer/infrastructure/entities/reviewer.entity.typeorm';
+import { EditorEntityTypeorm } from 'src/modules/editor/infrastructure/entities/editor.entity.typeorm';
 
 @Entity({
   name: 'document',
@@ -18,11 +23,31 @@ export class DocumentEntityTypeorm implements IDocument {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  // applicant: IApplicant;
+  @ManyToOne(
+    () => ApplicantEntityTypeorm,
+    (applicant) => applicant.sentDocuments,
+    { onDelete: 'SET NULL', onUpdate: 'CASCADE' },
+  )
+  @JoinColumn({ name: 'applicant_id' })
+  applicant: ApplicantEntityTypeorm;
 
-  applicantId: string;
+  @OneToMany(() => CommentEntityTypeorm, (comment) => comment.document)
+  comments: CommentEntityTypeorm[];
 
-  // comments: IComment[];
+  @ManyToOne(
+    () => ReviewerEntityTypeorm,
+    (reviewer) => reviewer.assignedDocuments,
+    { onDelete: 'SET NULL', onUpdate: 'CASCADE' },
+  )
+  @JoinColumn({ name: 'reviewer_id' })
+  reviewer: ReviewerEntityTypeorm;
+
+  @ManyToOne(() => EditorEntityTypeorm, (editor) => editor.editingDocuments, {
+    onDelete: 'SET NULL',
+    onUpdate: 'CASCADE',
+  })
+  @JoinColumn({ name: 'editor_id' })
+  editor: EditorEntityTypeorm;
 
   @Column()
   fileUrl: string;
@@ -30,8 +55,17 @@ export class DocumentEntityTypeorm implements IDocument {
   @Column()
   title: string;
 
+  @Column({
+    type: 'enum',
+    enum: DOCUMENT_STATUS,
+    default: DOCUMENT_STATUS.PENDING_REVISION,
+  })
   status: DOCUMENT_STATUS;
 
+  @Column({
+    type: 'enum',
+    enum: DOCUMENT_TYPE,
+  })
   type: DOCUMENT_TYPE;
 
   @CreateDateColumn()
