@@ -4,6 +4,7 @@ import { IComment } from '../../domain/interfaces/comment.interface';
 import {
   Column,
   CreateDateColumn,
+  DeleteDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
@@ -37,9 +38,18 @@ export class CommentEntityTypeorm implements IComment {
   @JoinColumn({ name: 'document_id' })
   document: DocumentEntityTypeorm;
 
-  @CreateDateColumn()
+  @CreateDateColumn({
+    name: 'created_at',
+  })
   createdAt: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({
+    name: 'updated_at',
+  })
   updatedAt: Date;
+
+  @DeleteDateColumn({
+    name: 'deleted_at',
+  })
+  deletedAt?: Date;
 }

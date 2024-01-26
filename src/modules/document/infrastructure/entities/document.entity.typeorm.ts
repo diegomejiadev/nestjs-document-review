@@ -1,6 +1,7 @@
 import {
   Column,
   CreateDateColumn,
+  DeleteDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
@@ -68,9 +69,18 @@ export class DocumentEntityTypeorm implements IDocument {
   })
   type: DOCUMENT_TYPE;
 
-  @CreateDateColumn()
+  @CreateDateColumn({
+    name: 'created_at',
+  })
   createdAt: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({
+    name: 'updated_at',
+  })
   updatedAt: Date;
+
+  @DeleteDateColumn({
+    name: 'deleted_at',
+  })
+  deletedAt?: Date;
 }

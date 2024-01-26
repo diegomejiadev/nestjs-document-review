@@ -3,6 +3,7 @@ import { IEditor } from '../../domain/interfaces/editor.interface';
 import {
   Column,
   CreateDateColumn,
+  DeleteDateColumn,
   Entity,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -25,9 +26,18 @@ export class EditorEntityTypeorm implements IEditor {
   @OneToMany(() => DocumentEntityTypeorm, (document) => document.editor)
   editingDocuments: DocumentEntityTypeorm[];
 
-  @CreateDateColumn()
+  @CreateDateColumn({
+    name: 'created_at',
+  })
   createdAt: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({
+    name: 'updated_at',
+  })
   updatedAt: Date;
+
+  @DeleteDateColumn({
+    name: 'deleted_at',
+  })
+  deletedAt?: Date;
 }
