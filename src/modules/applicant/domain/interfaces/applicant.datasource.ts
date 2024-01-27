@@ -5,6 +5,7 @@ import { ApplicantEntity } from '../entities/applicant.entity';
 
 export interface IApplicantDatasource {
   create(body: CreateApplicantDto): Promise<ApplicantEntity>;
+  findById(applicantId: string): Promise<ApplicantEntity | null>;
   updateBasic(
     applicantId: string,
     body: UpdateBasicInfoApplicantDto,

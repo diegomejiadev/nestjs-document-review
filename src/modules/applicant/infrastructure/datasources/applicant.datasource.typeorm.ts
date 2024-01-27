@@ -24,16 +24,15 @@ export class ApplicantDatasourceTypeorm implements IApplicantDatasource {
 
       if (!foundApplicant) return null;
 
-      const result = new ApplicantEntity();
-      result.id = foundApplicant.id;
-      result.email = foundApplicant.email;
-      result.createdAt = foundApplicant.createdAt;
-      result.lastname = foundApplicant.lastname;
-      result.name = foundApplicant.name;
-      result.password = foundApplicant.password;
-      result.updatedAt = foundApplicant.updatedAt;
-
-      return result;
+      return new ApplicantEntity()
+        .setId(foundApplicant.id)
+        .setEmail(foundApplicant.email)
+        .setCreatedAt(foundApplicant.createdAt)
+        .setUpdatedAt(foundApplicant.updatedAt)
+        .setName(foundApplicant.name)
+        .setLastname(foundApplicant.lastname)
+        .setPassword(foundApplicant.password)
+        .build();
     } catch (e) {
       throw new InternalServerErrorException(
         'Hubo un error al buscar el aplicante',
@@ -56,15 +55,15 @@ export class ApplicantDatasourceTypeorm implements IApplicantDatasource {
       const createdApplicant =
         await this.applicantRepository.save(newApplicant);
 
-      return {
-        id: createdApplicant.id,
-        email: createdApplicant.email,
-        createdAt: createdApplicant.createdAt,
-        lastname: createdApplicant.lastname,
-        name: createdApplicant.name,
-        password: createdApplicant.password,
-        updatedAt: createdApplicant.updatedAt,
-      };
+      return new ApplicantEntity()
+        .setId(createdApplicant.id)
+        .setEmail(createdApplicant.email)
+        .setCreatedAt(createdApplicant.createdAt)
+        .setUpdatedAt(createdApplicant.updatedAt)
+        .setName(createdApplicant.name)
+        .setLastname(createdApplicant.lastname)
+        .setPassword(createdApplicant.password)
+        .build();
     } catch (e) {
       throw new InternalServerErrorException(
         'Hubo un error al crear el aplicante',
@@ -96,15 +95,15 @@ export class ApplicantDatasourceTypeorm implements IApplicantDatasource {
 
       if (!foundEmail) return null;
 
-      return {
-        email: foundEmail.email,
-        id: foundEmail.id,
-        lastname: foundEmail.lastname,
-        name: foundEmail.name,
-        password: foundEmail.password,
-        createdAt: foundEmail.createdAt,
-        updatedAt: foundEmail.updatedAt,
-      };
+      return new ApplicantEntity()
+        .setId(foundEmail.id)
+        .setEmail(foundEmail.email)
+        .setCreatedAt(foundEmail.createdAt)
+        .setUpdatedAt(foundEmail.updatedAt)
+        .setName(foundEmail.name)
+        .setLastname(foundEmail.lastname)
+        .setPassword(foundEmail.password)
+        .build();
     } catch (e) {
       throw new InternalServerErrorException(
         'Hubo un error al buscar el aplicante',
@@ -122,15 +121,15 @@ export class ApplicantDatasourceTypeorm implements IApplicantDatasource {
         ...body,
       });
 
-      return {
-        email: updatedApplicant.email,
-        id: updatedApplicant.id,
-        lastname: updatedApplicant.lastname,
-        name: updatedApplicant.name,
-        password: updatedApplicant.password,
-        createdAt: updatedApplicant.createdAt,
-        updatedAt: updatedApplicant.updatedAt,
-      };
+      return new ApplicantEntity()
+        .setId(updatedApplicant.id)
+        .setEmail(updatedApplicant.email)
+        .setCreatedAt(updatedApplicant.createdAt)
+        .setUpdatedAt(updatedApplicant.updatedAt)
+        .setName(updatedApplicant.name)
+        .setLastname(updatedApplicant.lastname)
+        .setPassword(updatedApplicant.password)
+        .build();
     } catch (e) {
       throw new InternalServerErrorException(
         'Hubo un error al actualizar la información del aplicante',
@@ -148,15 +147,15 @@ export class ApplicantDatasourceTypeorm implements IApplicantDatasource {
         email: body.email,
       });
 
-      return {
-        email: updatedApplicant.email,
-        id: updatedApplicant.id,
-        lastname: updatedApplicant.lastname,
-        name: updatedApplicant.name,
-        password: updatedApplicant.password,
-        createdAt: updatedApplicant.createdAt,
-        updatedAt: updatedApplicant.updatedAt,
-      };
+      return new ApplicantEntity()
+        .setId(updatedApplicant.id)
+        .setEmail(updatedApplicant.email)
+        .setCreatedAt(updatedApplicant.createdAt)
+        .setUpdatedAt(updatedApplicant.updatedAt)
+        .setName(updatedApplicant.name)
+        .setLastname(updatedApplicant.lastname)
+        .setPassword(updatedApplicant.password)
+        .build();
     } catch (e) {
       throw new InternalServerErrorException(
         'Hubo un error al actualizar el correo electrónico',
@@ -174,15 +173,15 @@ export class ApplicantDatasourceTypeorm implements IApplicantDatasource {
         password: hashedPassword,
       });
 
-      return {
-        email: updatedApplicant.email,
-        id: updatedApplicant.id,
-        lastname: updatedApplicant.lastname,
-        name: updatedApplicant.name,
-        password: updatedApplicant.password,
-        createdAt: updatedApplicant.createdAt,
-        updatedAt: updatedApplicant.updatedAt,
-      };
+      return new ApplicantEntity()
+        .setId(updatedApplicant.id)
+        .setEmail(updatedApplicant.email)
+        .setCreatedAt(updatedApplicant.createdAt)
+        .setUpdatedAt(updatedApplicant.updatedAt)
+        .setName(updatedApplicant.name)
+        .setLastname(updatedApplicant.lastname)
+        .setPassword(updatedApplicant.password)
+        .build();
     } catch (e) {
       throw new InternalServerErrorException(
         'Hubo un error al actualizar la contraseña',
