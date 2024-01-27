@@ -98,8 +98,7 @@ export class ApplicantDatasourceTypeorm implements IApplicantDatasource {
     try {
       const updatedApplicant = await this.applicantRepository.save({
         id: applicantId,
-        lastname: body.lastname,
-        name: body.name,
+        ...body,
       });
 
       return {
