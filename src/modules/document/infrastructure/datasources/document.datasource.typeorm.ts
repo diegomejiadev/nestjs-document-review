@@ -14,6 +14,41 @@ export class DocumentDatasourceTypeorm implements IDocumentDatasource {
     private readonly documentRepository: Repository<DocumentEntityTypeorm>,
   ) {}
 
+  async findById(documentId: any): Promise<DocumentEntity> {
+    try {
+      const foundDocument = await this.documentRepository.findOne({
+        where: {
+          id: documentId,
+        },
+      });
+
+      if (!foundDocument) return null;
+
+      return {
+        applicant: {
+          id: foundDocument.applicant?.id,
+          email: foundDocument.applicant?.email,
+          name: foundDocument.applicant?.name,
+          lastname: foundDocument.applicant?.lastname,
+          password: foundDocument.applicant?.password,
+        },
+        applicantId: foundDocument.applicant?.id,
+        createdAt: foundDocument.createdAt,
+        updatedAt: foundDocument.updatedAt,
+        fileUrl: foundDocument.fileUrl,
+        id: foundDocument.id,
+        status: foundDocument.status,
+        submissionDate: foundDocument.submissionDate,
+        title: foundDocument.title,
+        type: foundDocument.type,
+      };
+    } catch (e) {
+      throw new InternalServerErrorException(
+        'Hubo un error al buscar el documento',
+      );
+    }
+  }
+
   async updateBasicInfo(
     documentId: string,
     body: UpdateDocumentDto,
