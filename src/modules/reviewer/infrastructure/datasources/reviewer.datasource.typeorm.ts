@@ -55,7 +55,7 @@ export class ReviewerDatasourceTypeorm implements IReviewerDatasource {
   async findByEmail(email: string): Promise<ReviewerEntity | null> {
     try {
       const foundReviewer = await this.reviewerRepository.findOne({
-        relations: ['document'],
+        relations: ['assignedDocuments'],
         where: {
           email,
         },
@@ -93,6 +93,7 @@ export class ReviewerDatasourceTypeorm implements IReviewerDatasource {
 
       return reviewerEntity;
     } catch (e) {
+      console.log(e)
       throw new InternalServerErrorException(
         'Hubo un error al buscar el reseñador',
       );
@@ -102,7 +103,7 @@ export class ReviewerDatasourceTypeorm implements IReviewerDatasource {
   async findById(reviewerId: any): Promise<ReviewerEntity | null> {
     try {
       const foundReviewer = await this.reviewerRepository.findOne({
-        relations: ['document'],
+        relations: ['assignedDocuments'],
         where: {
           id: reviewerId,
         },
