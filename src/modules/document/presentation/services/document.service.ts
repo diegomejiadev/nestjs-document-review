@@ -10,6 +10,7 @@ import { DocumentEntity } from '../../domain/entities/document.entity';
 import { UpdateDocumentDto } from '../../domain/dto/update-document.dto';
 import { UpdateBasicInfoDocumentUsecase } from '../../infrastructure/usecases/update-basic-info-document.usecase';
 import { UpdateFileUrlDocumentUsecase } from '../../infrastructure/usecases/update-file-url-document.usecase';
+import { FindDocumentByIdUsecase } from '../../infrastructure/usecases/find-document-by-id.usecase';
 
 @Injectable()
 export class DocumentService {
@@ -17,7 +18,14 @@ export class DocumentService {
     private readonly createDocumentUsecase: CreateDocumentUsecase,
     private readonly updateBasicInfoDocumentUsecase: UpdateBasicInfoDocumentUsecase,
     private readonly updateFileUrlDocumentUsecase: UpdateFileUrlDocumentUsecase,
+    private readonly findDocumentByIdUsecase: FindDocumentByIdUsecase,
   ) {}
+
+  async findById(documentId: string): Promise<IResponse<DocumentEntity>> {
+    const data = await this.findDocumentByIdUsecase.handle(documentId);
+
+    return { data };
+  }
 
   async create(body: CreateDocumentDto): Promise<IResponse<DocumentEntity>> {
     const data = await this.createDocumentUsecase.handle(body);

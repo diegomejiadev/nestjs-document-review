@@ -11,6 +11,7 @@ import { DocumentDatasourceTypeorm } from './infrastructure/datasources/document
 import { CreateDocumentUsecase } from './infrastructure/usecases/create-document.usecase';
 import { UpdateBasicInfoDocumentUsecase } from './infrastructure/usecases/update-basic-info-document.usecase';
 import { UpdateFileUrlDocumentUsecase } from './infrastructure/usecases/update-file-url-document.usecase';
+import { FindDocumentByIdUsecase } from './infrastructure/usecases/find-document-by-id.usecase';
 
 @Module({
   imports: [TypeOrmModule.forFeature([DocumentEntityTypeorm])],
@@ -21,6 +22,7 @@ import { UpdateFileUrlDocumentUsecase } from './infrastructure/usecases/update-f
     CreateDocumentUsecase,
     UpdateBasicInfoDocumentUsecase,
     UpdateFileUrlDocumentUsecase,
+    FindDocumentByIdUsecase,
   ],
 })
 export class DocumentModule {}
