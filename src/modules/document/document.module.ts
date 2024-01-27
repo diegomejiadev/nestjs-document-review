@@ -9,6 +9,8 @@ import { DocumentController } from './presentation/controllers/document.controll
 import { DocumentService } from './presentation/services/document.service';
 import { DocumentDatasourceTypeorm } from './infrastructure/datasources/document.datasource.typeorm';
 import { CreateDocumentUsecase } from './infrastructure/usecases/create-document.usecase';
+import { UpdateBasicInfoDocumentUsecase } from './infrastructure/usecases/update-basic-info-document.usecase';
+import { UpdateFileUrlDocumentUsecase } from './infrastructure/usecases/update-file-url-document.usecase';
 
 @Module({
   imports: [TypeOrmModule.forFeature([DocumentEntityTypeorm])],
@@ -17,6 +19,8 @@ import { CreateDocumentUsecase } from './infrastructure/usecases/create-document
     { provide: 'DOCUMENT_REPOSITORY', useClass: DocumentDatasourceTypeorm },
     DocumentService,
     CreateDocumentUsecase,
+    UpdateBasicInfoDocumentUsecase,
+    UpdateFileUrlDocumentUsecase,
   ],
 })
 export class DocumentModule {}
