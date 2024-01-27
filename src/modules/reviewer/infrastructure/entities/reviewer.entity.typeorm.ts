@@ -23,6 +23,14 @@ export class ReviewerEntityTypeorm {
   @Column()
   lastname: string;
 
+  @Column({
+    unique: true,
+  })
+  email: string;
+
+  @Column()
+  password: string;
+
   @OneToMany(() => CommentEntityTypeorm, (comment) => comment.reviewer)
   comments: CommentEntityTypeorm[];
 
