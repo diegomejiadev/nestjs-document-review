@@ -2,6 +2,7 @@ import { ApplicantEntity } from 'src/modules/applicant/domain/entities/applicant
 import { DOCUMENT_STATUS } from '../../../../core/constants/document-status.cst';
 import { DOCUMENT_TYPE } from 'src/core/constants/document-type.cst';
 import { CommentEntity } from 'src/modules/comment/domain/entities/comment.entity';
+import { ReviewerEntity } from 'src/modules/reviewer/domain/entities/reviewer.entity';
 
 export class DocumentEntity {
   constructor() {}
@@ -11,6 +12,9 @@ export class DocumentEntity {
   private fileUrl: string;
   private applicant?: ApplicantEntity;
   private applicantId?: string;
+  private reviewerId?: string;
+  private reviewer?: ReviewerEntity;
+
   private type: DOCUMENT_TYPE;
   private submissionDate: Date;
   private status: DOCUMENT_STATUS;
@@ -127,7 +131,21 @@ export class DocumentEntity {
     return this;
   }
 
-  public build(): this {
+  public getReviewerId(): string {
+    return this.reviewerId;
+  }
+
+  public setReviewerId(reviewerId: string): this {
+    this.reviewerId = reviewerId;
+    return this;
+  }
+
+  public getReviewer(): ReviewerEntity {
+    return this.reviewer;
+  }
+
+  public setReviewer(reviewer: ReviewerEntity): this {
+    this.reviewer = reviewer;
     return this;
   }
 }

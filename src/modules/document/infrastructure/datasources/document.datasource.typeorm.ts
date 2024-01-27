@@ -8,6 +8,7 @@ import { Repository } from 'typeorm';
 import { DOCUMENT_STATUS } from 'src/core/constants/document-status.cst';
 import { UpdateDocumentDto } from '../../domain/dto/update-document.dto';
 import { ApplicantEntity } from 'src/modules/applicant/domain/entities/applicant.entity';
+import { ReviewerEntity } from 'src/modules/reviewer/domain/entities/reviewer.entity';
 
 export class DocumentDatasourceTypeorm implements IDocumentDatasource {
   constructor(
@@ -26,7 +27,7 @@ export class DocumentDatasourceTypeorm implements IDocumentDatasource {
 
       if (!foundDocument) return null;
 
-      const foundDocumentEntity = new DocumentEntity()
+      const documentEntity = new DocumentEntity()
         .setApplicantId(foundDocument.applicant?.id)
         .setCreatedAt(foundDocument.createdAt)
         .setUpdatedAt(foundDocument.updatedAt)
@@ -35,7 +36,8 @@ export class DocumentDatasourceTypeorm implements IDocumentDatasource {
         .setStatus(foundDocument.status)
         .setSubmissionDate(foundDocument.submissionDate)
         .setTitle(foundDocument.title)
-        .setType(foundDocument.type);
+        .setType(foundDocument.type)
+        .setReviewerId(foundDocument.reviewer?.id);
 
       if (foundDocument.applicant) {
         const applicant = new ApplicantEntity()
@@ -45,10 +47,24 @@ export class DocumentDatasourceTypeorm implements IDocumentDatasource {
           .setLastname(foundDocument.applicant?.lastname)
           .setPassword(foundDocument.applicant?.password);
 
-        foundDocumentEntity.setApplicant(applicant);
+        documentEntity.setApplicant(applicant);
       }
 
-      return foundDocumentEntity.build();
+      if (foundDocument.reviewer) {
+        const reviewer = new ReviewerEntity()
+          .setId(foundDocument.reviewer.id)
+          .setCreatedAt(foundDocument.reviewer.createdAt)
+          .setDeletedAt(foundDocument.reviewer.deletedAt)
+          .setEmail(foundDocument.reviewer.email)
+          .setLastname(foundDocument.reviewer.lastname)
+          .setName(foundDocument.reviewer.name)
+          .setPassword(foundDocument.reviewer.password)
+          .setUpdatedAt(foundDocument.reviewer.updatedAt);
+
+        documentEntity.setReviewer(reviewer);
+      }
+
+      return documentEntity;
     } catch (e) {
       throw new InternalServerErrorException(
         'Hubo un error al buscar el documento',
@@ -66,7 +82,7 @@ export class DocumentDatasourceTypeorm implements IDocumentDatasource {
         ...body,
       });
 
-      const updateDocumentEntity = new DocumentEntity()
+      const documentEntity = new DocumentEntity()
         .setApplicantId(updateDocument.applicant?.id)
         .setCreatedAt(updateDocument.createdAt)
         .setUpdatedAt(updateDocument.updatedAt)
@@ -75,7 +91,8 @@ export class DocumentDatasourceTypeorm implements IDocumentDatasource {
         .setStatus(updateDocument.status)
         .setSubmissionDate(updateDocument.submissionDate)
         .setTitle(updateDocument.title)
-        .setType(updateDocument.type);
+        .setType(updateDocument.type)
+        .setReviewerId(updateDocument.reviewer?.id);
 
       if (updateDocument.applicant) {
         const applicant = new ApplicantEntity()
@@ -85,10 +102,24 @@ export class DocumentDatasourceTypeorm implements IDocumentDatasource {
           .setLastname(updateDocument.applicant?.lastname)
           .setPassword(updateDocument.applicant?.password);
 
-        updateDocumentEntity.setApplicant(applicant);
+        documentEntity.setApplicant(applicant);
       }
 
-      return updateDocumentEntity.build();
+      if (updateDocument.reviewer) {
+        const reviewer = new ReviewerEntity()
+          .setId(updateDocument.reviewer.id)
+          .setCreatedAt(updateDocument.reviewer.createdAt)
+          .setDeletedAt(updateDocument.reviewer.deletedAt)
+          .setEmail(updateDocument.reviewer.email)
+          .setLastname(updateDocument.reviewer.lastname)
+          .setName(updateDocument.reviewer.name)
+          .setPassword(updateDocument.reviewer.password)
+          .setUpdatedAt(updateDocument.reviewer.updatedAt);
+
+        documentEntity.setReviewer(reviewer);
+      }
+
+      return documentEntity;
     } catch (e) {
       if (e instanceof HttpException) {
         throw e;
@@ -110,7 +141,7 @@ export class DocumentDatasourceTypeorm implements IDocumentDatasource {
         fileUrl: newFileUrl,
       });
 
-      const updateDocumentEntity = new DocumentEntity()
+      const documentEntity = new DocumentEntity()
         .setApplicantId(updateDocument.applicant?.id)
         .setCreatedAt(updateDocument.createdAt)
         .setUpdatedAt(updateDocument.updatedAt)
@@ -119,7 +150,8 @@ export class DocumentDatasourceTypeorm implements IDocumentDatasource {
         .setStatus(updateDocument.status)
         .setSubmissionDate(updateDocument.submissionDate)
         .setTitle(updateDocument.title)
-        .setType(updateDocument.type);
+        .setType(updateDocument.type)
+        .setReviewerId(updateDocument.reviewer?.id);
 
       if (updateDocument.applicant) {
         const applicant = new ApplicantEntity()
@@ -129,10 +161,24 @@ export class DocumentDatasourceTypeorm implements IDocumentDatasource {
           .setLastname(updateDocument.applicant?.lastname)
           .setPassword(updateDocument.applicant?.password);
 
-        updateDocumentEntity.setApplicant(applicant);
+        documentEntity.setApplicant(applicant);
       }
 
-      return updateDocumentEntity.build();
+      if (updateDocument.reviewer) {
+        const reviewer = new ReviewerEntity()
+          .setId(updateDocument.reviewer.id)
+          .setCreatedAt(updateDocument.reviewer.createdAt)
+          .setDeletedAt(updateDocument.reviewer.deletedAt)
+          .setEmail(updateDocument.reviewer.email)
+          .setLastname(updateDocument.reviewer.lastname)
+          .setName(updateDocument.reviewer.name)
+          .setPassword(updateDocument.reviewer.password)
+          .setUpdatedAt(updateDocument.reviewer.updatedAt);
+
+        documentEntity.setReviewer(reviewer);
+      }
+
+      return documentEntity;
     } catch (e) {
       if (e instanceof HttpException) {
         throw e;
@@ -154,7 +200,7 @@ export class DocumentDatasourceTypeorm implements IDocumentDatasource {
         status,
       });
 
-      const updateDocumentEntity = new DocumentEntity()
+      const documentEntity = new DocumentEntity()
         .setApplicantId(updateDocument.applicant?.id)
         .setCreatedAt(updateDocument.createdAt)
         .setUpdatedAt(updateDocument.updatedAt)
@@ -163,7 +209,8 @@ export class DocumentDatasourceTypeorm implements IDocumentDatasource {
         .setStatus(updateDocument.status)
         .setSubmissionDate(updateDocument.submissionDate)
         .setTitle(updateDocument.title)
-        .setType(updateDocument.type);
+        .setType(updateDocument.type)
+        .setReviewerId(updateDocument.reviewer?.id);
 
       if (updateDocument.applicant) {
         const applicant = new ApplicantEntity()
@@ -173,10 +220,24 @@ export class DocumentDatasourceTypeorm implements IDocumentDatasource {
           .setLastname(updateDocument.applicant?.lastname)
           .setPassword(updateDocument.applicant?.password);
 
-        updateDocumentEntity.setApplicant(applicant);
+        documentEntity.setApplicant(applicant);
       }
 
-      return updateDocumentEntity.build();
+      if (updateDocument.reviewer) {
+        const reviewer = new ReviewerEntity()
+          .setId(updateDocument.reviewer.id)
+          .setCreatedAt(updateDocument.reviewer.createdAt)
+          .setDeletedAt(updateDocument.reviewer.deletedAt)
+          .setEmail(updateDocument.reviewer.email)
+          .setLastname(updateDocument.reviewer.lastname)
+          .setName(updateDocument.reviewer.name)
+          .setPassword(updateDocument.reviewer.password)
+          .setUpdatedAt(updateDocument.reviewer.updatedAt);
+
+        documentEntity.setReviewer(reviewer);
+      }
+
+      return documentEntity;
     } catch (e) {
       if (e instanceof HttpException) {
         throw e;
@@ -194,12 +255,13 @@ export class DocumentDatasourceTypeorm implements IDocumentDatasource {
     try {
       const updateDocument = await this.documentRepository.save({
         id: documentId,
+        status: DOCUMENT_STATUS.REVIEWER_ASSIGNED,
         reviewer: {
           id: reviewerId,
         },
       });
 
-      const updateDocumentEntity = new DocumentEntity()
+      const documentEntity = new DocumentEntity()
         .setApplicantId(updateDocument.applicant?.id)
         .setCreatedAt(updateDocument.createdAt)
         .setUpdatedAt(updateDocument.updatedAt)
@@ -208,7 +270,8 @@ export class DocumentDatasourceTypeorm implements IDocumentDatasource {
         .setStatus(updateDocument.status)
         .setSubmissionDate(updateDocument.submissionDate)
         .setTitle(updateDocument.title)
-        .setType(updateDocument.type);
+        .setType(updateDocument.type)
+        .setReviewerId(updateDocument.reviewer?.id);
 
       if (updateDocument.applicant) {
         const applicant = new ApplicantEntity()
@@ -218,10 +281,24 @@ export class DocumentDatasourceTypeorm implements IDocumentDatasource {
           .setLastname(updateDocument.applicant?.lastname)
           .setPassword(updateDocument.applicant?.password);
 
-        updateDocumentEntity.setApplicant(applicant);
+        documentEntity.setApplicant(applicant);
       }
 
-      return updateDocumentEntity.build();
+      if (updateDocument.reviewer) {
+        const reviewer = new ReviewerEntity()
+          .setId(updateDocument.reviewer.id)
+          .setCreatedAt(updateDocument.reviewer.createdAt)
+          .setDeletedAt(updateDocument.reviewer.deletedAt)
+          .setEmail(updateDocument.reviewer.email)
+          .setLastname(updateDocument.reviewer.lastname)
+          .setName(updateDocument.reviewer.name)
+          .setPassword(updateDocument.reviewer.password)
+          .setUpdatedAt(updateDocument.reviewer.updatedAt);
+
+        documentEntity.setReviewer(reviewer);
+      }
+
+      return documentEntity;
     } catch (e) {
       throw new InternalServerErrorException(
         'Hubo un error al asignar un reseñador al documento',
@@ -241,7 +318,7 @@ export class DocumentDatasourceTypeorm implements IDocumentDatasource {
         },
       });
 
-      const updateDocumentEntity = new DocumentEntity()
+      const documentEntity = new DocumentEntity()
         .setApplicantId(updateDocument.applicant?.id)
         .setCreatedAt(updateDocument.createdAt)
         .setUpdatedAt(updateDocument.updatedAt)
@@ -250,7 +327,8 @@ export class DocumentDatasourceTypeorm implements IDocumentDatasource {
         .setStatus(updateDocument.status)
         .setSubmissionDate(updateDocument.submissionDate)
         .setTitle(updateDocument.title)
-        .setType(updateDocument.type);
+        .setType(updateDocument.type)
+        .setReviewerId(updateDocument.reviewer?.id);
 
       if (updateDocument.applicant) {
         const applicant = new ApplicantEntity()
@@ -260,10 +338,24 @@ export class DocumentDatasourceTypeorm implements IDocumentDatasource {
           .setLastname(updateDocument.applicant?.lastname)
           .setPassword(updateDocument.applicant?.password);
 
-        updateDocumentEntity.setApplicant(applicant);
+        documentEntity.setApplicant(applicant);
       }
 
-      return updateDocumentEntity.build();
+      if (updateDocument.reviewer) {
+        const reviewer = new ReviewerEntity()
+          .setId(updateDocument.reviewer.id)
+          .setCreatedAt(updateDocument.reviewer.createdAt)
+          .setDeletedAt(updateDocument.reviewer.deletedAt)
+          .setEmail(updateDocument.reviewer.email)
+          .setLastname(updateDocument.reviewer.lastname)
+          .setName(updateDocument.reviewer.name)
+          .setPassword(updateDocument.reviewer.password)
+          .setUpdatedAt(updateDocument.reviewer.updatedAt);
+
+        documentEntity.setReviewer(reviewer);
+      }
+
+      return documentEntity;
     } catch (e) {
       throw new InternalServerErrorException(
         'Hubo un error al asignar un aprobador al documento',
@@ -304,7 +396,7 @@ export class DocumentDatasourceTypeorm implements IDocumentDatasource {
 
       const createdDocument = await this.documentRepository.save(newDocument);
 
-      const createdDocumentEntity = new DocumentEntity()
+      const documentEntity = new DocumentEntity()
         .setApplicantId(createdDocument.applicant?.id)
         .setCreatedAt(createdDocument.createdAt)
         .setUpdatedAt(createdDocument.updatedAt)
@@ -313,7 +405,8 @@ export class DocumentDatasourceTypeorm implements IDocumentDatasource {
         .setStatus(createdDocument.status)
         .setSubmissionDate(createdDocument.submissionDate)
         .setTitle(createdDocument.title)
-        .setType(createdDocument.type);
+        .setType(createdDocument.type)
+        .setReviewerId(createdDocument.reviewer?.id);
 
       if (createdDocument.applicant) {
         const applicant = new ApplicantEntity()
@@ -323,10 +416,24 @@ export class DocumentDatasourceTypeorm implements IDocumentDatasource {
           .setLastname(createdDocument.applicant?.lastname)
           .setPassword(createdDocument.applicant?.password);
 
-        createdDocumentEntity.setApplicant(applicant);
+        documentEntity.setApplicant(applicant);
       }
 
-      return createdDocumentEntity.build();
+      if (createdDocument.reviewer) {
+        const reviewer = new ReviewerEntity()
+          .setId(createdDocument.reviewer.id)
+          .setCreatedAt(createdDocument.reviewer.createdAt)
+          .setDeletedAt(createdDocument.reviewer.deletedAt)
+          .setEmail(createdDocument.reviewer.email)
+          .setLastname(createdDocument.reviewer.lastname)
+          .setName(createdDocument.reviewer.name)
+          .setPassword(createdDocument.reviewer.password)
+          .setUpdatedAt(createdDocument.reviewer.updatedAt);
+
+        documentEntity.setReviewer(reviewer);
+      }
+
+      return documentEntity;
     } catch (e) {
       throw new InternalServerErrorException(
         'Hubo un error al crear el documento',
