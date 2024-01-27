@@ -46,16 +46,7 @@ export class CreateApplicantUsecase {
       }
 
       //* 4. Devolvemos el UserEntity
-      return {
-        id: createdApplicant.id,
-        name: createdApplicant.name,
-        lastname: createdApplicant.lastname,
-        email: createdApplicant.email,
-        password: createdApplicant.password,
-        sentDocuments: createdApplicant.sentDocuments,
-        createdAt: createdApplicant.createdAt,
-        updatedAt: createdApplicant.updatedAt,
-      };
+      return createdApplicant;
     } catch (e) {
       if (e instanceof HttpException) {
         throw e;
