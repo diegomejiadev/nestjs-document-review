@@ -31,4 +31,9 @@ export class DocumentController {
   updateFileUrl(@Param('id') documentId: string) {
     return this.documentService.updateFileUrl(documentId);
   }
+
+  @Patch('/assign-reviewer/:id')
+  assignReviewer(@Param('id') documentId: string) {
+    return this.documentService.assignReviewer(documentId);
+  }
 }

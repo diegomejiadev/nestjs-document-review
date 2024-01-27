@@ -11,6 +11,7 @@ import { UpdateDocumentDto } from '../../domain/dto/update-document.dto';
 import { UpdateBasicInfoDocumentUsecase } from '../../infrastructure/usecases/update-basic-info-document.usecase';
 import { UpdateFileUrlDocumentUsecase } from '../../infrastructure/usecases/update-file-url-document.usecase';
 import { FindDocumentByIdUsecase } from '../../infrastructure/usecases/find-document-by-id.usecase';
+import { AssignReviewerUsecase } from '../../infrastructure/usecases/assign-reviewer.usecase';
 
 @Injectable()
 export class DocumentService {
@@ -19,6 +20,7 @@ export class DocumentService {
     private readonly updateBasicInfoDocumentUsecase: UpdateBasicInfoDocumentUsecase,
     private readonly updateFileUrlDocumentUsecase: UpdateFileUrlDocumentUsecase,
     private readonly findDocumentByIdUsecase: FindDocumentByIdUsecase,
+    private readonly assignReviewerUsecase: AssignReviewerUsecase,
   ) {}
 
   async findById(documentId: string): Promise<IResponse<DocumentEntity>> {
@@ -47,6 +49,17 @@ export class DocumentService {
 
   async updateFileUrl(documentId: string): Promise<IResponse<DocumentEntity>> {
     const data = await this.updateFileUrlDocumentUsecase.handle(documentId);
+
+    return { data };
+  }
+
+  async assignReviewer(documentId: string): Promise<IResponse<DocumentEntity>> {
+    const REVIEWER_ID = 'b48e9e66-e02f-42f8-8393-c3abeb5397ac';
+
+    const data = await this.assignReviewerUsecase.handle(
+      documentId,
+      REVIEWER_ID,
+    );
 
     return { data };
   }
