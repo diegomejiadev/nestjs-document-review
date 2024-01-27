@@ -14,12 +14,12 @@ import { ApplicantDatasourceTypeorm } from './infrastructure/datasources/applica
   imports: [TypeOrmModule.forFeature([ApplicantEntityTypeorm])],
   controllers: [ApplicantController],
   providers: [
-    ApplicantService,
-    CreateApplicantUsecase,
     {
       provide: 'APPLICANT_REPOSITORY',
       useClass: ApplicantDatasourceTypeorm,
     },
+    ApplicantService,
+    CreateApplicantUsecase,
   ],
 })
 export class ApplicantModule {}
