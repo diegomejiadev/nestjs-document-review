@@ -9,6 +9,7 @@ import { ApplicantController } from './presentation/controllers/applicant.contro
 import { ApplicantService } from './presentation/services/applicant.service';
 import { CreateApplicantUsecase } from './infrastructure/usecases/create-applicant.usecase';
 import { ApplicantDatasourceTypeorm } from './infrastructure/datasources/applicant.datasource.typeorm';
+import { FindApplicantByIdUsecase } from './infrastructure/usecases/find-applicant-by-id.usecase';
 
 @Module({
   imports: [TypeOrmModule.forFeature([ApplicantEntityTypeorm])],
@@ -20,6 +21,7 @@ import { ApplicantDatasourceTypeorm } from './infrastructure/datasources/applica
     },
     ApplicantService,
     CreateApplicantUsecase,
+    FindApplicantByIdUsecase,
   ],
 })
 export class ApplicantModule {}
