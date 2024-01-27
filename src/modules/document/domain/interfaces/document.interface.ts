@@ -11,6 +11,7 @@ export interface IDocument {
   // applicantId: string;
   // applicant?: IApplicant;
   status: DOCUMENT_STATUS;
+  submissionDate: Date;
   // comments?: IComment[];
   createdAt?: Date;
   updatedAt?: Date;

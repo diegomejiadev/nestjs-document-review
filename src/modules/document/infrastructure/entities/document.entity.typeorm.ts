@@ -82,7 +82,14 @@ export class DocumentEntityTypeorm implements IDocument {
   @JoinColumn({ name: 'approver_id' })
   approverAssigned: ApproverEntityTypeorm;
 
-  @CreateDateColumn( {
+  @Column({
+    type: 'timestamp with time zone',
+    name: 'submission_date',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  submissionDate: Date;
+
+  @CreateDateColumn({
     type: 'timestamp with time zone',
     name: 'created_at',
   })
