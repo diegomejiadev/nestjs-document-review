@@ -3,10 +3,11 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 export const buildSwagger = (app: INestApplication) => {
   const config = new DocumentBuilder()
-    .setTitle('Cats example')
-    .setDescription('The cats API description')
+    .setTitle('Document Review')
+    .setDescription(
+      'Backend dedicado a manejar la revision de documentos a través de los 3 tipos de usuarios (Aplicante - Reseñador - Aprobador)',
+    )
     .setVersion('1.0')
-    .addTag('cats')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document);
