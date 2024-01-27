@@ -6,8 +6,6 @@ import { ApplicantModule } from './modules/applicant/applicant.module';
 import { DocumentModule } from './modules/document/document.module';
 import { DatabaseModule } from './database/database.module';
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { validate } from './core/config/.env.validation';
 import { AuthModule } from './modules/auth/auth.module';
@@ -28,7 +26,7 @@ import { AuthModule } from './modules/auth/auth.module';
     }),
     AuthModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}
