@@ -21,10 +21,7 @@ export class ApproverEntityTypeorm implements IApprover {
   @Column()
   lastname: string;
 
-  @OneToMany(
-    () => DocumentEntityTypeorm,
-    (document) => document.approverAssigned,
-  )
+  @OneToMany(() => DocumentEntityTypeorm, (document) => document.approver)
   assignedDocuments: DocumentEntityTypeorm[];
 
   @CreateDateColumn({

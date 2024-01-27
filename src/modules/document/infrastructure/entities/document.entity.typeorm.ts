@@ -80,7 +80,7 @@ export class DocumentEntityTypeorm implements IDocument {
     { onDelete: 'SET NULL', onUpdate: 'CASCADE' },
   )
   @JoinColumn({ name: 'approver_id' })
-  approverAssigned: ApproverEntityTypeorm;
+  approver: ApproverEntityTypeorm;
 
   @Column({
     type: 'timestamp with time zone',
