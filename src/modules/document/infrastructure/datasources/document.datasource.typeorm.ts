@@ -7,6 +7,7 @@ import { DocumentEntityTypeorm } from '../entities/document.entity.typeorm';
 import { Repository } from 'typeorm';
 import { DOCUMENT_STATUS } from 'src/core/constants/document-status.cst';
 import { UpdateDocumentDto } from '../../domain/dto/update-document.dto';
+import { ApplicantEntity } from 'src/modules/applicant/domain/entities/applicant.entity';
 
 export class DocumentDatasourceTypeorm implements IDocumentDatasource {
   constructor(
@@ -20,29 +21,34 @@ export class DocumentDatasourceTypeorm implements IDocumentDatasource {
         where: {
           id: documentId,
         },
-        relations: ['applicant']
+        relations: ['applicant'],
       });
 
       if (!foundDocument) return null;
 
-      return {
-        applicant: {
-          id: foundDocument.applicant?.id,
-          email: foundDocument.applicant?.email,
-          name: foundDocument.applicant?.name,
-          lastname: foundDocument.applicant?.lastname,
-          password: foundDocument.applicant?.password,
-        },
-        applicantId: foundDocument.applicant?.id,
-        createdAt: foundDocument.createdAt,
-        updatedAt: foundDocument.updatedAt,
-        fileUrl: foundDocument.fileUrl,
-        id: foundDocument.id,
-        status: foundDocument.status,
-        submissionDate: foundDocument.submissionDate,
-        title: foundDocument.title,
-        type: foundDocument.type,
-      };
+      const foundDocumentEntity = new DocumentEntity()
+        .setApplicantId(foundDocument.applicant?.id)
+        .setCreatedAt(foundDocument.createdAt)
+        .setUpdatedAt(foundDocument.updatedAt)
+        .setFileUrl(foundDocument.fileUrl)
+        .setId(foundDocument.id)
+        .setStatus(foundDocument.status)
+        .setSubmissionDate(foundDocument.submissionDate)
+        .setTitle(foundDocument.title)
+        .setType(foundDocument.type);
+
+      if (foundDocument.applicant) {
+        const applicant = new ApplicantEntity()
+          .setId(foundDocument.applicant?.id)
+          .setEmail(foundDocument.applicant?.email)
+          .setName(foundDocument.applicant?.name)
+          .setLastname(foundDocument.applicant?.lastname)
+          .setPassword(foundDocument.applicant?.password);
+
+        foundDocumentEntity.setApplicant(applicant);
+      }
+
+      return foundDocumentEntity.build();
     } catch (e) {
       throw new InternalServerErrorException(
         'Hubo un error al buscar el documento',
@@ -56,27 +62,33 @@ export class DocumentDatasourceTypeorm implements IDocumentDatasource {
   ): Promise<DocumentEntity> {
     try {
       const updateDocument = await this.documentRepository.save({
+        id: documentId,
         ...body,
       });
 
-      return {
-        applicant: {
-          id: updateDocument.applicant?.id,
-          email: updateDocument.applicant?.email,
-          name: updateDocument.applicant?.name,
-          lastname: updateDocument.applicant?.lastname,
-          password: updateDocument.applicant?.password,
-        },
-        applicantId: updateDocument.applicant?.id,
-        createdAt: updateDocument.createdAt,
-        updatedAt: updateDocument.updatedAt,
-        fileUrl: updateDocument.fileUrl,
-        id: updateDocument.id,
-        status: updateDocument.status,
-        submissionDate: updateDocument.submissionDate,
-        title: updateDocument.title,
-        type: updateDocument.type,
-      };
+      const updateDocumentEntity = new DocumentEntity()
+        .setApplicantId(updateDocument.applicant?.id)
+        .setCreatedAt(updateDocument.createdAt)
+        .setUpdatedAt(updateDocument.updatedAt)
+        .setFileUrl(updateDocument.fileUrl)
+        .setId(updateDocument.id)
+        .setStatus(updateDocument.status)
+        .setSubmissionDate(updateDocument.submissionDate)
+        .setTitle(updateDocument.title)
+        .setType(updateDocument.type);
+
+      if (updateDocument.applicant) {
+        const applicant = new ApplicantEntity()
+          .setId(updateDocument.applicant?.id)
+          .setEmail(updateDocument.applicant?.email)
+          .setName(updateDocument.applicant?.name)
+          .setLastname(updateDocument.applicant?.lastname)
+          .setPassword(updateDocument.applicant?.password);
+
+        updateDocumentEntity.setApplicant(applicant);
+      }
+
+      return updateDocumentEntity.build();
     } catch (e) {
       if (e instanceof HttpException) {
         throw e;
@@ -98,24 +110,29 @@ export class DocumentDatasourceTypeorm implements IDocumentDatasource {
         fileUrl: newFileUrl,
       });
 
-      return {
-        applicant: {
-          id: updateDocument.applicant?.id,
-          email: updateDocument.applicant?.email,
-          name: updateDocument.applicant?.name,
-          lastname: updateDocument.applicant?.lastname,
-          password: updateDocument.applicant?.password,
-        },
-        applicantId: updateDocument.applicant?.id,
-        createdAt: updateDocument.createdAt,
-        updatedAt: updateDocument.updatedAt,
-        fileUrl: updateDocument.fileUrl,
-        id: updateDocument.id,
-        status: updateDocument.status,
-        submissionDate: updateDocument.submissionDate,
-        title: updateDocument.title,
-        type: updateDocument.type,
-      };
+      const updateDocumentEntity = new DocumentEntity()
+        .setApplicantId(updateDocument.applicant?.id)
+        .setCreatedAt(updateDocument.createdAt)
+        .setUpdatedAt(updateDocument.updatedAt)
+        .setFileUrl(updateDocument.fileUrl)
+        .setId(updateDocument.id)
+        .setStatus(updateDocument.status)
+        .setSubmissionDate(updateDocument.submissionDate)
+        .setTitle(updateDocument.title)
+        .setType(updateDocument.type);
+
+      if (updateDocument.applicant) {
+        const applicant = new ApplicantEntity()
+          .setId(updateDocument.applicant?.id)
+          .setEmail(updateDocument.applicant?.email)
+          .setName(updateDocument.applicant?.name)
+          .setLastname(updateDocument.applicant?.lastname)
+          .setPassword(updateDocument.applicant?.password);
+
+        updateDocumentEntity.setApplicant(applicant);
+      }
+
+      return updateDocumentEntity.build();
     } catch (e) {
       if (e instanceof HttpException) {
         throw e;
@@ -137,24 +154,29 @@ export class DocumentDatasourceTypeorm implements IDocumentDatasource {
         status,
       });
 
-      return {
-        applicant: {
-          id: updateDocument.applicant?.id,
-          email: updateDocument.applicant?.email,
-          name: updateDocument.applicant?.name,
-          lastname: updateDocument.applicant?.lastname,
-          password: updateDocument.applicant?.password,
-        },
-        applicantId: updateDocument.applicant?.id,
-        createdAt: updateDocument.createdAt,
-        updatedAt: updateDocument.updatedAt,
-        fileUrl: updateDocument.fileUrl,
-        id: updateDocument.id,
-        status: updateDocument.status,
-        submissionDate: updateDocument.submissionDate,
-        title: updateDocument.title,
-        type: updateDocument.type,
-      };
+      const updateDocumentEntity = new DocumentEntity()
+        .setApplicantId(updateDocument.applicant?.id)
+        .setCreatedAt(updateDocument.createdAt)
+        .setUpdatedAt(updateDocument.updatedAt)
+        .setFileUrl(updateDocument.fileUrl)
+        .setId(updateDocument.id)
+        .setStatus(updateDocument.status)
+        .setSubmissionDate(updateDocument.submissionDate)
+        .setTitle(updateDocument.title)
+        .setType(updateDocument.type);
+
+      if (updateDocument.applicant) {
+        const applicant = new ApplicantEntity()
+          .setId(updateDocument.applicant?.id)
+          .setEmail(updateDocument.applicant?.email)
+          .setName(updateDocument.applicant?.name)
+          .setLastname(updateDocument.applicant?.lastname)
+          .setPassword(updateDocument.applicant?.password);
+
+        updateDocumentEntity.setApplicant(applicant);
+      }
+
+      return updateDocumentEntity.build();
     } catch (e) {
       if (e instanceof HttpException) {
         throw e;
@@ -177,24 +199,29 @@ export class DocumentDatasourceTypeorm implements IDocumentDatasource {
         },
       });
 
-      return {
-        applicant: {
-          id: updateDocument.applicant?.id,
-          email: updateDocument.applicant?.email,
-          name: updateDocument.applicant?.name,
-          lastname: updateDocument.applicant?.lastname,
-          password: updateDocument.applicant?.password,
-        },
-        applicantId: updateDocument.applicant?.id,
-        createdAt: updateDocument.createdAt,
-        updatedAt: updateDocument.updatedAt,
-        fileUrl: updateDocument.fileUrl,
-        id: updateDocument.id,
-        status: updateDocument.status,
-        submissionDate: updateDocument.submissionDate,
-        title: updateDocument.title,
-        type: updateDocument.type,
-      };
+      const updateDocumentEntity = new DocumentEntity()
+        .setApplicantId(updateDocument.applicant?.id)
+        .setCreatedAt(updateDocument.createdAt)
+        .setUpdatedAt(updateDocument.updatedAt)
+        .setFileUrl(updateDocument.fileUrl)
+        .setId(updateDocument.id)
+        .setStatus(updateDocument.status)
+        .setSubmissionDate(updateDocument.submissionDate)
+        .setTitle(updateDocument.title)
+        .setType(updateDocument.type);
+
+      if (updateDocument.applicant) {
+        const applicant = new ApplicantEntity()
+          .setId(updateDocument.applicant?.id)
+          .setEmail(updateDocument.applicant?.email)
+          .setName(updateDocument.applicant?.name)
+          .setLastname(updateDocument.applicant?.lastname)
+          .setPassword(updateDocument.applicant?.password);
+
+        updateDocumentEntity.setApplicant(applicant);
+      }
+
+      return updateDocumentEntity.build();
     } catch (e) {
       throw new InternalServerErrorException(
         'Hubo un error al asignar un reseñador al documento',
@@ -214,24 +241,29 @@ export class DocumentDatasourceTypeorm implements IDocumentDatasource {
         },
       });
 
-      return {
-        applicant: {
-          id: updateDocument.applicant?.id,
-          email: updateDocument.applicant?.email,
-          name: updateDocument.applicant?.name,
-          lastname: updateDocument.applicant?.lastname,
-          password: updateDocument.applicant?.password,
-        },
-        applicantId: updateDocument.applicant?.id,
-        createdAt: updateDocument.createdAt,
-        updatedAt: updateDocument.updatedAt,
-        fileUrl: updateDocument.fileUrl,
-        id: updateDocument.id,
-        status: updateDocument.status,
-        submissionDate: updateDocument.submissionDate,
-        title: updateDocument.title,
-        type: updateDocument.type,
-      };
+      const updateDocumentEntity = new DocumentEntity()
+        .setApplicantId(updateDocument.applicant?.id)
+        .setCreatedAt(updateDocument.createdAt)
+        .setUpdatedAt(updateDocument.updatedAt)
+        .setFileUrl(updateDocument.fileUrl)
+        .setId(updateDocument.id)
+        .setStatus(updateDocument.status)
+        .setSubmissionDate(updateDocument.submissionDate)
+        .setTitle(updateDocument.title)
+        .setType(updateDocument.type);
+
+      if (updateDocument.applicant) {
+        const applicant = new ApplicantEntity()
+          .setId(updateDocument.applicant?.id)
+          .setEmail(updateDocument.applicant?.email)
+          .setName(updateDocument.applicant?.name)
+          .setLastname(updateDocument.applicant?.lastname)
+          .setPassword(updateDocument.applicant?.password);
+
+        updateDocumentEntity.setApplicant(applicant);
+      }
+
+      return updateDocumentEntity.build();
     } catch (e) {
       throw new InternalServerErrorException(
         'Hubo un error al asignar un aprobador al documento',
@@ -272,24 +304,29 @@ export class DocumentDatasourceTypeorm implements IDocumentDatasource {
 
       const createdDocument = await this.documentRepository.save(newDocument);
 
-      return {
-        applicant: {
-          id: createdDocument.applicant?.id,
-          email: createdDocument.applicant?.email,
-          name: createdDocument.applicant?.name,
-          lastname: createdDocument.applicant?.lastname,
-          password: createdDocument.applicant?.password,
-        },
-        applicantId: createdDocument.applicant?.id,
-        createdAt: createdDocument.createdAt,
-        updatedAt: createdDocument.updatedAt,
-        fileUrl: createdDocument.fileUrl,
-        id: createdDocument.id,
-        status: createdDocument.status,
-        submissionDate: createdDocument.submissionDate,
-        title: createdDocument.title,
-        type: createdDocument.type,
-      };
+      const createdDocumentEntity = new DocumentEntity()
+        .setApplicantId(createdDocument.applicant?.id)
+        .setCreatedAt(createdDocument.createdAt)
+        .setUpdatedAt(createdDocument.updatedAt)
+        .setFileUrl(createdDocument.fileUrl)
+        .setId(createdDocument.id)
+        .setStatus(createdDocument.status)
+        .setSubmissionDate(createdDocument.submissionDate)
+        .setTitle(createdDocument.title)
+        .setType(createdDocument.type);
+
+      if (createdDocument.applicant) {
+        const applicant = new ApplicantEntity()
+          .setId(createdDocument.applicant?.id)
+          .setEmail(createdDocument.applicant?.email)
+          .setName(createdDocument.applicant?.name)
+          .setLastname(createdDocument.applicant?.lastname)
+          .setPassword(createdDocument.applicant?.password);
+
+        createdDocumentEntity.setApplicant(applicant);
+      }
+
+      return createdDocumentEntity.build();
     } catch (e) {
       throw new InternalServerErrorException(
         'Hubo un error al crear el documento',
