@@ -15,18 +15,12 @@ export class CreateDocumentDto {
   @ApiProperty()
   @IsNotEmpty()
   @IsString()
-  @IsUrl()
-  fileUrl: string;
-
-  @ApiProperty()
-  @IsNotEmpty()
-  @IsString()
   @MinLength(3)
   @MaxLength(250)
   title: string;
 
   @ApiProperty({
-    enum: DOCUMENT_TYPE
+    enum: DOCUMENT_TYPE,
   })
   @IsNotEmpty()
   @IsString()
