@@ -8,6 +8,7 @@ export interface IComment {
   // reviewer: IReviewer;
   // documentId: string;
   // document: IDocument;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
+  deletedAt?: Date;
 }

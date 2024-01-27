@@ -14,4 +14,5 @@ export class ApplicantEntity implements IApplicant {
   sentDocuments?: DocumentEntity[];
   createdAt?: Date;
   updatedAt?: Date;
+  deletedAt?: Date;
 }

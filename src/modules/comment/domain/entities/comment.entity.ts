@@ -7,10 +7,11 @@ import { ReviewerEntity } from 'src/modules/reviewer/domain/entities/reviewer.en
 export class CommentEntity implements IComment {
   id: string;
   description: string;
-  reviewerId: string;
-  reviewer: ReviewerEntity;
-  documentId: string;
-  document: DocumentEntity;
-  createdAt: Date;
-  updatedAt: Date;
+  reviewerId?: string;
+  reviewer?: ReviewerEntity;
+  documentId?: string;
+  document?: DocumentEntity;
+  createdAt?: Date;
+  updatedAt?: Date;
+  deletedAt?: Date;
 }

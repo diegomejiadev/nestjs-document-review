@@ -12,6 +12,7 @@ export interface IDocument {
   // applicant?: IApplicant;
   status: DOCUMENT_STATUS;
   // comments?: IComment[];
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
+  deletedAt?: Date;
 }

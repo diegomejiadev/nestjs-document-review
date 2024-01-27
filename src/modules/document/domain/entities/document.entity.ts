@@ -10,12 +10,13 @@ export class DocumentEntity implements IDocument {
   id: string;
   title: string;
   fileUrl: string;
-  applicant: ApplicantEntity;
-  applicantId: string;
+  applicant?: ApplicantEntity;
+  applicantId?: string;
   type: DOCUMENT_TYPE;
   submissionDate: Date;
   status: DOCUMENT_STATUS;
-  comments: CommentEntity[];
-  createdAt: Date;
-  updatedAt: Date;
+  comments?: CommentEntity[];
+  createdAt?: Date;
+  updatedAt?: Date;
+  deletedAt?: Date;
 }
