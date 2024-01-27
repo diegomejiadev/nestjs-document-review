@@ -39,11 +39,9 @@ export class ApplicantDatasourceTypeorm implements IApplicantDatasource {
         updatedAt: createdApplicant.updatedAt,
       };
     } catch (e) {
-      if (e instanceof HttpException) {
-        throw e;
-      }
-
-      throw new InternalServerErrorException('Internal server error');
+      throw new InternalServerErrorException(
+        'Hubo un error al crear el aplicante',
+      );
     }
   }
 
@@ -55,11 +53,9 @@ export class ApplicantDatasourceTypeorm implements IApplicantDatasource {
 
       return true;
     } catch (e) {
-      if (e instanceof HttpException) {
-        throw e;
-      }
-
-      throw new InternalServerErrorException('Internal server error');
+      throw new InternalServerErrorException(
+        'Hubo un error al eliminar el aplicante',
+      );
     }
   }
 
@@ -83,11 +79,9 @@ export class ApplicantDatasourceTypeorm implements IApplicantDatasource {
         updatedAt: foundEmail.updatedAt,
       };
     } catch (e) {
-      if (e instanceof HttpException) {
-        throw e;
-      }
-
-      throw new InternalServerErrorException('Internal server error');
+      throw new InternalServerErrorException(
+        'Hubo un error al buscar el aplicante',
+      );
     }
   }
 
@@ -111,11 +105,9 @@ export class ApplicantDatasourceTypeorm implements IApplicantDatasource {
         updatedAt: updatedApplicant.updatedAt,
       };
     } catch (e) {
-      if (e instanceof HttpException) {
-        throw e;
-      }
-
-      throw new InternalServerErrorException('Internal server error');
+      throw new InternalServerErrorException(
+        'Hubo un error al actualizar la información del aplicante',
+      );
     }
   }
 
@@ -139,11 +131,9 @@ export class ApplicantDatasourceTypeorm implements IApplicantDatasource {
         updatedAt: updatedApplicant.updatedAt,
       };
     } catch (e) {
-      if (e instanceof HttpException) {
-        throw e;
-      }
-
-      throw new InternalServerErrorException('Internal server error');
+      throw new InternalServerErrorException(
+        'Hubo un error al actualizar el correo electrónico',
+      );
     }
   }
 
@@ -167,11 +157,9 @@ export class ApplicantDatasourceTypeorm implements IApplicantDatasource {
         updatedAt: updatedApplicant.updatedAt,
       };
     } catch (e) {
-      if (e instanceof HttpException) {
-        throw e;
-      }
-
-      throw new InternalServerErrorException('Internal server error');
+      throw new InternalServerErrorException(
+        'Hubo un error al actualizar la contraseña',
+      );
     }
   }
 }
