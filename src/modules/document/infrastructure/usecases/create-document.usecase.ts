@@ -31,7 +31,11 @@ export class CreateDocumentUsecase {
       let createdDocument: DocumentEntity;
 
       try {
-        createdDocument = await this.repository.create(APPLICANT_ID, body);
+        createdDocument = await this.repository.create(
+          APPLICANT_ID,
+          FILE_PDF,
+          body,
+        );
       } catch (e) {
         throw new BadRequestException('Hubo un error al crear el document');
       }

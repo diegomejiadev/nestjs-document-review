@@ -14,9 +14,10 @@ export class DocumentDatasourceTypeorm implements IDocumentDatasource {
 
   async create(
     applicantId: string,
+    fileUrl: string,
     body: CreateDocumentDto,
   ): Promise<DocumentEntity> {
-    const { fileUrl, title, type } = body;
+    const { title, type } = body;
 
     try {
       const newDocument = this.repository.create({
