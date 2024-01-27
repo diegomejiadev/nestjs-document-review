@@ -6,10 +6,11 @@ import { IReviewerDatasource } from '../../domain/interfaces/reviewer.datasource
 import { ReviewerEntityTypeorm } from '../entities/reviewer.entity.typeorm';
 import { Repository } from 'typeorm';
 import { DocumentEntity } from 'src/modules/document/domain/entities/document.entity';
+import { InjectRepository } from '@nestjs/typeorm';
 
 export class ReviewerDatasourceTypeorm implements IReviewerDatasource {
   constructor(
-    @Inject(ReviewerEntityTypeorm)
+    @InjectRepository(ReviewerEntityTypeorm)
     private readonly reviewerRepository: Repository<ReviewerEntityTypeorm>,
   ) {}
 
