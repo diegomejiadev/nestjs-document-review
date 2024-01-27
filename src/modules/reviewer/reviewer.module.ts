@@ -21,5 +21,11 @@ import { ReviewerController } from './presentation/controllers/reviewer.controll
     ReviewerService,
     CreateReviewerUsecase,
   ],
+  exports: [
+    {
+      provide: 'REVIEWER_REPOSITORY',
+      useClass: ReviewerDatasourceTypeorm,
+    },
+  ],
 })
 export class ReviewerModule {}
