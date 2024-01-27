@@ -28,17 +28,11 @@ export class CreateDocumentUsecase {
         'https://storage.googleapis.com/test-projects-hedgehog/sample.pdf';
 
       //* 3. Creamos el documento en la base de datos
-      let createdDocument: DocumentEntity;
-
-      try {
-        createdDocument = await this.repository.create(
-          APPLICANT_ID,
-          FILE_PDF,
-          body,
-        );
-      } catch (e) {
-        throw new BadRequestException('Hubo un error al crear el document');
-      }
+      const createdDocument = await this.repository.create(
+        APPLICANT_ID,
+        FILE_PDF,
+        body,
+      );
 
       //* 4. Devolvemos el DocumentEntity
       return createdDocument;
