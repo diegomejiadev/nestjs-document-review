@@ -37,13 +37,7 @@ export class CreateApplicantUsecase {
       body.password = hashedPassword;
 
       //* 3. Se crea el aplicante en la base de datos
-      let createdApplicant: ApplicantEntity;
-
-      try {
-        createdApplicant = await this.repository.create(body);
-      } catch (e) {
-        throw new BadRequestException('Hubo un error al crear el aplicante');
-      }
+      const createdApplicant = await this.repository.create(body);
 
       //* 4. Devolvemos el UserEntity
       return createdApplicant;
