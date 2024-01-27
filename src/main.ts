@@ -10,7 +10,13 @@ async function bootstrap() {
   app.setGlobalPrefix('api');
 
   //* Agregamos ValidationPipe para class-validator
-  app.useGlobalPipes(new ValidationPipe({ transform: true, whitelist: true }));
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,
+      whitelist: true,
+      forbidNonWhitelisted: true,
+    }),
+  );
 
   //* Agregamos ClassSerializerInterceptor para serializar los responses
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
