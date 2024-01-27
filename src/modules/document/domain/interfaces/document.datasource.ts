@@ -10,6 +10,8 @@ export interface IDocumentDatasource {
     body: CreateDocumentDto,
   ): Promise<DocumentEntity>;
 
+  findById(documentId): Promise<DocumentEntity | null>;
+
   updateBasicInfo(
     documentId: string,
     body: UpdateDocumentDto,
