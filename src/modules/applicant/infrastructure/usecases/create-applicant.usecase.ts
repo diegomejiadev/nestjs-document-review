@@ -27,7 +27,7 @@ export class CreateApplicantUsecase {
 
       if (foundApplicant) {
         throw new BadRequestException(
-          'El correo que ha registrado ya se encuentra registrado. Intente con uno diferente.',
+          'El correo que ha ingresado ya se encuentra registrado. Intente con un correo diferente.',
         );
       }
 
