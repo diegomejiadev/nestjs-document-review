@@ -1,10 +1,9 @@
-import { IDocument } from '../interfaces/document.interface';
 import { ApplicantEntity } from 'src/modules/applicant/domain/entities/applicant.entity';
 import { DOCUMENT_STATUS } from '../../../../core/constants/document-status.cst';
 import { DOCUMENT_TYPE } from 'src/core/constants/document-type.cst';
 import { CommentEntity } from 'src/modules/comment/domain/entities/comment.entity';
 
-export class DocumentEntity implements IDocument {
+export class DocumentEntity {
   id: string;
   title: string;
   fileUrl: string;

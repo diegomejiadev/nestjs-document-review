@@ -1,5 +1,4 @@
 import { DocumentEntityTypeorm } from 'src/modules/document/infrastructure/entities/document.entity.typeorm';
-import { IApplicant } from '../../domain/interfaces/applicant.interface';
 import {
   Column,
   CreateDateColumn,
@@ -13,7 +12,7 @@ import {
 @Entity({
   name: 'applicant',
 })
-export class ApplicantEntityTypeorm implements IApplicant {
+export class ApplicantEntityTypeorm {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -34,7 +33,7 @@ export class ApplicantEntityTypeorm implements IApplicant {
   @Column()
   password: string;
 
-  @CreateDateColumn( {
+  @CreateDateColumn({
     type: 'timestamp with time zone',
     name: 'created_at',
   })

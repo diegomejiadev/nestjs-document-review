@@ -2,7 +2,7 @@ import { IApplicantDatasource } from '../../domain/interfaces/applicant.datasour
 import { UpdateBasicInfoApplicantDto } from '../../domain/dto/update-basic-applicant.dto';
 import { UpdateEmailApplicantDto } from '../../domain/dto/update-email-applicant.dto';
 import { CreateApplicantDto } from '../../domain/dto/create-applicant.dto';
-import { HttpException, InternalServerErrorException } from '@nestjs/common';
+import { InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ApplicantEntity } from '../../domain/entities/applicant.entity';
 import { ApplicantEntityTypeorm } from '../entities/applicant.entity.typeorm';
@@ -13,6 +13,33 @@ export class ApplicantDatasourceTypeorm implements IApplicantDatasource {
     @InjectRepository(ApplicantEntityTypeorm)
     private applicantRepository: Repository<ApplicantEntityTypeorm>,
   ) {}
+
+  async findById(applicantId: string): Promise<ApplicantEntity | null> {
+    try {
+      const foundApplicant = await this.applicantRepository.findOne({
+        where: {
+          id: applicantId,
+        },
+      });
+
+      if (!foundApplicant) return null;
+
+      const result = new ApplicantEntity();
+      result.id = foundApplicant.id;
+      result.email = foundApplicant.email;
+      result.createdAt = foundApplicant.createdAt;
+      result.lastname = foundApplicant.lastname;
+      result.name = foundApplicant.name;
+      result.password = foundApplicant.password;
+      result.updatedAt = foundApplicant.updatedAt;
+
+      return result;
+    } catch (e) {
+      throw new InternalServerErrorException(
+        'Hubo un error al buscar el aplicante',
+      );
+    }
+  }
 
   //! No aplica Hasheo, eso es externo, se respeta el Principio de Responsabilidad Unica
   async create(body: CreateApplicantDto): Promise<ApplicantEntity> {

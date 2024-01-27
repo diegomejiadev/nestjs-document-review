@@ -1,6 +1,4 @@
-import { IUser } from '../interfaces/user.interface';
-
-export class UserEntity implements IUser {
+export class UserEntity {
   id: string;
   name: string;
   lastname: string;

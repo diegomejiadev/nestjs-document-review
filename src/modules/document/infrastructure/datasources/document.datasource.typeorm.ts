@@ -20,6 +20,7 @@ export class DocumentDatasourceTypeorm implements IDocumentDatasource {
         where: {
           id: documentId,
         },
+        relations: ['applicant']
       });
 
       if (!foundDocument) return null;

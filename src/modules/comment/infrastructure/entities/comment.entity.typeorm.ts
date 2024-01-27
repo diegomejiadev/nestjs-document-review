@@ -1,6 +1,3 @@
-import { IDocument } from 'src/modules/document/domain/interfaces/document.interface';
-import { IReviewer } from 'src/modules/reviewer/domain/interfaces/reviewer.interface';
-import { IComment } from '../../domain/interfaces/comment.interface';
 import {
   Column,
   CreateDateColumn,
@@ -15,7 +12,7 @@ import { DocumentEntityTypeorm } from 'src/modules/document/infrastructure/entit
 import { ReviewerEntityTypeorm } from 'src/modules/reviewer/infrastructure/entities/reviewer.entity.typeorm';
 
 @Entity({ name: 'comment' })
-export class CommentEntityTypeorm implements IComment {
+export class CommentEntityTypeorm  {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 

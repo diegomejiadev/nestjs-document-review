@@ -1,5 +1,4 @@
 import { DocumentEntityTypeorm } from 'src/modules/document/infrastructure/entities/document.entity.typeorm';
-import { IEditor } from '../../domain/interfaces/editor.interface';
 import {
   Column,
   CreateDateColumn,
@@ -13,7 +12,7 @@ import {
 @Entity({
   name: 'editor',
 })
-export class EditorEntityTypeorm implements IEditor {
+export class EditorEntityTypeorm {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -26,7 +25,7 @@ export class EditorEntityTypeorm implements IEditor {
   @OneToMany(() => DocumentEntityTypeorm, (document) => document.editor)
   editingDocuments: DocumentEntityTypeorm[];
 
-  @CreateDateColumn( {
+  @CreateDateColumn({
     type: 'timestamp with time zone',
     name: 'created_at',
   })

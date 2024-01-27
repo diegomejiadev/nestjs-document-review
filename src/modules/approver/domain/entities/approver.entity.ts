@@ -1,8 +1,6 @@
-import { IDocument } from 'src/modules/document/domain/interfaces/document.interface';
-import { IApprover } from '../interfaces/approver.interface';
 import { DocumentEntity } from 'src/modules/document/domain/entities/document.entity';
 
-export class ApproverEntity implements IApprover {
+export class ApproverEntity {
   id: string;
   name: string;
   lastname: string;

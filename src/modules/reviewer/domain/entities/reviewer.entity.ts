@@ -1,11 +1,10 @@
-import { IDocument } from 'src/modules/document/domain/interfaces/document.interface';
-import { IReviewer } from '../interfaces/reviewer.interface';
+import { DocumentEntity } from 'src/modules/document/domain/entities/document.entity';
 
-export class ReviewerEntity implements IReviewer {
+export class ReviewerEntity {
   id: string;
   name: string;
   lastname: string;
-  reviewedDocuments: IDocument[];
+  reviewedDocuments: DocumentEntity[];
   createdAt: Date;
   updatedAt: Date;
 }

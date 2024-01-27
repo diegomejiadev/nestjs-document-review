@@ -1,5 +1,3 @@
-import { IDocument } from 'src/modules/document/domain/interfaces/document.interface';
-import { IReviewer } from '../../domain/interfaces/reviewer.interface';
 import {
   Column,
   CreateDateColumn,
@@ -15,7 +13,7 @@ import { CommentEntityTypeorm } from 'src/modules/comment/infrastructure/entitie
 @Entity({
   name: 'reviewer',
 })
-export class ReviewerEntityTypeorm implements IReviewer {
+export class ReviewerEntityTypeorm {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -31,7 +29,7 @@ export class ReviewerEntityTypeorm implements IReviewer {
   @OneToMany(() => DocumentEntityTypeorm, (document) => document.reviewer)
   assignedDocuments: DocumentEntityTypeorm[];
 
-  @CreateDateColumn( {
+  @CreateDateColumn({
     type: 'timestamp with time zone',
     name: 'created_at',
   })

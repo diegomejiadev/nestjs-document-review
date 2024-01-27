@@ -9,7 +9,6 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { IDocument } from '../../domain/interfaces/document.interface';
 import { DOCUMENT_STATUS } from 'src/core/constants/document-status.cst';
 import { DOCUMENT_TYPE } from 'src/core/constants/document-type.cst';
 import { ApplicantEntityTypeorm } from 'src/modules/applicant/infrastructure/entities/applicant.entity.typeorm';
@@ -21,7 +20,7 @@ import { ApproverEntityTypeorm } from 'src/modules/approver/infrastructure/entit
 @Entity({
   name: 'document',
 })
-export class DocumentEntityTypeorm implements IDocument {
+export class DocumentEntityTypeorm {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
