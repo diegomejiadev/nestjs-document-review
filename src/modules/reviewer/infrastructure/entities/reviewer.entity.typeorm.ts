@@ -31,17 +31,20 @@ export class ReviewerEntityTypeorm implements IReviewer {
   @OneToMany(() => DocumentEntityTypeorm, (document) => document.reviewer)
   assignedDocuments: DocumentEntityTypeorm[];
 
-  @CreateDateColumn({
+  @CreateDateColumn( {
+    type: 'timestamp with time zone',
     name: 'created_at',
   })
   createdAt: Date;
 
   @UpdateDateColumn({
+    type: 'timestamp with time zone',
     name: 'updated_at',
   })
   updatedAt: Date;
 
   @DeleteDateColumn({
+    type: 'timestamp with time zone',
     name: 'deleted_at',
   })
   deletedAt?: Date;
