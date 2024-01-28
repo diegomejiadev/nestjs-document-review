@@ -2,6 +2,7 @@ import { DOCUMENT_STATUS } from 'src/core/constants/document-status.cst';
 import { CreateDocumentDto } from '../dto/create-document.dto';
 import { UpdateDocumentDto } from '../dto/update-document.dto';
 import { DocumentEntity } from '../entities/document.entity';
+import { ReviewProceeedDto } from '../dto/review-proceeed.dto';
 
 export interface IDocumentDatasource {
   create(
@@ -38,4 +39,8 @@ export interface IDocumentDatasource {
   ): Promise<DocumentEntity>;
 
   delete(documentId: string): Promise<boolean>;
+
+  reviewingProceeeding(documentId: string): Promise<DocumentEntity>;
+
+  approveDocument(documentId: string): Promise<DocumentEntity>;
 }

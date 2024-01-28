@@ -9,6 +9,7 @@ import { DOCUMENT_STATUS } from 'src/core/constants/document-status.cst';
 import { UpdateDocumentDto } from '../../domain/dto/update-document.dto';
 import { ApplicantEntity } from 'src/modules/applicant/domain/entities/applicant.entity';
 import { ReviewerEntity } from 'src/modules/reviewer/domain/entities/reviewer.entity';
+import { ReviewProceeedDto } from '../../domain/dto/review-proceeed.dto';
 
 export class DocumentDatasourceTypeorm implements IDocumentDatasource {
   constructor(
@@ -248,6 +249,7 @@ export class DocumentDatasourceTypeorm implements IDocumentDatasource {
       );
     }
   }
+
   async assignReviewer(
     documentId: string,
     reviewerId: string,
@@ -306,6 +308,58 @@ export class DocumentDatasourceTypeorm implements IDocumentDatasource {
     }
   }
 
+  async reviewingProceeeding(documentId: string): Promise<DocumentEntity> {
+    try {
+      const updatedDocument = await this.documentRepository.save({
+        id: documentId,
+        status: DOCUMENT_STATUS.REVIEW_APPROVED,
+      });
+
+      const documentEntity = new DocumentEntity()
+        .setApplicantId(updatedDocument.applicant?.id)
+        .setCreatedAt(updatedDocument.createdAt)
+        .setUpdatedAt(updatedDocument.updatedAt)
+        .setFileUrl(updatedDocument.fileUrl)
+        .setId(updatedDocument.id)
+        .setStatus(updatedDocument.status)
+        .setSubmissionDate(updatedDocument.submissionDate)
+        .setTitle(updatedDocument.title)
+        .setType(updatedDocument.type)
+        .setReviewerId(updatedDocument.reviewer?.id);
+
+      if (updatedDocument.applicant) {
+        const applicant = new ApplicantEntity()
+          .setId(updatedDocument.applicant?.id)
+          .setEmail(updatedDocument.applicant?.email)
+          .setName(updatedDocument.applicant?.name)
+          .setLastname(updatedDocument.applicant?.lastname)
+          .setPassword(updatedDocument.applicant?.password);
+
+        documentEntity.setApplicant(applicant);
+      }
+
+      if (updatedDocument.reviewer) {
+        const reviewer = new ReviewerEntity()
+          .setId(updatedDocument.reviewer.id)
+          .setCreatedAt(updatedDocument.reviewer.createdAt)
+          .setDeletedAt(updatedDocument.reviewer.deletedAt)
+          .setEmail(updatedDocument.reviewer.email)
+          .setLastname(updatedDocument.reviewer.lastname)
+          .setName(updatedDocument.reviewer.name)
+          .setPassword(updatedDocument.reviewer.password)
+          .setUpdatedAt(updatedDocument.reviewer.updatedAt);
+
+        documentEntity.setReviewer(reviewer);
+      }
+
+      return documentEntity;
+    } catch (e) {
+      throw new InternalServerErrorException(
+        'Hubo un error al aprobar la reseña',
+      );
+    }
+  }
+
   async assignApprover(
     documentId: string,
     approverId: string,
@@ -313,6 +367,7 @@ export class DocumentDatasourceTypeorm implements IDocumentDatasource {
     try {
       const updateDocument = await this.documentRepository.save({
         id: documentId,
+        status: DOCUMENT_STATUS.APPROVER_ASSIGNED,
         approver: {
           id: approverId,
         },
@@ -359,6 +414,58 @@ export class DocumentDatasourceTypeorm implements IDocumentDatasource {
     } catch (e) {
       throw new InternalServerErrorException(
         'Hubo un error al asignar un aprobador al documento',
+      );
+    }
+  }
+
+  async approveDocument(documentId: string): Promise<DocumentEntity> {
+    try {
+      const updatedDocument = await this.documentRepository.save({
+        id: documentId,
+        status: DOCUMENT_STATUS.COMPLETED,
+      });
+
+      const documentEntity = new DocumentEntity()
+        .setApplicantId(updatedDocument.applicant?.id)
+        .setCreatedAt(updatedDocument.createdAt)
+        .setUpdatedAt(updatedDocument.updatedAt)
+        .setFileUrl(updatedDocument.fileUrl)
+        .setId(updatedDocument.id)
+        .setStatus(updatedDocument.status)
+        .setSubmissionDate(updatedDocument.submissionDate)
+        .setTitle(updatedDocument.title)
+        .setType(updatedDocument.type)
+        .setReviewerId(updatedDocument.reviewer?.id);
+
+      if (updatedDocument.applicant) {
+        const applicant = new ApplicantEntity()
+          .setId(updatedDocument.applicant?.id)
+          .setEmail(updatedDocument.applicant?.email)
+          .setName(updatedDocument.applicant?.name)
+          .setLastname(updatedDocument.applicant?.lastname)
+          .setPassword(updatedDocument.applicant?.password);
+
+        documentEntity.setApplicant(applicant);
+      }
+
+      if (updatedDocument.reviewer) {
+        const reviewer = new ReviewerEntity()
+          .setId(updatedDocument.reviewer.id)
+          .setCreatedAt(updatedDocument.reviewer.createdAt)
+          .setDeletedAt(updatedDocument.reviewer.deletedAt)
+          .setEmail(updatedDocument.reviewer.email)
+          .setLastname(updatedDocument.reviewer.lastname)
+          .setName(updatedDocument.reviewer.name)
+          .setPassword(updatedDocument.reviewer.password)
+          .setUpdatedAt(updatedDocument.reviewer.updatedAt);
+
+        documentEntity.setReviewer(reviewer);
+      }
+
+      return documentEntity;
+    } catch (e) {
+      throw new InternalServerErrorException(
+        'Hubo un error al aprobar el documento',
       );
     }
   }
