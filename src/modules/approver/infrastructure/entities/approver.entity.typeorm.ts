@@ -8,6 +8,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { DocumentEntityTypeorm } from 'src/modules/document/infrastructure/entities/document.entity.typeorm';
+import { CommentEntityTypeorm } from 'src/modules/comment/infrastructure/entities/comment.entity.typeorm';
 
 @Entity({ name: 'approver' })
 export class ApproverEntityTypeorm {
@@ -22,6 +23,9 @@ export class ApproverEntityTypeorm {
 
   @OneToMany(() => DocumentEntityTypeorm, (document) => document.approver)
   assignedDocuments: DocumentEntityTypeorm[];
+
+  @OneToMany(() => CommentEntityTypeorm, (comment) => comment.approver)
+  comments: CommentEntityTypeorm;
 
   @CreateDateColumn({
     type: 'timestamp with time zone',

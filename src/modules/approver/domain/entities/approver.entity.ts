@@ -6,6 +6,7 @@ export class ApproverEntity {
   lastname: string;
   approvedDocuments: DocumentEntity[];
   rejectedDocuments: DocumentEntity[];
+  comments: Comment[];
   createdAt: Date;
   updatedAt: Date;
 }

@@ -10,9 +10,10 @@ import {
 } from 'typeorm';
 import { DocumentEntityTypeorm } from 'src/modules/document/infrastructure/entities/document.entity.typeorm';
 import { ReviewerEntityTypeorm } from 'src/modules/reviewer/infrastructure/entities/reviewer.entity.typeorm';
+import { ApproverEntityTypeorm } from 'src/modules/approver/infrastructure/entities/approver.entity.typeorm';
 
 @Entity({ name: 'comment' })
-export class CommentEntityTypeorm  {
+export class CommentEntityTypeorm {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -28,6 +29,9 @@ export class CommentEntityTypeorm  {
   @JoinColumn({ name: 'reviewer_id' })
   reviewer: ReviewerEntityTypeorm;
 
+  @ManyToOne(() => ApproverEntityTypeorm, (approver) => approver.comments)
+  approver: ApproverEntityTypeorm;
+
   @ManyToOne(() => DocumentEntityTypeorm, (document) => document.comments, {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
@@ -35,7 +39,7 @@ export class CommentEntityTypeorm  {
   @JoinColumn({ name: 'document_id' })
   document: DocumentEntityTypeorm;
 
-  @CreateDateColumn( {
+  @CreateDateColumn({
     type: 'timestamp with time zone',
     name: 'created_at',
   })
