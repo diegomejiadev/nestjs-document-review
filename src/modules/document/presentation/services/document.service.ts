@@ -1,8 +1,4 @@
-import {
-  HttpException,
-  Injectable,
-  InternalServerErrorException,
-} from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateDocumentUsecase } from '../../infrastructure/usecases/create-document.usecase';
 import { CreateDocumentDto } from '../../domain/dto/create-document.dto';
 import { IResponse } from 'src/core/interfaces/response.interface';
@@ -12,6 +8,9 @@ import { UpdateBasicInfoDocumentUsecase } from '../../infrastructure/usecases/up
 import { UpdateFileUrlDocumentUsecase } from '../../infrastructure/usecases/update-file-url-document.usecase';
 import { FindDocumentByIdUsecase } from '../../infrastructure/usecases/find-document-by-id.usecase';
 import { AssignReviewerUsecase } from '../../infrastructure/usecases/assign-reviewer.usecase';
+import { ApproveDocumentDto } from '../../domain/dto/approve-document.dto';
+import { ProceedReviewUsecase } from '../../infrastructure/usecases/proceed-review.usecase';
+import { ApproveDocumentUsecase } from '../../infrastructure/usecases/approve-document.usecase';
 
 @Injectable()
 export class DocumentService {
@@ -21,6 +20,8 @@ export class DocumentService {
     private readonly updateFileUrlDocumentUsecase: UpdateFileUrlDocumentUsecase,
     private readonly findDocumentByIdUsecase: FindDocumentByIdUsecase,
     private readonly assignReviewerUsecase: AssignReviewerUsecase,
+    private readonly proceedReviewUsecase: ProceedReviewUsecase,
+    private readonly approveDocumentUsecase: ApproveDocumentUsecase,
   ) {}
 
   async findById(documentId: string): Promise<IResponse<DocumentEntity>> {
@@ -60,6 +61,24 @@ export class DocumentService {
       documentId,
       REVIEWER_ID,
     );
+
+    return { data };
+  }
+
+  async proceedReview(
+    documentId: string,
+    body: ApproveDocumentDto,
+  ): Promise<IResponse<DocumentEntity>> {
+    const data = await this.proceedReviewUsecase.handle(documentId, body);
+
+    return { data };
+  }
+
+  async approveDocument(
+    documentId: string,
+    body: ApproveDocumentDto,
+  ): Promise<IResponse<DocumentEntity>> {
+    const data = await this.approveDocumentUsecase.handle(documentId, body);
 
     return { data };
   }
