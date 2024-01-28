@@ -9,7 +9,6 @@ import { DOCUMENT_STATUS } from 'src/core/constants/document-status.cst';
 import { UpdateDocumentDto } from '../../domain/dto/update-document.dto';
 import { ApplicantEntity } from 'src/modules/applicant/domain/entities/applicant.entity';
 import { ReviewerEntity } from 'src/modules/reviewer/domain/entities/reviewer.entity';
-import { ReviewProceeedDto } from '../../domain/dto/review-proceeed.dto';
 
 export class DocumentDatasourceTypeorm implements IDocumentDatasource {
   constructor(
