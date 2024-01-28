@@ -14,6 +14,8 @@ import { UpdateFileUrlDocumentUsecase } from './infrastructure/usecases/update-f
 import { FindDocumentByIdUsecase } from './infrastructure/usecases/find-document-by-id.usecase';
 import { AssignReviewerUsecase } from './infrastructure/usecases/assign-reviewer.usecase';
 import { ReviewerModule } from '../reviewer/reviewer.module';
+import { ProceedReviewUsecase } from './infrastructure/usecases/proceed-review.usecase';
+import { ApproveDocumentUsecase } from './infrastructure/usecases/approve-document.usecase';
 
 @Module({
   imports: [TypeOrmModule.forFeature([DocumentEntityTypeorm]), ReviewerModule],
@@ -27,6 +29,8 @@ import { ReviewerModule } from '../reviewer/reviewer.module';
     UpdateFileUrlDocumentUsecase,
     FindDocumentByIdUsecase,
     AssignReviewerUsecase,
+    ProceedReviewUsecase,
+    ApproveDocumentUsecase,
   ],
 })
 export class DocumentModule {}
