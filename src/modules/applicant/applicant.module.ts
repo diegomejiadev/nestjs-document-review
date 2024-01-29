@@ -23,5 +23,11 @@ import { FindApplicantByIdUsecase } from './infrastructure/usecases/find-applica
     CreateApplicantUsecase,
     FindApplicantByIdUsecase,
   ],
+  exports: [
+    {
+      provide: 'APPLICANT_REPOSITORY',
+      useClass: ApplicantDatasourceTypeorm,
+    },
+  ],
 })
 export class ApplicantModule {}
