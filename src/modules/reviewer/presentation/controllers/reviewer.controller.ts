@@ -1,8 +1,9 @@
 import { Body, Controller, Post } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { CreateReviewerDto } from '../../domain/dto/create-reviewer.dto';
 import { ReviewerService } from '../services/reviewer.service';
 
+@ApiBearerAuth()
 @ApiTags('Reseñador - Reviewer')
 @Controller('reviewer')
 export class ReviewerController {

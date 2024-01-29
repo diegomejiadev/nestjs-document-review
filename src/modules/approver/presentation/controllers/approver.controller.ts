@@ -1,8 +1,9 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { ApproverService } from '../services/approver.service';
 import { CreateApproverDto } from '../../domain/dto/create-approver.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
+@ApiBearerAuth()
 @ApiTags('Aprobador - Approver')
 @Controller('approver')
 export class ApproverController {

@@ -1,10 +1,11 @@
 import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { CreateDocumentDto } from '../../domain/dto/create-document.dto';
 import { DocumentService } from '../services/document.service';
 import { UpdateDocumentDto } from '../../domain/dto/update-document.dto';
 import { ApproveDocumentDto } from '../../domain/dto/approve-document.dto';
 
+@ApiBearerAuth()
 @ApiTags('Documento - Document')
 @Controller('document')
 export class DocumentController {
