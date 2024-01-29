@@ -10,6 +10,8 @@ import { ConfigModule } from '@nestjs/config';
 import { validate } from './core/config/.env.validation';
 import { AuthModule } from './modules/auth/auth.module';
 
+const ENV = process.env.NODE_ENV;
+
 @Module({
   imports: [
     ApproverModule,
@@ -21,7 +23,7 @@ import { AuthModule } from './modules/auth/auth.module';
     DatabaseModule,
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: [`.env.development`],
+      envFilePath: !ENV ? '.env' : `.env.${ENV}`,
       validate,
     }),
     AuthModule,
