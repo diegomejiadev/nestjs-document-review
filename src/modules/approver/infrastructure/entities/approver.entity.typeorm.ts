@@ -33,7 +33,7 @@ export class ApproverEntityTypeorm {
   assignedDocuments: DocumentEntityTypeorm[];
 
   @OneToMany(() => CommentEntityTypeorm, (comment) => comment.approver)
-  comments: CommentEntityTypeorm;
+  comments: CommentEntityTypeorm[];
 
   @CreateDateColumn({
     type: 'timestamp with time zone',
