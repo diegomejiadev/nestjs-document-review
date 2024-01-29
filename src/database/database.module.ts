@@ -21,7 +21,7 @@ import { IDatabaseConfig } from './database.interface';
           host: configService.get('DB_HOST'),
           port: configService.get('DB_PORT'),
           type: 'postgres',
-          autoLoadEntities: configService.get('NODE_ENV') !== 'production',
+          autoLoadEntities: true,
           logging: configService.get('NODE_ENV') !== 'production',
           synchronize: configService.get('NODE_ENV') !== 'production',
         };
