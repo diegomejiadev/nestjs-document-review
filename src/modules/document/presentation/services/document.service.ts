@@ -11,6 +11,7 @@ import { AssignReviewerUsecase } from '../../infrastructure/usecases/assign-revi
 import { ApproveDocumentDto } from '../../domain/dto/approve-document.dto';
 import { ProceedReviewUsecase } from '../../infrastructure/usecases/proceed-review.usecase';
 import { ApproveDocumentUsecase } from '../../infrastructure/usecases/approve-document.usecase';
+import { AssignApproverUsecase } from '../../infrastructure/usecases/assign-approver.usecase';
 
 @Injectable()
 export class DocumentService {
@@ -20,6 +21,7 @@ export class DocumentService {
     private readonly updateFileUrlDocumentUsecase: UpdateFileUrlDocumentUsecase,
     private readonly findDocumentByIdUsecase: FindDocumentByIdUsecase,
     private readonly assignReviewerUsecase: AssignReviewerUsecase,
+    private readonly assignApproverUsecase: AssignApproverUsecase,
     private readonly proceedReviewUsecase: ProceedReviewUsecase,
     private readonly approveDocumentUsecase: ApproveDocumentUsecase,
   ) {}
@@ -60,6 +62,17 @@ export class DocumentService {
     const data = await this.assignReviewerUsecase.handle(
       documentId,
       REVIEWER_ID,
+    );
+
+    return { data };
+  }
+
+  async assignApprover(documentId: string): Promise<IResponse<DocumentEntity>> {
+    const APPROVER_ID = '93b0cea9-e7b2-42d6-94c0-fb95090daec2';
+
+    const data = await this.assignApproverUsecase.handle(
+      documentId,
+      APPROVER_ID,
     );
 
     return { data };
