@@ -497,12 +497,7 @@ export class DocumentDatasourceTypeorm implements IDocumentDatasource {
     }
   }
 
-  async create(
-    applicantId: string,
-    fileUrl: string,
-    body: CreateDocumentInfoDto,
-  ): Promise<DocumentEntity> {
-    const { title, type } = body;
+  async create(applicantId: string, fileUrl: string): Promise<DocumentEntity> {
 
     try {
       const newDocument = this.documentRepository.create({
@@ -510,8 +505,6 @@ export class DocumentDatasourceTypeorm implements IDocumentDatasource {
           id: applicantId,
         },
         fileUrl,
-        title,
-        type,
       });
 
       const createdDocument = await this.documentRepository.save(newDocument);

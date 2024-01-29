@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CreateDocumentUsecase } from '../../infrastructure/usecases/create-document.usecase';
+import { SendDocumentCheckUsecase } from '../../infrastructure/usecases/send-document-to-check.usecase';
 import { CreateDocumentInfoDto } from '../../domain/dto/create-document-info.dto';
 import { IResponse } from 'src/core/interfaces/response.interface';
 import { DocumentEntity } from '../../domain/entities/document.entity';
@@ -16,7 +16,7 @@ import { AssignApproverUsecase } from '../../infrastructure/usecases/assign-appr
 @Injectable()
 export class DocumentService {
   constructor(
-    private readonly createDocumentUsecase: CreateDocumentUsecase,
+    private readonly sendDocumentCheckUsecase: SendDocumentCheckUsecase,
     private readonly updateBasicInfoDocumentUsecase: UpdateBasicInfoDocumentUsecase,
     private readonly updateFileUrlDocumentUsecase: UpdateFileUrlDocumentUsecase,
     private readonly findDocumentByIdUsecase: FindDocumentByIdUsecase,
@@ -32,8 +32,11 @@ export class DocumentService {
     return { data };
   }
 
-  async create(body: CreateDocumentInfoDto): Promise<IResponse<DocumentEntity>> {
-    const data = await this.createDocumentUsecase.handle(body);
+  async sendDocumentToCheck(
+    documentId: string,
+    body: CreateDocumentInfoDto,
+  ): Promise<IResponse<DocumentEntity>> {
+    const data = await this.sendDocumentCheckUsecase.handle(documentId, body);
 
     return { data };
   }

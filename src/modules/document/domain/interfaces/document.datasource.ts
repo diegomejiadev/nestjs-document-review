@@ -4,11 +4,7 @@ import { UpdateDocumentDto } from '../dto/update-document.dto';
 import { DocumentEntity } from '../entities/document.entity';
 
 export interface IDocumentDatasource {
-  create(
-    applicantId: string,
-    fileUrl: string,
-    body: CreateDocumentInfoDto,
-  ): Promise<DocumentEntity>;
+  create(applicantId: string, fileUrl: string): Promise<DocumentEntity>;
 
   findById(documentId): Promise<DocumentEntity | null>;
 

@@ -11,9 +11,12 @@ import { ApproveDocumentDto } from '../../domain/dto/approve-document.dto';
 export class DocumentController {
   constructor(private readonly documentService: DocumentService) {}
 
-  @Post()
-  create(@Body() body: CreateDocumentInfoDto) {
-    return this.documentService.create(body);
+  @Patch('check/:id')
+  sendToCheck(
+    @Param('id') documentId: string,
+    @Body() body: CreateDocumentInfoDto,
+  ) {
+    return this.documentService.sendDocumentToCheck(documentId, body);
   }
 
   @Get(':id')
