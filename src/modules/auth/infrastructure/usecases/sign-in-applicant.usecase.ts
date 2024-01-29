@@ -9,6 +9,7 @@ import { SignInEmailDto } from '../../domain/dto/sign-in-email.dto';
 import { IApplicantDatasource } from 'src/modules/applicant/domain/interfaces/applicant.datasource';
 import { comparePassword } from 'src/lib/bcrypt';
 import { JwtService } from '@nestjs/jwt';
+import { ROLE } from 'src/core/constants/role.enum';
 
 @Injectable()
 export class SignInApplicantUsecase {
@@ -46,7 +47,7 @@ export class SignInApplicantUsecase {
       }
 
       //* 5. Realizamos el sign del JWT
-      const payload = { sub: foundApplicant.getId() };
+      const payload = { sub: foundApplicant.getId(), role: ROLE.APPLICANT };
 
       //* 6. Retornamos el jwt_token
       return {

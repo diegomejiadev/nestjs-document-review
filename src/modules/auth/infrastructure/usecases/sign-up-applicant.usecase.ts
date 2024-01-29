@@ -10,6 +10,7 @@ import { SignUpApplicantDto } from '../../domain/dto/sign-up-applicant.dto';
 import { IApplicantDatasource } from 'src/modules/applicant/domain/interfaces/applicant.datasource';
 import { JwtService } from '@nestjs/jwt';
 import { CreateApplicantDto } from 'src/modules/applicant/domain/dto/create-applicant.dto';
+import { ROLE } from 'src/core/constants/role.enum';
 
 @Injectable()
 export class SignUpApplicantUsecase {
@@ -46,7 +47,7 @@ export class SignUpApplicantUsecase {
       const createdApplicant = await this.repository.create(basicBody);
 
       //* 4. Creamos el payload
-      const payload = { sub: createdApplicant.getId() };
+      const payload = { sub: createdApplicant.getId(), role: ROLE.APPLICANT };
 
       //* 5. Retornamos el access token ya sign
       return {
