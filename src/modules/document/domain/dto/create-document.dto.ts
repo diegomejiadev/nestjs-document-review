@@ -9,7 +9,7 @@ import {
 } from 'class-validator';
 import { DOCUMENT_TYPE } from 'src/core/constants/document-type.cst';
 
-export class CreateDocumentDto {
+export class CreateDocumentInfoDto {
   //   applicantId: string;
 
   @ApiProperty()

@@ -1,5 +1,5 @@
 import { DOCUMENT_STATUS } from 'src/core/constants/document-status.cst';
-import { CreateDocumentDto } from '../dto/create-document.dto';
+import { CreateDocumentInfoDto } from '../dto/create-document.dto';
 import { UpdateDocumentDto } from '../dto/update-document.dto';
 import { DocumentEntity } from '../entities/document.entity';
 
@@ -7,7 +7,7 @@ export interface IDocumentDatasource {
   create(
     applicantId: string,
     fileUrl: string,
-    body: CreateDocumentDto,
+    body: CreateDocumentInfoDto,
   ): Promise<DocumentEntity>;
 
   findById(documentId): Promise<DocumentEntity | null>;

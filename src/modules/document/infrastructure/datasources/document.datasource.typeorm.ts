@@ -1,5 +1,5 @@
 import { HttpException, InternalServerErrorException } from '@nestjs/common';
-import { CreateDocumentDto } from '../../domain/dto/create-document.dto';
+import { CreateDocumentInfoDto } from '../../domain/dto/create-document.dto';
 import { DocumentEntity } from '../../domain/entities/document.entity';
 import { IDocumentDatasource } from '../../domain/interfaces/document.datasource';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -500,7 +500,7 @@ export class DocumentDatasourceTypeorm implements IDocumentDatasource {
   async create(
     applicantId: string,
     fileUrl: string,
-    body: CreateDocumentDto,
+    body: CreateDocumentInfoDto,
   ): Promise<DocumentEntity> {
     const { title, type } = body;
 

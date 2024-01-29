@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { CreateDocumentUsecase } from '../../infrastructure/usecases/create-document.usecase';
-import { CreateDocumentDto } from '../../domain/dto/create-document.dto';
+import { CreateDocumentInfoDto } from '../../domain/dto/create-document.dto';
 import { IResponse } from 'src/core/interfaces/response.interface';
 import { DocumentEntity } from '../../domain/entities/document.entity';
 import { UpdateDocumentDto } from '../../domain/dto/update-document.dto';
@@ -32,7 +32,7 @@ export class DocumentService {
     return { data };
   }
 
-  async create(body: CreateDocumentDto): Promise<IResponse<DocumentEntity>> {
+  async create(body: CreateDocumentInfoDto): Promise<IResponse<DocumentEntity>> {
     const data = await this.createDocumentUsecase.handle(body);
 
     return { data };

@@ -4,7 +4,7 @@ import {
   Injectable,
   InternalServerErrorException,
 } from '@nestjs/common';
-import { CreateDocumentDto } from '../../domain/dto/create-document.dto';
+import { CreateDocumentInfoDto } from '../../domain/dto/create-document.dto';
 import { DocumentEntity } from '../../domain/entities/document.entity';
 import { IDocumentDatasource } from '../../domain/interfaces/document.datasource';
 
@@ -15,7 +15,7 @@ export class CreateDocumentUsecase {
     private readonly repository: IDocumentDatasource,
   ) {}
 
-  async handle(body: CreateDocumentDto): Promise<DocumentEntity> {
+  async handle(body: CreateDocumentInfoDto): Promise<DocumentEntity> {
     try {
       //* 1. Extraemos el ID del Aplicante
       //TODO Extraer el ApplicantID del JWT

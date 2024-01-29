@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { CreateDocumentDto } from '../../domain/dto/create-document.dto';
+import { CreateDocumentInfoDto } from '../../domain/dto/create-document.dto';
 import { DocumentService } from '../services/document.service';
 import { UpdateDocumentDto } from '../../domain/dto/update-document.dto';
 import { ApproveDocumentDto } from '../../domain/dto/approve-document.dto';
@@ -12,7 +12,7 @@ export class DocumentController {
   constructor(private readonly documentService: DocumentService) {}
 
   @Post()
-  create(@Body() body: CreateDocumentDto) {
+  create(@Body() body: CreateDocumentInfoDto) {
     return this.documentService.create(body);
   }
 
