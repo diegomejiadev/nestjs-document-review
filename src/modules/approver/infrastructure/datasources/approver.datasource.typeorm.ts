@@ -5,6 +5,8 @@ import { IApproverDatasource } from '../../domain/interfaces/approver.datasource
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ApproverEntityTypeorm } from '../entities/approver.entity.typeorm';
+import { DocumentEntity } from 'src/modules/document/domain/entities/document.entity';
+import { CommentEntity } from 'src/modules/comment/domain/entities/comment.entity';
 
 export class ApproverDatasourceTypeorm implements IApproverDatasource {
   constructor(
@@ -47,13 +49,60 @@ export class ApproverDatasourceTypeorm implements IApproverDatasource {
 
       if (!foundApprover) return null;
 
-      return new ApproverEntity()
-        .setComments([])
+      const approverEntity = new ApproverEntity()
         .setCreatedAt(foundApprover.createdAt)
         .setId(foundApprover.id)
         .setLastname(foundApprover.lastname)
         .setName(foundApprover.name)
-        .setAssignedDocuments([])
+        .setUpdatedAt(foundApprover.updatedAt);
+
+      if (foundApprover.assignedDocuments) {
+        const documentEntities = foundApprover.assignedDocuments.map(
+          (documentItem) => {
+            return new DocumentEntity()
+              .setApplicantId(documentItem.applicant?.id)
+              .setCreatedAt(documentItem.createdAt)
+              .setFileUrl(documentItem.fileUrl)
+              .setId(documentItem.id)
+              .setReviewerId(documentItem.reviewer?.id)
+              .setStatus(documentItem.status)
+              .setSubmissionDate(documentItem.submissionDate)
+              .setTitle(documentItem.title)
+              .setType(documentItem.type)
+              .setUpdatedAt(documentItem.updatedAt);
+          },
+        );
+
+        approverEntity.setAssignedDocuments(documentEntities);
+      }
+
+      if (foundApprover.comments) {
+        //TODO Agregar con respecto a los comentarios
+      }
+
+      return approverEntity;
+    } catch (e) {
+      throw new InternalServerErrorException(
+        'Hubo un problema al buscar el aprobador',
+      );
+    }
+  }
+
+  async findByEmail(email: string): Promise<ApproverEntity> {
+    try {
+      const foundApprover = await this.approverRepository.findOne({
+        where: {
+          email,
+        },
+      });
+
+      if (!foundApprover) return null;
+
+      return new ApproverEntity()
+        .setCreatedAt(foundApprover.createdAt)
+        .setId(foundApprover.id)
+        .setLastname(foundApprover.lastname)
+        .setName(foundApprover.name)
         .setUpdatedAt(foundApprover.updatedAt);
     } catch (e) {
       throw new InternalServerErrorException(
