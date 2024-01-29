@@ -1,4 +1,5 @@
 export enum DOCUMENT_STATUS {
+  JUST_UPLOADED = 'uploaded', //* El aplicante sube el documento
   PENDING_REVISION = 'pending', //* El aplicante envia el documento y entra a este estado
   REVIEWER_ASSIGNED = 'reviewer-assigned', //* Se asigna a un reseñador
   PENDING_EDITING = 'pending-editing', //* El reseñador indica que hay que modificar

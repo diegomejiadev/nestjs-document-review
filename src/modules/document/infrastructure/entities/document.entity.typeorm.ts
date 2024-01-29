@@ -57,19 +57,20 @@ export class DocumentEntityTypeorm {
   })
   fileUrl: string;
 
-  @Column()
+  @Column({ nullable: true })
   title: string;
 
   @Column({
     type: 'enum',
     enum: DOCUMENT_STATUS,
-    default: DOCUMENT_STATUS.PENDING_REVISION,
+    default: DOCUMENT_STATUS.JUST_UPLOADED,
   })
   status: DOCUMENT_STATUS;
 
   @Column({
     type: 'enum',
     enum: DOCUMENT_TYPE,
+    nullable: true,
   })
   type: DOCUMENT_TYPE;
 
