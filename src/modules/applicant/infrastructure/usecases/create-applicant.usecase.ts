@@ -9,7 +9,6 @@ import { IApplicantDatasource } from '../../domain/interfaces/applicant.datasour
 import { UserEntity } from 'src/modules/user/domain/entities/user.entity';
 import { CreateApplicantDto } from '../../domain/dto/create-applicant.dto';
 import { hashPassword } from 'src/lib/bcrypt';
-import { ApplicantEntityTypeorm } from '../entities/applicant.entity.typeorm';
 import { ApplicantEntity } from '../../domain/entities/applicant.entity';
 
 @Injectable()
