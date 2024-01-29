@@ -8,7 +8,6 @@ import {
 } from '@nestjs/common';
 import { DocumentEntity } from '../../domain/entities/document.entity';
 import { IDocumentDatasource } from '../../domain/interfaces/document.datasource';
-import { IReviewerDatasource } from 'src/modules/reviewer/domain/interfaces/reviewer.datasource';
 import { IApproverDatasource } from 'src/modules/approver/domain/interfaces/approver.datasource';
 
 @Injectable()
@@ -33,22 +32,22 @@ export class AssignApproverUsecase {
         throw new NotFoundException('No se encontró el documento a asignar');
       }
 
-      //* 2. Verificamos que no tenga ya un reseñador asignado
-      if (foundDocument.getReviewerId()) {
+      //* 2. Verificamos que no tenga ya un aprobador asignado
+      if (foundDocument.getApproverId()) {
         throw new BadRequestException(
           'El documento ya tiene un aprobador asignado',
         );
       }
 
-      //* 3. Verificamos que el reseñador exista
-      const foundReviewer = await this.approverRepository.findById(approverId);
+      //* 3. Verificamos que el aprobador exista
+      const foundApprover = await this.approverRepository.findById(approverId);
 
-      if (!foundReviewer) {
+      if (!foundApprover) {
         throw new NotFoundException('No se encontró el aprobador a asignar');
       }
 
-      //* 4. Actualizamos el documento con el id del reseñador, asimismo lo manda a estado 'approver-assigned'
-      const updatedDocument = await this.repository.assignReviewer(
+      //* 4. Actualizamos el documento con el id del aprobador, asimismo lo manda a estado 'approver-assigned'
+      const updatedDocument = await this.repository.assignApprover(
         documentId,
         approverId,
       );
