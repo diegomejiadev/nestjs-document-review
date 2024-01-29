@@ -6,17 +6,21 @@ import { ApplicantModule } from '../applicant/applicant.module';
 import { SignInApplicantUsecase } from './infrastructure/usecases/sign-in-applicant.usecase';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
-import { JwtGuard } from './guards/jwt.guard';
+import { JwtGuard } from '../../core/guards/jwt.guard';
+import { PassportModule } from '@nestjs/passport';
+import { JwtStrategy } from '../../core/strategies/jwt.strategy';
 
 @Module({
   controllers: [AuthController],
   providers: [
     AuthService,
     SignInApplicantUsecase,
+    JwtStrategy,
     { provide: APP_GUARD, useClass: JwtGuard },
   ],
   imports: [
     ApplicantModule,
+    PassportModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
