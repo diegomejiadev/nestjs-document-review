@@ -16,9 +16,15 @@ import { AssignReviewerUsecase } from './infrastructure/usecases/assign-reviewer
 import { ReviewerModule } from '../reviewer/reviewer.module';
 import { ProceedReviewUsecase } from './infrastructure/usecases/proceed-review.usecase';
 import { ApproveDocumentUsecase } from './infrastructure/usecases/approve-document.usecase';
+import { AssignApproverUsecase } from './infrastructure/usecases/assign-approver.usecase';
+import { ApproverModule } from '../approver/approver.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([DocumentEntityTypeorm]), ReviewerModule],
+  imports: [
+    TypeOrmModule.forFeature([DocumentEntityTypeorm]),
+    ReviewerModule,
+    ApproverModule,
+  ],
   controllers: [DocumentController],
   providers: [
     { provide: 'DOCUMENT_REPOSITORY', useClass: DocumentDatasourceTypeorm },
@@ -31,6 +37,7 @@ import { ApproveDocumentUsecase } from './infrastructure/usecases/approve-docume
     AssignReviewerUsecase,
     ProceedReviewUsecase,
     ApproveDocumentUsecase,
+    AssignApproverUsecase,
   ],
 })
 export class DocumentModule {}

@@ -46,6 +46,11 @@ export class DocumentController {
     return this.documentService.proceedReview(documentId, body);
   }
 
+  @Patch('assign-approver/:id')
+  assignApprover(@Param('id') documentId: string) {
+    return this.documentService.assignApprover(documentId);
+  }
+
   @Patch('approve-document/:id')
   approveDocument(
     @Param('id') documentId: string,
