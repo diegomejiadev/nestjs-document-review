@@ -22,12 +22,12 @@ export class ApproverEntityTypeorm {
   lastname: string;
 
   @Column({
-    unique: true
+    unique: true,
   })
-  email: string
+  email: string;
 
   @Column()
-  password: string
+  password: string;
 
   @OneToMany(() => DocumentEntityTypeorm, (document) => document.approver)
   assignedDocuments: DocumentEntityTypeorm[];
