@@ -9,6 +9,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { JwtGuard } from '../../core/guards/jwt.guard';
 import { JwtStrategy } from 'src/core/strategies/jwt.strategy';
 import { SignUpApplicantUsecase } from './infrastructure/usecases/sign-up-applicant.usecase';
+import { RoleGuard } from 'src/core/guards/role.guard';
 
 @Module({
   controllers: [AuthController],
@@ -18,6 +19,7 @@ import { SignUpApplicantUsecase } from './infrastructure/usecases/sign-up-applic
     SignUpApplicantUsecase,
     JwtStrategy,
     { provide: APP_GUARD, useClass: JwtGuard },
+    { provide: APP_GUARD, useClass: RoleGuard },
   ],
   imports: [
     ApplicantModule,
