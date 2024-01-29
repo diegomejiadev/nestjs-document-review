@@ -11,11 +11,8 @@ import {
 } from 'typeorm';
 import { DOCUMENT_STATUS } from 'src/core/constants/document-status.enum';
 import { DOCUMENT_TYPE } from 'src/core/constants/document-type.enum';
-import { ApplicantEntityTypeorm } from 'src/modules/applicant/infrastructure/entities/applicant.entity.typeorm';
 import { CommentEntityTypeorm } from 'src/modules/comment/infrastructure/entities/comment.entity.typeorm';
-import { ReviewerEntityTypeorm } from 'src/modules/reviewer/infrastructure/entities/reviewer.entity.typeorm';
-import { EditorEntityTypeorm } from 'src/modules/editor/infrastructure/entities/editor.entity.typeorm';
-import { ApproverEntityTypeorm } from 'src/modules/approver/infrastructure/entities/approver.entity.typeorm';
+import { UserEntityTypeorm } from 'src/modules/user/infrastructure/entities/user.entity.typeorm';
 
 @Entity({
   name: 'document',
@@ -25,30 +22,30 @@ export class DocumentEntityTypeorm {
   id: string;
 
   @ManyToOne(
-    () => ApplicantEntityTypeorm,
-    (applicant) => applicant.sentDocuments,
+    () => UserEntityTypeorm,
+    (applicant) => applicant.uploadedDocuments,
     { onDelete: 'SET NULL', onUpdate: 'CASCADE' },
   )
   @JoinColumn({ name: 'applicant_id' })
-  applicant: ApplicantEntityTypeorm;
+  applicant: UserEntityTypeorm;
 
   @OneToMany(() => CommentEntityTypeorm, (comment) => comment.document)
   comments: CommentEntityTypeorm[];
 
   @ManyToOne(
-    () => ReviewerEntityTypeorm,
-    (reviewer) => reviewer.assignedDocuments,
+    () => UserEntityTypeorm,
+    (reviewer) => reviewer.reviewingDocuments,
     { onDelete: 'SET NULL', onUpdate: 'CASCADE' },
   )
   @JoinColumn({ name: 'reviewer_id' })
-  reviewer: ReviewerEntityTypeorm;
+  reviewer: UserEntityTypeorm;
 
-  @ManyToOne(() => EditorEntityTypeorm, (editor) => editor.editingDocuments, {
+  @ManyToOne(() => UserEntityTypeorm, (editor) => editor.editingDocuments, {
     onDelete: 'SET NULL',
     onUpdate: 'CASCADE',
   })
   @JoinColumn({ name: 'editor_id' })
-  editor: EditorEntityTypeorm;
+  editor: UserEntityTypeorm;
 
   @Column({
     name: 'file_url',
@@ -75,12 +72,12 @@ export class DocumentEntityTypeorm {
   type: DOCUMENT_TYPE;
 
   @ManyToOne(
-    () => ApproverEntityTypeorm,
-    (approver) => approver.assignedDocuments,
+    () => UserEntityTypeorm,
+    (approver) => approver.approvingDocuments,
     { onDelete: 'SET NULL', onUpdate: 'CASCADE' },
   )
   @JoinColumn({ name: 'approver_id' })
-  approver: ApproverEntityTypeorm;
+  approver: UserEntityTypeorm;
 
   @Column({
     type: 'timestamp with time zone',

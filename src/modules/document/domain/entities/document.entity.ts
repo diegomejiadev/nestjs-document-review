@@ -4,6 +4,7 @@ import { CommentEntity } from 'src/modules/comment/domain/entities/comment.entit
 import { ReviewerEntity } from 'src/modules/reviewer/domain/entities/reviewer.entity';
 import { ApproverEntity } from 'src/modules/approver/domain/entities/approver.entity';
 import { DOCUMENT_TYPE } from 'src/core/constants/document-type.enum';
+import { UserEntity } from 'src/modules/user/domain/entities/user.entity';
 
 export class DocumentEntity {
   constructor() {}
@@ -11,12 +12,12 @@ export class DocumentEntity {
   private id: string;
   private title: string;
   private fileUrl: string;
-  private applicant?: ApplicantEntity;
+  private applicant?: UserEntity;
   private applicantId?: string;
   private reviewerId?: string;
-  private reviewer?: ReviewerEntity;
+  private reviewer?: UserEntity;
   private approverId?: string;
-  private approver?: ApproverEntity;
+  private approver?: UserEntity;
   private type: DOCUMENT_TYPE;
   private submissionDate: Date;
   private status: DOCUMENT_STATUS;
@@ -52,11 +53,11 @@ export class DocumentEntity {
     return this;
   }
 
-  public getApplicant(): ApplicantEntity {
+  public getApplicant(): UserEntity {
     return this.applicant;
   }
 
-  public setApplicant(applicant: ApplicantEntity): this {
+  public setApplicant(applicant: UserEntity): this {
     this.applicant = applicant;
     return this;
   }
@@ -142,11 +143,11 @@ export class DocumentEntity {
     return this;
   }
 
-  public getReviewer(): ReviewerEntity {
+  public getReviewer(): UserEntity {
     return this.reviewer;
   }
 
-  public setReviewer(reviewer: ReviewerEntity): this {
+  public setReviewer(reviewer: UserEntity): this {
     this.reviewer = reviewer;
     return this;
   }
@@ -160,11 +161,11 @@ export class DocumentEntity {
     return this;
   }
 
-  public getApprover(): ApproverEntity {
+  public getApprover(): UserEntity {
     return this.approver;
   }
 
-  public setApprover(approver: ApproverEntity): this {
+  public setApprover(approver: UserEntity): this {
     this.approver = approver;
     return this;
   }

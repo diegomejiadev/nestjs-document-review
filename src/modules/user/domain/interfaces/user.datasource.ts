@@ -8,12 +8,9 @@ export interface IUserDatasource {
   findByEmail(email: string): Promise<UserEntity>;
   delete(userId: string): Promise<boolean>;
   updateBasic(
-    applicantId: string,
+    userId: string,
     body: UpdateBasicInfoUserDto,
   ): Promise<UserEntity>;
-  updateEmail(applicantId: string, email: string): Promise<UserEntity>;
-  updatePassword(
-    applicantId: string,
-    hashedPassword: string,
-  ): Promise<UserEntity>;
+  updateEmail(userId: string, email: string): Promise<UserEntity>;
+  updatePassword(userId: string, hashedPassword: string): Promise<UserEntity>;
 }

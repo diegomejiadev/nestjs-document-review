@@ -8,15 +8,15 @@ import {
 } from '@nestjs/common';
 import { DocumentEntity } from '../../domain/entities/document.entity';
 import { IDocumentDatasource } from '../../domain/interfaces/document.datasource';
-import { IReviewerDatasource } from 'src/modules/reviewer/domain/interfaces/reviewer.datasource';
+import { IUserDatasource } from 'src/modules/user/domain/interfaces/user.datasource';
 
 @Injectable()
 export class AssignReviewerUsecase {
   constructor(
     @Inject('DOCUMENT_REPOSITORY')
     private readonly repository: IDocumentDatasource,
-    @Inject('REVIEWER_REPOSITORY')
-    private readonly reviewerRepository: IReviewerDatasource,
+    @Inject('USER_REPOSITORY')
+    private readonly reviewerRepository: IUserDatasource,
   ) {}
 
   //TODO Se debe extraer del JWT del reviewer

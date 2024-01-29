@@ -1,3 +1,4 @@
+import { ROLE } from 'src/core/constants/role.enum';
 import { DocumentEntityTypeorm } from 'src/modules/document/infrastructure/entities/document.entity.typeorm';
 import {
   Column,
@@ -20,7 +21,17 @@ export class UserEntityTypeorm {
   @Column()
   lastname: string;
 
-  documents: DocumentEntityTypeorm[];
+  @OneToMany(() => DocumentEntityTypeorm, (document) => document.applicant)
+  uploadedDocuments: DocumentEntityTypeorm[];
+
+  @OneToMany(() => DocumentEntityTypeorm, (document) => document.applicant)
+  reviewingDocuments: DocumentEntityTypeorm[];
+
+  @OneToMany(() => DocumentEntityTypeorm, (document) => document.applicant)
+  editingDocuments: DocumentEntityTypeorm[];
+
+  @OneToMany(() => DocumentEntityTypeorm, (document) => document.applicant)
+  approvingDocuments: DocumentEntityTypeorm[];
 
   @Column({
     unique: true,
@@ -29,6 +40,12 @@ export class UserEntityTypeorm {
 
   @Column()
   password: string;
+
+  @Column({
+    type: 'enum',
+    enum: ROLE,
+  })
+  role: ROLE;
 
   @CreateDateColumn({
     type: 'timestamp with time zone',

@@ -1,9 +1,20 @@
-import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Patch,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { CreateDocumentInfoDto } from '../../domain/dto/create-document-info.dto';
 import { DocumentService } from '../services/document.service';
 import { UpdateDocumentDto } from '../../domain/dto/update-document.dto';
 import { ApproveDocumentDto } from '../../domain/dto/approve-document.dto';
+import { RoleGuard } from 'src/core/guards/role.guard';
+import { Roles } from 'src/core/metadata/role.metadata';
+import { ROLE } from '../../../../core/constants/role.enum';
 
 @ApiBearerAuth()
 @ApiTags('Documento - Document')
@@ -20,6 +31,7 @@ export class DocumentController {
   }
 
   @Get(':id')
+  @Roles(ROLE.APPLICANT)
   findById(@Param('id') documentId: string) {
     return this.documentService.findById(documentId);
   }

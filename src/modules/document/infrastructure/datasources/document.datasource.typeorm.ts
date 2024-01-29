@@ -1,5 +1,4 @@
 import { HttpException, InternalServerErrorException } from '@nestjs/common';
-import { CreateDocumentInfoDto } from '../../domain/dto/create-document-info.dto';
 import { DocumentEntity } from '../../domain/entities/document.entity';
 import { IDocumentDatasource } from '../../domain/interfaces/document.datasource';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -7,9 +6,7 @@ import { DocumentEntityTypeorm } from '../entities/document.entity.typeorm';
 import { Repository } from 'typeorm';
 import { DOCUMENT_STATUS } from 'src/core/constants/document-status.enum';
 import { UpdateDocumentDto } from '../../domain/dto/update-document.dto';
-import { ApplicantEntity } from 'src/modules/applicant/domain/entities/applicant.entity';
-import { ReviewerEntity } from 'src/modules/reviewer/domain/entities/reviewer.entity';
-import { ApproverEntity } from 'src/modules/approver/domain/entities/approver.entity';
+import { UserEntity } from 'src/modules/user/domain/entities/user.entity';
 
 export class DocumentDatasourceTypeorm implements IDocumentDatasource {
   constructor(
@@ -42,38 +39,43 @@ export class DocumentDatasourceTypeorm implements IDocumentDatasource {
         .setApproverId(foundDocument.approver?.id);
 
       if (foundDocument.applicant) {
-        const applicant = new ApplicantEntity()
-          .setId(foundDocument.applicant?.id)
-          .setEmail(foundDocument.applicant?.email)
-          .setName(foundDocument.applicant?.name)
-          .setLastname(foundDocument.applicant?.lastname)
-          .setPassword(foundDocument.applicant?.password);
+        const applicant = new UserEntity()
+          .setId(foundDocument.applicant.id)
+          .setEmail(foundDocument.applicant.email)
+          .setName(foundDocument.applicant.name)
+          .setLastname(foundDocument.applicant.lastname)
+          .setPassword(foundDocument.applicant.password)
+          .setCreatedAt(foundDocument.applicant.createdAt)
+          .setUpdatedAt(foundDocument.applicant.updatedAt)
+          .setRole(foundDocument.applicant.role);
 
         documentEntity.setApplicant(applicant);
       }
 
       if (foundDocument.reviewer) {
-        const reviewer = new ReviewerEntity()
+        const reviewer = new UserEntity()
           .setId(foundDocument.reviewer.id)
-          .setCreatedAt(foundDocument.reviewer.createdAt)
-          .setDeletedAt(foundDocument.reviewer.deletedAt)
           .setEmail(foundDocument.reviewer.email)
-          .setLastname(foundDocument.reviewer.lastname)
           .setName(foundDocument.reviewer.name)
+          .setLastname(foundDocument.reviewer.lastname)
           .setPassword(foundDocument.reviewer.password)
-          .setUpdatedAt(foundDocument.reviewer.updatedAt);
+          .setCreatedAt(foundDocument.reviewer.createdAt)
+          .setUpdatedAt(foundDocument.reviewer.updatedAt)
+          .setRole(foundDocument.reviewer.role);
 
         documentEntity.setReviewer(reviewer);
       }
 
       if (foundDocument.approver) {
-        const approver = new ApproverEntity()
+        const approver = new UserEntity()
           .setId(foundDocument.approver.id)
-          .setCreatedAt(foundDocument.approver.createdAt)
-          .setId(foundDocument.approver.id)
-          .setLastname(foundDocument.approver.lastname)
+          .setEmail(foundDocument.approver.email)
           .setName(foundDocument.approver.name)
-          .setUpdatedAt(foundDocument.approver.updatedAt);
+          .setLastname(foundDocument.approver.lastname)
+          .setPassword(foundDocument.approver.password)
+          .setCreatedAt(foundDocument.approver.createdAt)
+          .setUpdatedAt(foundDocument.approver.updatedAt)
+          .setRole(foundDocument.approver.role);
 
         documentEntity.setApprover(approver);
       }
@@ -91,46 +93,64 @@ export class DocumentDatasourceTypeorm implements IDocumentDatasource {
     body: UpdateDocumentDto,
   ): Promise<DocumentEntity> {
     try {
-      const updateDocument = await this.documentRepository.save({
+      const updatedDocument = await this.documentRepository.save({
         id: documentId,
         ...body,
       });
 
       const documentEntity = new DocumentEntity()
-        .setApplicantId(updateDocument.applicant?.id)
-        .setCreatedAt(updateDocument.createdAt)
-        .setUpdatedAt(updateDocument.updatedAt)
-        .setFileUrl(updateDocument.fileUrl)
-        .setId(updateDocument.id)
-        .setStatus(updateDocument.status)
-        .setSubmissionDate(updateDocument.submissionDate)
-        .setTitle(updateDocument.title)
-        .setType(updateDocument.type)
-        .setReviewerId(updateDocument.reviewer?.id);
+        .setApplicantId(updatedDocument.applicant?.id)
+        .setCreatedAt(updatedDocument.createdAt)
+        .setUpdatedAt(updatedDocument.updatedAt)
+        .setFileUrl(updatedDocument.fileUrl)
+        .setId(updatedDocument.id)
+        .setStatus(updatedDocument.status)
+        .setSubmissionDate(updatedDocument.submissionDate)
+        .setTitle(updatedDocument.title)
+        .setType(updatedDocument.type)
+        .setReviewerId(updatedDocument.reviewer?.id)
+        .setApproverId(updatedDocument.approver?.id);
 
-      if (updateDocument.applicant) {
-        const applicant = new ApplicantEntity()
-          .setId(updateDocument.applicant?.id)
-          .setEmail(updateDocument.applicant?.email)
-          .setName(updateDocument.applicant?.name)
-          .setLastname(updateDocument.applicant?.lastname)
-          .setPassword(updateDocument.applicant?.password);
+      if (updatedDocument.applicant) {
+        const applicant = new UserEntity()
+          .setId(updatedDocument.applicant.id)
+          .setEmail(updatedDocument.applicant.email)
+          .setName(updatedDocument.applicant.name)
+          .setLastname(updatedDocument.applicant.lastname)
+          .setPassword(updatedDocument.applicant.password)
+          .setCreatedAt(updatedDocument.applicant.createdAt)
+          .setUpdatedAt(updatedDocument.applicant.updatedAt)
+          .setRole(updatedDocument.applicant.role);
 
         documentEntity.setApplicant(applicant);
       }
 
-      if (updateDocument.reviewer) {
-        const reviewer = new ReviewerEntity()
-          .setId(updateDocument.reviewer.id)
-          .setCreatedAt(updateDocument.reviewer.createdAt)
-          .setDeletedAt(updateDocument.reviewer.deletedAt)
-          .setEmail(updateDocument.reviewer.email)
-          .setLastname(updateDocument.reviewer.lastname)
-          .setName(updateDocument.reviewer.name)
-          .setPassword(updateDocument.reviewer.password)
-          .setUpdatedAt(updateDocument.reviewer.updatedAt);
+      if (updatedDocument.reviewer) {
+        const reviewer = new UserEntity()
+          .setId(updatedDocument.reviewer.id)
+          .setEmail(updatedDocument.reviewer.email)
+          .setName(updatedDocument.reviewer.name)
+          .setLastname(updatedDocument.reviewer.lastname)
+          .setPassword(updatedDocument.reviewer.password)
+          .setCreatedAt(updatedDocument.reviewer.createdAt)
+          .setUpdatedAt(updatedDocument.reviewer.updatedAt)
+          .setRole(updatedDocument.reviewer.role);
 
         documentEntity.setReviewer(reviewer);
+      }
+
+      if (updatedDocument.approver) {
+        const approver = new UserEntity()
+          .setId(updatedDocument.approver.id)
+          .setEmail(updatedDocument.approver.email)
+          .setName(updatedDocument.approver.name)
+          .setLastname(updatedDocument.approver.lastname)
+          .setPassword(updatedDocument.approver.password)
+          .setCreatedAt(updatedDocument.approver.createdAt)
+          .setUpdatedAt(updatedDocument.approver.updatedAt)
+          .setRole(updatedDocument.approver.role);
+
+        documentEntity.setApprover(approver);
       }
 
       return documentEntity;
@@ -150,46 +170,64 @@ export class DocumentDatasourceTypeorm implements IDocumentDatasource {
     newFileUrl: string,
   ): Promise<DocumentEntity> {
     try {
-      const updateDocument = await this.documentRepository.save({
+      const updatedDocument = await this.documentRepository.save({
         id: documentId,
         fileUrl: newFileUrl,
       });
 
       const documentEntity = new DocumentEntity()
-        .setApplicantId(updateDocument.applicant?.id)
-        .setCreatedAt(updateDocument.createdAt)
-        .setUpdatedAt(updateDocument.updatedAt)
-        .setFileUrl(updateDocument.fileUrl)
-        .setId(updateDocument.id)
-        .setStatus(updateDocument.status)
-        .setSubmissionDate(updateDocument.submissionDate)
-        .setTitle(updateDocument.title)
-        .setType(updateDocument.type)
-        .setReviewerId(updateDocument.reviewer?.id);
+        .setApplicantId(updatedDocument.applicant?.id)
+        .setCreatedAt(updatedDocument.createdAt)
+        .setUpdatedAt(updatedDocument.updatedAt)
+        .setFileUrl(updatedDocument.fileUrl)
+        .setId(updatedDocument.id)
+        .setStatus(updatedDocument.status)
+        .setSubmissionDate(updatedDocument.submissionDate)
+        .setTitle(updatedDocument.title)
+        .setType(updatedDocument.type)
+        .setReviewerId(updatedDocument.reviewer?.id)
+        .setApproverId(updatedDocument.approver?.id);
 
-      if (updateDocument.applicant) {
-        const applicant = new ApplicantEntity()
-          .setId(updateDocument.applicant?.id)
-          .setEmail(updateDocument.applicant?.email)
-          .setName(updateDocument.applicant?.name)
-          .setLastname(updateDocument.applicant?.lastname)
-          .setPassword(updateDocument.applicant?.password);
+      if (updatedDocument.applicant) {
+        const applicant = new UserEntity()
+          .setId(updatedDocument.applicant.id)
+          .setEmail(updatedDocument.applicant.email)
+          .setName(updatedDocument.applicant.name)
+          .setLastname(updatedDocument.applicant.lastname)
+          .setPassword(updatedDocument.applicant.password)
+          .setCreatedAt(updatedDocument.applicant.createdAt)
+          .setUpdatedAt(updatedDocument.applicant.updatedAt)
+          .setRole(updatedDocument.applicant.role);
 
         documentEntity.setApplicant(applicant);
       }
 
-      if (updateDocument.reviewer) {
-        const reviewer = new ReviewerEntity()
-          .setId(updateDocument.reviewer.id)
-          .setCreatedAt(updateDocument.reviewer.createdAt)
-          .setDeletedAt(updateDocument.reviewer.deletedAt)
-          .setEmail(updateDocument.reviewer.email)
-          .setLastname(updateDocument.reviewer.lastname)
-          .setName(updateDocument.reviewer.name)
-          .setPassword(updateDocument.reviewer.password)
-          .setUpdatedAt(updateDocument.reviewer.updatedAt);
+      if (updatedDocument.reviewer) {
+        const reviewer = new UserEntity()
+          .setId(updatedDocument.reviewer.id)
+          .setEmail(updatedDocument.reviewer.email)
+          .setName(updatedDocument.reviewer.name)
+          .setLastname(updatedDocument.reviewer.lastname)
+          .setPassword(updatedDocument.reviewer.password)
+          .setCreatedAt(updatedDocument.reviewer.createdAt)
+          .setUpdatedAt(updatedDocument.reviewer.updatedAt)
+          .setRole(updatedDocument.reviewer.role);
 
         documentEntity.setReviewer(reviewer);
+      }
+
+      if (updatedDocument.approver) {
+        const approver = new UserEntity()
+          .setId(updatedDocument.approver.id)
+          .setEmail(updatedDocument.approver.email)
+          .setName(updatedDocument.approver.name)
+          .setLastname(updatedDocument.approver.lastname)
+          .setPassword(updatedDocument.approver.password)
+          .setCreatedAt(updatedDocument.approver.createdAt)
+          .setUpdatedAt(updatedDocument.approver.updatedAt)
+          .setRole(updatedDocument.approver.role);
+
+        documentEntity.setApprover(approver);
       }
 
       return documentEntity;
@@ -209,46 +247,64 @@ export class DocumentDatasourceTypeorm implements IDocumentDatasource {
     status: DOCUMENT_STATUS,
   ): Promise<DocumentEntity> {
     try {
-      const updateDocument = await this.documentRepository.save({
+      const updatedDocument = await this.documentRepository.save({
         id: documentId,
         status,
       });
 
       const documentEntity = new DocumentEntity()
-        .setApplicantId(updateDocument.applicant?.id)
-        .setCreatedAt(updateDocument.createdAt)
-        .setUpdatedAt(updateDocument.updatedAt)
-        .setFileUrl(updateDocument.fileUrl)
-        .setId(updateDocument.id)
-        .setStatus(updateDocument.status)
-        .setSubmissionDate(updateDocument.submissionDate)
-        .setTitle(updateDocument.title)
-        .setType(updateDocument.type)
-        .setReviewerId(updateDocument.reviewer?.id);
+        .setApplicantId(updatedDocument.applicant?.id)
+        .setCreatedAt(updatedDocument.createdAt)
+        .setUpdatedAt(updatedDocument.updatedAt)
+        .setFileUrl(updatedDocument.fileUrl)
+        .setId(updatedDocument.id)
+        .setStatus(updatedDocument.status)
+        .setSubmissionDate(updatedDocument.submissionDate)
+        .setTitle(updatedDocument.title)
+        .setType(updatedDocument.type)
+        .setReviewerId(updatedDocument.reviewer?.id)
+        .setApproverId(updatedDocument.approver?.id);
 
-      if (updateDocument.applicant) {
-        const applicant = new ApplicantEntity()
-          .setId(updateDocument.applicant?.id)
-          .setEmail(updateDocument.applicant?.email)
-          .setName(updateDocument.applicant?.name)
-          .setLastname(updateDocument.applicant?.lastname)
-          .setPassword(updateDocument.applicant?.password);
+      if (updatedDocument.applicant) {
+        const applicant = new UserEntity()
+          .setId(updatedDocument.applicant.id)
+          .setEmail(updatedDocument.applicant.email)
+          .setName(updatedDocument.applicant.name)
+          .setLastname(updatedDocument.applicant.lastname)
+          .setPassword(updatedDocument.applicant.password)
+          .setCreatedAt(updatedDocument.applicant.createdAt)
+          .setUpdatedAt(updatedDocument.applicant.updatedAt)
+          .setRole(updatedDocument.applicant.role);
 
         documentEntity.setApplicant(applicant);
       }
 
-      if (updateDocument.reviewer) {
-        const reviewer = new ReviewerEntity()
-          .setId(updateDocument.reviewer.id)
-          .setCreatedAt(updateDocument.reviewer.createdAt)
-          .setDeletedAt(updateDocument.reviewer.deletedAt)
-          .setEmail(updateDocument.reviewer.email)
-          .setLastname(updateDocument.reviewer.lastname)
-          .setName(updateDocument.reviewer.name)
-          .setPassword(updateDocument.reviewer.password)
-          .setUpdatedAt(updateDocument.reviewer.updatedAt);
+      if (updatedDocument.reviewer) {
+        const reviewer = new UserEntity()
+          .setId(updatedDocument.reviewer.id)
+          .setEmail(updatedDocument.reviewer.email)
+          .setName(updatedDocument.reviewer.name)
+          .setLastname(updatedDocument.reviewer.lastname)
+          .setPassword(updatedDocument.reviewer.password)
+          .setCreatedAt(updatedDocument.reviewer.createdAt)
+          .setUpdatedAt(updatedDocument.reviewer.updatedAt)
+          .setRole(updatedDocument.reviewer.role);
 
         documentEntity.setReviewer(reviewer);
+      }
+
+      if (updatedDocument.approver) {
+        const approver = new UserEntity()
+          .setId(updatedDocument.approver.id)
+          .setEmail(updatedDocument.approver.email)
+          .setName(updatedDocument.approver.name)
+          .setLastname(updatedDocument.approver.lastname)
+          .setPassword(updatedDocument.approver.password)
+          .setCreatedAt(updatedDocument.approver.createdAt)
+          .setUpdatedAt(updatedDocument.approver.updatedAt)
+          .setRole(updatedDocument.approver.role);
+
+        documentEntity.setApprover(approver);
       }
 
       return documentEntity;
@@ -268,7 +324,7 @@ export class DocumentDatasourceTypeorm implements IDocumentDatasource {
     reviewerId: string,
   ): Promise<DocumentEntity> {
     try {
-      const updateDocument = await this.documentRepository.save({
+      const updatedDocument = await this.documentRepository.save({
         id: documentId,
         status: DOCUMENT_STATUS.REVIEWER_ASSIGNED,
         reviewer: {
@@ -277,40 +333,58 @@ export class DocumentDatasourceTypeorm implements IDocumentDatasource {
       });
 
       const documentEntity = new DocumentEntity()
-        .setApplicantId(updateDocument.applicant?.id)
-        .setCreatedAt(updateDocument.createdAt)
-        .setUpdatedAt(updateDocument.updatedAt)
-        .setFileUrl(updateDocument.fileUrl)
-        .setId(updateDocument.id)
-        .setStatus(updateDocument.status)
-        .setSubmissionDate(updateDocument.submissionDate)
-        .setTitle(updateDocument.title)
-        .setType(updateDocument.type)
-        .setReviewerId(updateDocument.reviewer?.id);
+        .setApplicantId(updatedDocument.applicant?.id)
+        .setCreatedAt(updatedDocument.createdAt)
+        .setUpdatedAt(updatedDocument.updatedAt)
+        .setFileUrl(updatedDocument.fileUrl)
+        .setId(updatedDocument.id)
+        .setStatus(updatedDocument.status)
+        .setSubmissionDate(updatedDocument.submissionDate)
+        .setTitle(updatedDocument.title)
+        .setType(updatedDocument.type)
+        .setReviewerId(updatedDocument.reviewer?.id)
+        .setApproverId(updatedDocument.approver?.id);
 
-      if (updateDocument.applicant) {
-        const applicant = new ApplicantEntity()
-          .setId(updateDocument.applicant?.id)
-          .setEmail(updateDocument.applicant?.email)
-          .setName(updateDocument.applicant?.name)
-          .setLastname(updateDocument.applicant?.lastname)
-          .setPassword(updateDocument.applicant?.password);
+      if (updatedDocument.applicant) {
+        const applicant = new UserEntity()
+          .setId(updatedDocument.applicant.id)
+          .setEmail(updatedDocument.applicant.email)
+          .setName(updatedDocument.applicant.name)
+          .setLastname(updatedDocument.applicant.lastname)
+          .setPassword(updatedDocument.applicant.password)
+          .setCreatedAt(updatedDocument.applicant.createdAt)
+          .setUpdatedAt(updatedDocument.applicant.updatedAt)
+          .setRole(updatedDocument.applicant.role);
 
         documentEntity.setApplicant(applicant);
       }
 
-      if (updateDocument.reviewer) {
-        const reviewer = new ReviewerEntity()
-          .setId(updateDocument.reviewer.id)
-          .setCreatedAt(updateDocument.reviewer.createdAt)
-          .setDeletedAt(updateDocument.reviewer.deletedAt)
-          .setEmail(updateDocument.reviewer.email)
-          .setLastname(updateDocument.reviewer.lastname)
-          .setName(updateDocument.reviewer.name)
-          .setPassword(updateDocument.reviewer.password)
-          .setUpdatedAt(updateDocument.reviewer.updatedAt);
+      if (updatedDocument.reviewer) {
+        const reviewer = new UserEntity()
+          .setId(updatedDocument.reviewer.id)
+          .setEmail(updatedDocument.reviewer.email)
+          .setName(updatedDocument.reviewer.name)
+          .setLastname(updatedDocument.reviewer.lastname)
+          .setPassword(updatedDocument.reviewer.password)
+          .setCreatedAt(updatedDocument.reviewer.createdAt)
+          .setUpdatedAt(updatedDocument.reviewer.updatedAt)
+          .setRole(updatedDocument.reviewer.role);
 
         documentEntity.setReviewer(reviewer);
+      }
+
+      if (updatedDocument.approver) {
+        const approver = new UserEntity()
+          .setId(updatedDocument.approver.id)
+          .setEmail(updatedDocument.approver.email)
+          .setName(updatedDocument.approver.name)
+          .setLastname(updatedDocument.approver.lastname)
+          .setPassword(updatedDocument.approver.password)
+          .setCreatedAt(updatedDocument.approver.createdAt)
+          .setUpdatedAt(updatedDocument.approver.updatedAt)
+          .setRole(updatedDocument.approver.role);
+
+        documentEntity.setApprover(approver);
       }
 
       return documentEntity;
@@ -338,31 +412,49 @@ export class DocumentDatasourceTypeorm implements IDocumentDatasource {
         .setSubmissionDate(updatedDocument.submissionDate)
         .setTitle(updatedDocument.title)
         .setType(updatedDocument.type)
-        .setReviewerId(updatedDocument.reviewer?.id);
+        .setReviewerId(updatedDocument.reviewer?.id)
+        .setApproverId(updatedDocument.approver?.id);
 
       if (updatedDocument.applicant) {
-        const applicant = new ApplicantEntity()
-          .setId(updatedDocument.applicant?.id)
-          .setEmail(updatedDocument.applicant?.email)
-          .setName(updatedDocument.applicant?.name)
-          .setLastname(updatedDocument.applicant?.lastname)
-          .setPassword(updatedDocument.applicant?.password);
+        const applicant = new UserEntity()
+          .setId(updatedDocument.applicant.id)
+          .setEmail(updatedDocument.applicant.email)
+          .setName(updatedDocument.applicant.name)
+          .setLastname(updatedDocument.applicant.lastname)
+          .setPassword(updatedDocument.applicant.password)
+          .setCreatedAt(updatedDocument.applicant.createdAt)
+          .setUpdatedAt(updatedDocument.applicant.updatedAt)
+          .setRole(updatedDocument.applicant.role);
 
         documentEntity.setApplicant(applicant);
       }
 
       if (updatedDocument.reviewer) {
-        const reviewer = new ReviewerEntity()
+        const reviewer = new UserEntity()
           .setId(updatedDocument.reviewer.id)
-          .setCreatedAt(updatedDocument.reviewer.createdAt)
-          .setDeletedAt(updatedDocument.reviewer.deletedAt)
           .setEmail(updatedDocument.reviewer.email)
-          .setLastname(updatedDocument.reviewer.lastname)
           .setName(updatedDocument.reviewer.name)
+          .setLastname(updatedDocument.reviewer.lastname)
           .setPassword(updatedDocument.reviewer.password)
-          .setUpdatedAt(updatedDocument.reviewer.updatedAt);
+          .setCreatedAt(updatedDocument.reviewer.createdAt)
+          .setUpdatedAt(updatedDocument.reviewer.updatedAt)
+          .setRole(updatedDocument.reviewer.role);
 
         documentEntity.setReviewer(reviewer);
+      }
+
+      if (updatedDocument.approver) {
+        const approver = new UserEntity()
+          .setId(updatedDocument.approver.id)
+          .setEmail(updatedDocument.approver.email)
+          .setName(updatedDocument.approver.name)
+          .setLastname(updatedDocument.approver.lastname)
+          .setPassword(updatedDocument.approver.password)
+          .setCreatedAt(updatedDocument.approver.createdAt)
+          .setUpdatedAt(updatedDocument.approver.updatedAt)
+          .setRole(updatedDocument.approver.role);
+
+        documentEntity.setApprover(approver);
       }
 
       return documentEntity;
@@ -378,7 +470,7 @@ export class DocumentDatasourceTypeorm implements IDocumentDatasource {
     approverId: string,
   ): Promise<DocumentEntity> {
     try {
-      const updateDocument = await this.documentRepository.save({
+      const updatedDocument = await this.documentRepository.save({
         id: documentId,
         status: DOCUMENT_STATUS.APPROVER_ASSIGNED,
         approver: {
@@ -387,40 +479,58 @@ export class DocumentDatasourceTypeorm implements IDocumentDatasource {
       });
 
       const documentEntity = new DocumentEntity()
-        .setApplicantId(updateDocument.applicant?.id)
-        .setCreatedAt(updateDocument.createdAt)
-        .setUpdatedAt(updateDocument.updatedAt)
-        .setFileUrl(updateDocument.fileUrl)
-        .setId(updateDocument.id)
-        .setStatus(updateDocument.status)
-        .setSubmissionDate(updateDocument.submissionDate)
-        .setTitle(updateDocument.title)
-        .setType(updateDocument.type)
-        .setReviewerId(updateDocument.reviewer?.id);
+        .setApplicantId(updatedDocument.applicant?.id)
+        .setCreatedAt(updatedDocument.createdAt)
+        .setUpdatedAt(updatedDocument.updatedAt)
+        .setFileUrl(updatedDocument.fileUrl)
+        .setId(updatedDocument.id)
+        .setStatus(updatedDocument.status)
+        .setSubmissionDate(updatedDocument.submissionDate)
+        .setTitle(updatedDocument.title)
+        .setType(updatedDocument.type)
+        .setReviewerId(updatedDocument.reviewer?.id)
+        .setApproverId(updatedDocument.approver?.id);
 
-      if (updateDocument.applicant) {
-        const applicant = new ApplicantEntity()
-          .setId(updateDocument.applicant?.id)
-          .setEmail(updateDocument.applicant?.email)
-          .setName(updateDocument.applicant?.name)
-          .setLastname(updateDocument.applicant?.lastname)
-          .setPassword(updateDocument.applicant?.password);
+      if (updatedDocument.applicant) {
+        const applicant = new UserEntity()
+          .setId(updatedDocument.applicant.id)
+          .setEmail(updatedDocument.applicant.email)
+          .setName(updatedDocument.applicant.name)
+          .setLastname(updatedDocument.applicant.lastname)
+          .setPassword(updatedDocument.applicant.password)
+          .setCreatedAt(updatedDocument.applicant.createdAt)
+          .setUpdatedAt(updatedDocument.applicant.updatedAt)
+          .setRole(updatedDocument.applicant.role);
 
         documentEntity.setApplicant(applicant);
       }
 
-      if (updateDocument.reviewer) {
-        const reviewer = new ReviewerEntity()
-          .setId(updateDocument.reviewer.id)
-          .setCreatedAt(updateDocument.reviewer.createdAt)
-          .setDeletedAt(updateDocument.reviewer.deletedAt)
-          .setEmail(updateDocument.reviewer.email)
-          .setLastname(updateDocument.reviewer.lastname)
-          .setName(updateDocument.reviewer.name)
-          .setPassword(updateDocument.reviewer.password)
-          .setUpdatedAt(updateDocument.reviewer.updatedAt);
+      if (updatedDocument.reviewer) {
+        const reviewer = new UserEntity()
+          .setId(updatedDocument.reviewer.id)
+          .setEmail(updatedDocument.reviewer.email)
+          .setName(updatedDocument.reviewer.name)
+          .setLastname(updatedDocument.reviewer.lastname)
+          .setPassword(updatedDocument.reviewer.password)
+          .setCreatedAt(updatedDocument.reviewer.createdAt)
+          .setUpdatedAt(updatedDocument.reviewer.updatedAt)
+          .setRole(updatedDocument.reviewer.role);
 
         documentEntity.setReviewer(reviewer);
+      }
+
+      if (updatedDocument.approver) {
+        const approver = new UserEntity()
+          .setId(updatedDocument.approver.id)
+          .setEmail(updatedDocument.approver.email)
+          .setName(updatedDocument.approver.name)
+          .setLastname(updatedDocument.approver.lastname)
+          .setPassword(updatedDocument.approver.password)
+          .setCreatedAt(updatedDocument.approver.createdAt)
+          .setUpdatedAt(updatedDocument.approver.updatedAt)
+          .setRole(updatedDocument.approver.role);
+
+        documentEntity.setApprover(approver);
       }
 
       return documentEntity;
@@ -448,31 +558,49 @@ export class DocumentDatasourceTypeorm implements IDocumentDatasource {
         .setSubmissionDate(updatedDocument.submissionDate)
         .setTitle(updatedDocument.title)
         .setType(updatedDocument.type)
-        .setReviewerId(updatedDocument.reviewer?.id);
+        .setReviewerId(updatedDocument.reviewer?.id)
+        .setApproverId(updatedDocument.approver?.id);
 
       if (updatedDocument.applicant) {
-        const applicant = new ApplicantEntity()
-          .setId(updatedDocument.applicant?.id)
-          .setEmail(updatedDocument.applicant?.email)
-          .setName(updatedDocument.applicant?.name)
-          .setLastname(updatedDocument.applicant?.lastname)
-          .setPassword(updatedDocument.applicant?.password);
+        const applicant = new UserEntity()
+          .setId(updatedDocument.applicant.id)
+          .setEmail(updatedDocument.applicant.email)
+          .setName(updatedDocument.applicant.name)
+          .setLastname(updatedDocument.applicant.lastname)
+          .setPassword(updatedDocument.applicant.password)
+          .setCreatedAt(updatedDocument.applicant.createdAt)
+          .setUpdatedAt(updatedDocument.applicant.updatedAt)
+          .setRole(updatedDocument.applicant.role);
 
         documentEntity.setApplicant(applicant);
       }
 
       if (updatedDocument.reviewer) {
-        const reviewer = new ReviewerEntity()
+        const reviewer = new UserEntity()
           .setId(updatedDocument.reviewer.id)
-          .setCreatedAt(updatedDocument.reviewer.createdAt)
-          .setDeletedAt(updatedDocument.reviewer.deletedAt)
           .setEmail(updatedDocument.reviewer.email)
-          .setLastname(updatedDocument.reviewer.lastname)
           .setName(updatedDocument.reviewer.name)
+          .setLastname(updatedDocument.reviewer.lastname)
           .setPassword(updatedDocument.reviewer.password)
-          .setUpdatedAt(updatedDocument.reviewer.updatedAt);
+          .setCreatedAt(updatedDocument.reviewer.createdAt)
+          .setUpdatedAt(updatedDocument.reviewer.updatedAt)
+          .setRole(updatedDocument.reviewer.role);
 
         documentEntity.setReviewer(reviewer);
+      }
+
+      if (updatedDocument.approver) {
+        const approver = new UserEntity()
+          .setId(updatedDocument.approver.id)
+          .setEmail(updatedDocument.approver.email)
+          .setName(updatedDocument.approver.name)
+          .setLastname(updatedDocument.approver.lastname)
+          .setPassword(updatedDocument.approver.password)
+          .setCreatedAt(updatedDocument.approver.createdAt)
+          .setUpdatedAt(updatedDocument.approver.updatedAt)
+          .setRole(updatedDocument.approver.role);
+
+        documentEntity.setApprover(approver);
       }
 
       return documentEntity;
@@ -498,7 +626,6 @@ export class DocumentDatasourceTypeorm implements IDocumentDatasource {
   }
 
   async create(applicantId: string, fileUrl: string): Promise<DocumentEntity> {
-
     try {
       const newDocument = this.documentRepository.create({
         applicant: {
@@ -519,31 +646,49 @@ export class DocumentDatasourceTypeorm implements IDocumentDatasource {
         .setSubmissionDate(createdDocument.submissionDate)
         .setTitle(createdDocument.title)
         .setType(createdDocument.type)
-        .setReviewerId(createdDocument.reviewer?.id);
+        .setReviewerId(createdDocument.reviewer?.id)
+        .setApproverId(createdDocument.approver?.id);
 
       if (createdDocument.applicant) {
-        const applicant = new ApplicantEntity()
-          .setId(createdDocument.applicant?.id)
-          .setEmail(createdDocument.applicant?.email)
-          .setName(createdDocument.applicant?.name)
-          .setLastname(createdDocument.applicant?.lastname)
-          .setPassword(createdDocument.applicant?.password);
+        const applicant = new UserEntity()
+          .setId(createdDocument.applicant.id)
+          .setEmail(createdDocument.applicant.email)
+          .setName(createdDocument.applicant.name)
+          .setLastname(createdDocument.applicant.lastname)
+          .setPassword(createdDocument.applicant.password)
+          .setCreatedAt(createdDocument.applicant.createdAt)
+          .setUpdatedAt(createdDocument.applicant.updatedAt)
+          .setRole(createdDocument.applicant.role);
 
         documentEntity.setApplicant(applicant);
       }
 
       if (createdDocument.reviewer) {
-        const reviewer = new ReviewerEntity()
+        const reviewer = new UserEntity()
           .setId(createdDocument.reviewer.id)
-          .setCreatedAt(createdDocument.reviewer.createdAt)
-          .setDeletedAt(createdDocument.reviewer.deletedAt)
           .setEmail(createdDocument.reviewer.email)
-          .setLastname(createdDocument.reviewer.lastname)
           .setName(createdDocument.reviewer.name)
+          .setLastname(createdDocument.reviewer.lastname)
           .setPassword(createdDocument.reviewer.password)
-          .setUpdatedAt(createdDocument.reviewer.updatedAt);
+          .setCreatedAt(createdDocument.reviewer.createdAt)
+          .setUpdatedAt(createdDocument.reviewer.updatedAt)
+          .setRole(createdDocument.reviewer.role);
 
         documentEntity.setReviewer(reviewer);
+      }
+
+      if (createdDocument.approver) {
+        const approver = new UserEntity()
+          .setId(createdDocument.approver.id)
+          .setEmail(createdDocument.approver.email)
+          .setName(createdDocument.approver.name)
+          .setLastname(createdDocument.approver.lastname)
+          .setPassword(createdDocument.approver.password)
+          .setCreatedAt(createdDocument.approver.createdAt)
+          .setUpdatedAt(createdDocument.approver.updatedAt)
+          .setRole(createdDocument.approver.role);
+
+        documentEntity.setApprover(approver);
       }
 
       return documentEntity;

@@ -1,4 +1,5 @@
 import { Exclude } from 'class-transformer';
+import { DocumentEntity } from 'src/modules/document/domain/entities/document.entity';
 
 export class UserEntity {
   private id: string;
@@ -11,6 +12,47 @@ export class UserEntity {
   private role: string;
   private updatedAt: Date;
   private createdAt: Date;
+
+  private uploadedDocuments: DocumentEntity[];
+  private reviewingDocuments: DocumentEntity[];
+  private editingDocuments: DocumentEntity[];
+  private approvingDocuments: DocumentEntity[];
+
+  public getUploadedDocuments(): DocumentEntity[] {
+    return this.uploadedDocuments;
+  }
+
+  public setUploadedDocuments(uploadedDocuments: DocumentEntity[]): this {
+    this.uploadedDocuments = uploadedDocuments;
+    return this;
+  }
+
+  public getReviewingDocuments(): DocumentEntity[] {
+    return this.reviewingDocuments;
+  }
+
+  public setReviewingDocuments(reviewingDocuments: DocumentEntity[]): this {
+    this.reviewingDocuments = reviewingDocuments;
+    return this;
+  }
+
+  public getEditingDocuments(): DocumentEntity[] {
+    return this.editingDocuments;
+  }
+
+  public setEditingDocuments(editingDocuments: DocumentEntity[]): this {
+    this.editingDocuments = editingDocuments;
+    return this;
+  }
+
+  public getApprovingDocuments(): DocumentEntity[] {
+    return this.approvingDocuments;
+  }
+
+  public setApprovingDocuments(approvingDocuments: DocumentEntity[]): this {
+    this.approvingDocuments = approvingDocuments;
+    return this;
+  }
 
   public getId(): string {
     return this.id;

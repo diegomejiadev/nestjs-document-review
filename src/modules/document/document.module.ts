@@ -18,12 +18,14 @@ import { ProceedReviewUsecase } from './infrastructure/usecases/proceed-review.u
 import { ApproveDocumentUsecase } from './infrastructure/usecases/approve-document.usecase';
 import { AssignApproverUsecase } from './infrastructure/usecases/assign-approver.usecase';
 import { ApproverModule } from '../approver/approver.module';
+import { UserModule } from '../user/user.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([DocumentEntityTypeorm]),
     ReviewerModule,
     ApproverModule,
+    UserModule,
   ],
   controllers: [DocumentController],
   providers: [
