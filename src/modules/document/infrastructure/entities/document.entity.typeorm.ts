@@ -9,8 +9,8 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { DOCUMENT_STATUS } from 'src/core/constants/document-status.cst';
-import { DOCUMENT_TYPE } from 'src/core/constants/document-type.cst';
+import { DOCUMENT_STATUS } from 'src/core/constants/document-status.enum';
+import { DOCUMENT_TYPE } from 'src/core/constants/document-type.enum';
 import { ApplicantEntityTypeorm } from 'src/modules/applicant/infrastructure/entities/applicant.entity.typeorm';
 import { CommentEntityTypeorm } from 'src/modules/comment/infrastructure/entities/comment.entity.typeorm';
 import { ReviewerEntityTypeorm } from 'src/modules/reviewer/infrastructure/entities/reviewer.entity.typeorm';

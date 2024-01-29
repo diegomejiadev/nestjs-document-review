@@ -9,7 +9,7 @@ import {
 import { CreateDocumentInfoDto } from '../../domain/dto/create-document-info.dto';
 import { DocumentEntity } from '../../domain/entities/document.entity';
 import { IDocumentDatasource } from '../../domain/interfaces/document.datasource';
-import { DOCUMENT_STATUS } from 'src/core/constants/document-status.cst';
+import { DOCUMENT_STATUS } from 'src/core/constants/document-status.enum';
 
 @Injectable()
 export class SendDocumentCheckUsecase {

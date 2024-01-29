@@ -1,9 +1,9 @@
 import { ApplicantEntity } from 'src/modules/applicant/domain/entities/applicant.entity';
-import { DOCUMENT_STATUS } from '../../../../core/constants/document-status.cst';
-import { DOCUMENT_TYPE } from 'src/core/constants/document-type.cst';
+import { DOCUMENT_STATUS } from '../../../../core/constants/document-status.enum';
 import { CommentEntity } from 'src/modules/comment/domain/entities/comment.entity';
 import { ReviewerEntity } from 'src/modules/reviewer/domain/entities/reviewer.entity';
 import { ApproverEntity } from 'src/modules/approver/domain/entities/approver.entity';
+import { DOCUMENT_TYPE } from 'src/core/constants/document-type.enum';
 
 export class DocumentEntity {
   constructor() {}

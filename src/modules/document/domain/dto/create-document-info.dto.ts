@@ -7,7 +7,7 @@ import {
   MaxLength,
   MinLength,
 } from 'class-validator';
-import { DOCUMENT_TYPE } from 'src/core/constants/document-type.cst';
+import { DOCUMENT_TYPE } from 'src/core/constants/document-type.enum';
 
 export class CreateDocumentInfoDto {
   //   applicantId: string;

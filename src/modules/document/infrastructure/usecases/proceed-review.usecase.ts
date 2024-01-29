@@ -9,7 +9,7 @@ import {
 import { DocumentEntity } from '../../domain/entities/document.entity';
 import { IDocumentDatasource } from '../../domain/interfaces/document.datasource';
 import { ApproveDocumentDto } from '../../domain/dto/approve-document.dto';
-import { DOCUMENT_STATUS } from 'src/core/constants/document-status.cst';
+import { DOCUMENT_STATUS } from 'src/core/constants/document-status.enum';
 
 @Injectable()
 export class ProceedReviewUsecase {

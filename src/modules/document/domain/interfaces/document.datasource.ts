@@ -1,4 +1,4 @@
-import { DOCUMENT_STATUS } from 'src/core/constants/document-status.cst';
+import { DOCUMENT_STATUS } from 'src/core/constants/document-status.enum';
 import { CreateDocumentInfoDto } from '../dto/create-document-info.dto';
 import { UpdateDocumentDto } from '../dto/update-document.dto';
 import { DocumentEntity } from '../entities/document.entity';

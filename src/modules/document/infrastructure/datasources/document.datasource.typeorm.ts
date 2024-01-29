@@ -5,7 +5,7 @@ import { IDocumentDatasource } from '../../domain/interfaces/document.datasource
 import { InjectRepository } from '@nestjs/typeorm';
 import { DocumentEntityTypeorm } from '../entities/document.entity.typeorm';
 import { Repository } from 'typeorm';
-import { DOCUMENT_STATUS } from 'src/core/constants/document-status.cst';
+import { DOCUMENT_STATUS } from 'src/core/constants/document-status.enum';
 import { UpdateDocumentDto } from '../../domain/dto/update-document.dto';
 import { ApplicantEntity } from 'src/modules/applicant/domain/entities/applicant.entity';
 import { ReviewerEntity } from 'src/modules/reviewer/domain/entities/reviewer.entity';
