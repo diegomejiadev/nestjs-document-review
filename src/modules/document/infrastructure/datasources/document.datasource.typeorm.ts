@@ -9,6 +9,7 @@ import { DOCUMENT_STATUS } from 'src/core/constants/document-status.cst';
 import { UpdateDocumentDto } from '../../domain/dto/update-document.dto';
 import { ApplicantEntity } from 'src/modules/applicant/domain/entities/applicant.entity';
 import { ReviewerEntity } from 'src/modules/reviewer/domain/entities/reviewer.entity';
+import { ApproverEntity } from 'src/modules/approver/domain/entities/approver.entity';
 
 export class DocumentDatasourceTypeorm implements IDocumentDatasource {
   constructor(
@@ -22,7 +23,7 @@ export class DocumentDatasourceTypeorm implements IDocumentDatasource {
         where: {
           id: documentId,
         },
-        relations: ['applicant', 'reviewer'],
+        relations: ['applicant', 'reviewer', 'approver'],
       });
 
       if (!foundDocument) return null;
@@ -37,7 +38,8 @@ export class DocumentDatasourceTypeorm implements IDocumentDatasource {
         .setSubmissionDate(foundDocument.submissionDate)
         .setTitle(foundDocument.title)
         .setType(foundDocument.type)
-        .setReviewerId(foundDocument.reviewer?.id);
+        .setReviewerId(foundDocument.reviewer?.id)
+        .setApproverId(foundDocument.approver?.id);
 
       if (foundDocument.applicant) {
         const applicant = new ApplicantEntity()
@@ -62,6 +64,18 @@ export class DocumentDatasourceTypeorm implements IDocumentDatasource {
           .setUpdatedAt(foundDocument.reviewer.updatedAt);
 
         documentEntity.setReviewer(reviewer);
+      }
+
+      if (foundDocument.approver) {
+        const approver = new ApproverEntity()
+          .setId(foundDocument.approver.id)
+          .setCreatedAt(foundDocument.approver.createdAt)
+          .setId(foundDocument.approver.id)
+          .setLastname(foundDocument.approver.lastname)
+          .setName(foundDocument.approver.name)
+          .setUpdatedAt(foundDocument.approver.updatedAt);
+
+        documentEntity.setApprover(approver);
       }
 
       return documentEntity;
