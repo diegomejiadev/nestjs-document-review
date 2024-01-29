@@ -8,12 +8,14 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtGuard } from '../../core/guards/jwt.guard';
 import { JwtStrategy } from 'src/core/strategies/jwt.strategy';
+import { SignUpApplicantUsecase } from './infrastructure/usecases/sign-up-applicant.usecase';
 
 @Module({
   controllers: [AuthController],
   providers: [
     AuthService,
     SignInApplicantUsecase,
+    SignUpApplicantUsecase,
     JwtStrategy,
     { provide: APP_GUARD, useClass: JwtGuard },
   ],
