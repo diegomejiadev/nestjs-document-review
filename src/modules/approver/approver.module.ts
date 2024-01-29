@@ -23,5 +23,11 @@ import { ApproverDatasourceTypeorm } from './infrastructure/datasources/approver
     CreateApproverUsecase,
     FindApproverByIdUsecase,
   ],
+  exports: [
+    {
+      provide: 'APPROVER_REPOSITORY',
+      useClass: ApproverDatasourceTypeorm,
+    },
+  ],
 })
 export class ApproverModule {}
