@@ -16,10 +16,10 @@ export class ApplicantEntityTypeorm {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
+  @Column({ nullable: true })
   name: string;
 
-  @Column()
+  @Column({ nullable: true })
   lastname: string;
 
   @OneToMany(() => DocumentEntityTypeorm, (document) => document.applicant)
