@@ -97,8 +97,4 @@ export class ApplicantEntity {
     this.email = email;
     return this;
   }
-
-  public build(): this {
-    return this;
-  }
 }
