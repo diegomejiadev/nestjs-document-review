@@ -31,6 +31,9 @@ class EnvironmentVariables {
 
   @IsNumber()
   SALT_ROUNDS: number;
+
+  @IsString()
+  SECRET_JWT_TOKEN: string;
 }
 
 export function validate(config: Record<string, unknown>) {
