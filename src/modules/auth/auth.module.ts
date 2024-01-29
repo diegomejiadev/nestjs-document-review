@@ -5,10 +5,16 @@ import { JwtModule } from '@nestjs/jwt';
 import { ApplicantModule } from '../applicant/applicant.module';
 import { SignInApplicantUsecase } from './infrastructure/usecases/sign-in-applicant.usecase';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { APP_GUARD } from '@nestjs/core';
+import { JwtGuard } from './guards/jwt.guard';
 
 @Module({
   controllers: [AuthController],
-  providers: [AuthService, SignInApplicantUsecase],
+  providers: [
+    AuthService,
+    SignInApplicantUsecase,
+    { provide: APP_GUARD, useClass: JwtGuard },
+  ],
   imports: [
     ApplicantModule,
     JwtModule.registerAsync({
