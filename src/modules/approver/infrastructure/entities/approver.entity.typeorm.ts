@@ -21,6 +21,14 @@ export class ApproverEntityTypeorm {
   @Column()
   lastname: string;
 
+  @Column({
+    unique: true
+  })
+  email: string
+
+  @Column()
+  password: string
+
   @OneToMany(() => DocumentEntityTypeorm, (document) => document.approver)
   assignedDocuments: DocumentEntityTypeorm[];
 
