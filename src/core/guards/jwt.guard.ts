@@ -1,53 +1,40 @@
 import {
-  CanActivate,
   ExecutionContext,
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
-import { ConfigService } from '@nestjs/config';
 import { Reflector } from '@nestjs/core';
 import { IS_PUBLIC_KEY } from 'src/core/constants/public.cst';
+import { AuthGuard } from '@nestjs/passport';
+import { ExtractJwt } from 'passport-jwt';
+import { JsonWebTokenError } from '@nestjs/jwt';
 
 @Injectable()
-export class JwtGuard implements CanActivate {
-  constructor(
-    private jwtService: JwtService,
-    private configService: ConfigService,
-    private reflector: Reflector,
-  ) {}
+export class JwtGuard extends AuthGuard('jwt') {
+  constructor(private reflector: Reflector) {
+    super({
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      ignoreExpiration: false,
+      secretOrKey: process.env.SECRET_JWT_TOKEN,
+    });
+  }
 
-  async canActivate(context: ExecutionContext): Promise<boolean> {
+  handleRequest(err: any, user: any, info: any, context: any, status: any) {
+    if (err || !user || info instanceof JsonWebTokenError) {
+      throw new UnauthorizedException('Debe ingresar un JWT válido');
+    }
+
+    return super.handleRequest(err, user, info, context, status);
+  }
+
+  canActivate(context: ExecutionContext) {
     const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
       context.getHandler(),
       context.getClass(),
     ]);
-
-    if (isPublic) return true;
-
-    const request = context.switchToHttp().getRequest();
-    const token = this.extractTokenFromHeader(request);
-
-    if (!token) {
-      throw new UnauthorizedException('Debe ingresar un JWT válido');
+    if (isPublic) {
+      return true;
     }
-
-    try {
-      const payload = await this.jwtService.verifyAsync(token, {
-        secret: this.configService.get('SECRET_JWT_TOKEN'),
-        ignoreExpiration: false,
-      });
-
-      request['user'] = payload;
-    } catch (e) {
-      throw new UnauthorizedException('Debe ingresar un JWT válido');
-    }
-
-    return true;
-  }
-
-  private extractTokenFromHeader(request: Request): string | undefined {
-    const [type, token] = request.headers['authorization']?.split(' ') ?? [];
-    return type === 'Bearer' ? token : undefined;
+    return super.canActivate(context);
   }
 }
