@@ -1,5 +1,5 @@
 import { DOCUMENT_STATUS } from 'src/core/constants/document-status.cst';
-import { CreateDocumentInfoDto } from '../dto/create-document.dto';
+import { CreateDocumentInfoDto } from '../dto/create-document-info.dto';
 import { UpdateDocumentDto } from '../dto/update-document.dto';
 import { DocumentEntity } from '../entities/document.entity';
 

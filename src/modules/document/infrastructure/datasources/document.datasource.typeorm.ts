@@ -1,5 +1,5 @@
 import { HttpException, InternalServerErrorException } from '@nestjs/common';
-import { CreateDocumentInfoDto } from '../../domain/dto/create-document.dto';
+import { CreateDocumentInfoDto } from '../../domain/dto/create-document-info.dto';
 import { DocumentEntity } from '../../domain/entities/document.entity';
 import { IDocumentDatasource } from '../../domain/interfaces/document.datasource';
 import { InjectRepository } from '@nestjs/typeorm';

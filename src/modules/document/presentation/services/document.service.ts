@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { CreateDocumentUsecase } from '../../infrastructure/usecases/create-document.usecase';
-import { CreateDocumentInfoDto } from '../../domain/dto/create-document.dto';
+import { CreateDocumentInfoDto } from '../../domain/dto/create-document-info.dto';
 import { IResponse } from 'src/core/interfaces/response.interface';
 import { DocumentEntity } from '../../domain/entities/document.entity';
 import { UpdateDocumentDto } from '../../domain/dto/update-document.dto';
