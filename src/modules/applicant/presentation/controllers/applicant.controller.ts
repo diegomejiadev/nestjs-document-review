@@ -10,7 +10,6 @@ import { Public } from 'src/core/metadata/public.metadata';
 export class ApplicantController {
   constructor(private readonly applicantService: ApplicantService) {}
 
-  @Public()
   @Post()
   create(@Body() body: CreateApplicantDto) {
     return this.applicantService.createApplicant(body);
