@@ -3,6 +3,7 @@ import { DOCUMENT_STATUS } from '../../../../core/constants/document-status.cst'
 import { DOCUMENT_TYPE } from 'src/core/constants/document-type.cst';
 import { CommentEntity } from 'src/modules/comment/domain/entities/comment.entity';
 import { ReviewerEntity } from 'src/modules/reviewer/domain/entities/reviewer.entity';
+import { ApproverEntity } from 'src/modules/approver/domain/entities/approver.entity';
 
 export class DocumentEntity {
   constructor() {}
@@ -14,7 +15,8 @@ export class DocumentEntity {
   private applicantId?: string;
   private reviewerId?: string;
   private reviewer?: ReviewerEntity;
-
+  private approverId?: string;
+  private approver?: ApproverEntity;
   private type: DOCUMENT_TYPE;
   private submissionDate: Date;
   private status: DOCUMENT_STATUS;
@@ -146,6 +148,24 @@ export class DocumentEntity {
 
   public setReviewer(reviewer: ReviewerEntity): this {
     this.reviewer = reviewer;
+    return this;
+  }
+
+  public getApproverId(): string {
+    return this.approverId;
+  }
+
+  public setApproverId(approverId: string): this {
+    this.approverId = approverId;
+    return this;
+  }
+
+  public getApprover(): ApproverEntity {
+    return this.approver;
+  }
+
+  public setApprover(approver: ApproverEntity): this {
+    this.approver = approver;
     return this;
   }
 }
