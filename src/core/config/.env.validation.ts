@@ -1,10 +1,23 @@
 import { plainToInstance } from 'class-transformer';
-import { IsEnum, IsNumber, IsString, validateSync } from 'class-validator';
+import {
+  IsEnum,
+  IsNumber,
+  IsString,
+  validateSync,
+  IsOptional,
+  ValidateIf,
+} from 'class-validator';
 
 enum Environment {
   Development = 'development',
   Production = 'production',
   Test = 'test',
+}
+
+export enum StorageProvider {
+  AWS = 'aws',
+  GCP = 'gcp',
+  AZURE = 'azure',
 }
 
 class EnvironmentVariables {
@@ -37,6 +50,30 @@ class EnvironmentVariables {
 
   @IsString()
   JWT_EXPIRATION_TIME: string;
+
+  @IsEnum(StorageProvider)
+  STORAGE_PROVIDER: StorageProvider;
+
+  @ValidateIf((o) => o.STORAGE_PROVIDER === StorageProvider.AWS)
+  @IsString()
+  AWS_S3_BUCKET: string;
+
+  @ValidateIf((o) => o.STORAGE_PROVIDER === StorageProvider.AWS)
+  @IsString()
+  AWS_S3_REGION: string;
+
+  @ValidateIf((o) => o.STORAGE_PROVIDER === StorageProvider.AWS)
+  @IsString()
+  AWS_S3_ACCESS_KEY: string;
+
+  @ValidateIf((o) => o.STORAGE_PROVIDER === StorageProvider.AWS)
+  @IsString()
+  AWS_S3_SECRET_KEY: string;
+
+  @ValidateIf((o) => o.STORAGE_PROVIDER === StorageProvider.GCP)
+  @IsString()
+  GCP_BUCKET: string;
+  
 }
 
 export function validate(config: Record<string, unknown>) {
