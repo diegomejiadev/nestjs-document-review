@@ -10,6 +10,7 @@ import { IUploadRepository } from 'src/modules/upload/domain/interfaces/upload.r
 import { IDocumentDatasource } from '../../domain/interfaces/document.datasource';
 import { ContextService } from '../../../../shared/services/context.service';
 import { IUserDatasource } from 'src/modules/user/domain/interfaces/user.datasource';
+import * as fs from 'fs/promises';
 
 @Injectable()
 export class UploadFileDocumentUsecase {
@@ -23,18 +24,15 @@ export class UploadFileDocumentUsecase {
   ) {}
 
   async handle(file: Express.Multer.File): Promise<DocumentEntity> {
-    const { filename } = file;
+    const { filename, path } = file;
+
     try {
       //* 1. Obtenemos el request
       const request = this.contextService.getRequest();
       const userId = request['user']['userId'];
 
-      console.log({userId})
-
       //* 2. Verificamos que nuestro usuario exista
       const foundApplicant = await this.userRepository.findById(userId);
-
-      console.log({foundApplicant})
 
       //* 3. Si no existe lanzamos un error
       if (!foundApplicant) {
@@ -50,6 +48,7 @@ export class UploadFileDocumentUsecase {
       const fileUrl = await this.uploadRepository.getFileUrl(filename);
 
       //* 6. Eliminamos el archivo de la carpeta local
+      await fs.unlink(path);
 
       //* 7. Creamos una instancia del documento en la base de datos
       const createdDocument = await this.documentRepository.create(
@@ -61,6 +60,7 @@ export class UploadFileDocumentUsecase {
       //* 8. Retornamos el documento
       return createdDocument;
     } catch (e) {
+      await fs.unlink(path);
       if (e instanceof HttpException) throw e;
 
       throw new InternalServerErrorException('Internal server error');
