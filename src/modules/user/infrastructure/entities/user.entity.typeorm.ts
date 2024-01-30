@@ -16,10 +16,10 @@ export class UserEntityTypeorm {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
+  @Column({ nullable: true })
   name: string;
 
-  @Column()
+  @Column({ nullable: true })
   lastname: string;
 
   @OneToMany(() => CommentEntityTypeorm, (comment) => comment.user)
