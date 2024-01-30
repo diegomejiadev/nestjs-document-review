@@ -17,7 +17,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
           type: 'postgres',
           autoLoadEntities: true,
           logging: configService.get('NODE_ENV') !== 'production',
-          synchronize: configService.get('NODE_ENV') !== 'production',
+          synchronize: configService.get('NODE_ENV') == 'production',
         };
       },
     }),
