@@ -2,7 +2,7 @@
 https://docs.nestjs.com/modules
 */
 
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DocumentEntityTypeorm } from './infrastructure/entities/document.entity.typeorm';
 import { DocumentController } from './presentation/controllers/document.controller';
@@ -17,13 +17,15 @@ import { ProceedReviewUsecase } from './infrastructure/usecases/proceed-review.u
 import { ApproveDocumentUsecase } from './infrastructure/usecases/approve-document.usecase';
 import { AssignApproverUsecase } from './infrastructure/usecases/assign-approver.usecase';
 import { UserModule } from '../user/user.module';
+import { ContextService } from 'src/shared/services/context.service';
+import { ContextMiddleware } from 'src/core/middlewares/context.middleware';
 
 @Module({
   imports: [TypeOrmModule.forFeature([DocumentEntityTypeorm]), UserModule],
   controllers: [DocumentController],
   providers: [
     { provide: 'DOCUMENT_REPOSITORY', useClass: DocumentDatasourceTypeorm },
-
+    ContextService,
     DocumentService,
     SendDocumentCheckUsecase,
     UpdateBasicInfoDocumentUsecase,
@@ -35,4 +37,8 @@ import { UserModule } from '../user/user.module';
     AssignApproverUsecase,
   ],
 })
-export class DocumentModule {}
+export class DocumentModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(ContextMiddleware).forRoutes('*');
+  }
+}

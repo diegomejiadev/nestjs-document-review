@@ -1,11 +1,13 @@
 import { UserModule } from './modules/user/user.module';
 import { DocumentModule } from './modules/document/document.module';
 import { DatabaseModule } from './database/database.module';
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { validate } from './core/config/.env.validation';
 import { AuthModule } from './modules/auth/auth.module';
 import { CommentModule } from './modules/comment/comment.module';
+import { ContextService } from './shared/services/context.service';
+import { ContextMiddleware } from './core/middlewares/context.middleware';
 
 const ENV = process.env.NODE_ENV;
 
@@ -23,6 +25,10 @@ const ENV = process.env.NODE_ENV;
     AuthModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [ContextService],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(ContextMiddleware).forRoutes('*');
+  }
+}
