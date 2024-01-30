@@ -50,7 +50,6 @@ export class SendDocumentCheckUsecase {
       return createdDocument;
     } catch (e) {
       //* Eliminamos el archivo subido
-      //TODO Ver como eliminar el archivo subido
       if (e instanceof HttpException) {
         throw e;
       }
