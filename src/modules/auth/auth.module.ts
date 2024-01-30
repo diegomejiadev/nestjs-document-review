@@ -33,7 +33,7 @@ import { SignInUsecase } from './infrastructure/usecases/sign-in.usecase';
       useFactory: async (configService: ConfigService) => ({
         global: true,
         secret: configService.get('SECRET_JWT_TOKEN'),
-        signOptions: { expiresIn: '10m' },
+        signOptions: { expiresIn: configService.get('JWT_EXPIRATION_TIME') },
       }),
     }),
   ],
