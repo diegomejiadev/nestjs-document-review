@@ -23,6 +23,7 @@ export class DocumentController {
   constructor(private readonly documentService: DocumentService) {}
 
   @Patch('check/:id')
+  @Roles(ROLE.APPLICANT)
   sendToCheck(
     @Param('id') documentId: string,
     @Body() body: CreateDocumentInfoDto,
@@ -31,12 +32,13 @@ export class DocumentController {
   }
 
   @Get(':id')
-  @Roles(ROLE.APPLICANT)
+  @Roles(ROLE.APPLICANT, ROLE.APPROVER, ROLE.REVIEWER)
   findById(@Param('id') documentId: string) {
     return this.documentService.findById(documentId);
   }
 
   @Patch('info/:id')
+  @Roles(ROLE.APPLICANT)
   updateBasicInfo(
     @Param('id') documentId: string,
     @Body() body: UpdateDocumentDto,
@@ -45,16 +47,19 @@ export class DocumentController {
   }
 
   @Patch('file/:id')
+  @Roles(ROLE.APPLICANT)
   updateFileUrl(@Param('id') documentId: string) {
     return this.documentService.updateFileUrl(documentId);
   }
 
   @Patch('assign-reviewer/:id')
+  @Roles(ROLE.REVIEWER)
   assignReviewer(@Param('id') documentId: string) {
     return this.documentService.assignReviewer(documentId);
   }
 
   @Patch('proceeed-review/:id')
+  @Roles(ROLE.REVIEWER)
   proceeedReview(
     @Param('id') documentId: string,
     @Body() body: ApproveDocumentDto,
@@ -63,11 +68,13 @@ export class DocumentController {
   }
 
   @Patch('assign-approver/:id')
+  @Roles(ROLE.APPROVER)
   assignApprover(@Param('id') documentId: string) {
     return this.documentService.assignApprover(documentId);
   }
 
   @Patch('approve-document/:id')
+  @Roles(ROLE.APPROVER)
   approveDocument(
     @Param('id') documentId: string,
     @Body() body: ApproveDocumentDto,
