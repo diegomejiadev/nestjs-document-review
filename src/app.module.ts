@@ -1,3 +1,5 @@
+import { UploadModule } from './modules/upload/upload.module';
+import { APP_FILTER } from '@nestjs/core';
 import { UserModule } from './modules/user/user.module';
 import { DocumentModule } from './modules/document/document.module';
 import { DatabaseModule } from './database/database.module';
@@ -13,6 +15,7 @@ const ENV = process.env.NODE_ENV;
 
 @Module({
   imports: [
+    UploadModule,
     UserModule,
     CommentModule,
     DocumentModule,
