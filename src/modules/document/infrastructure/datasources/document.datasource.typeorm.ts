@@ -36,7 +36,8 @@ export class DocumentDatasourceTypeorm implements IDocumentDatasource {
         .setTitle(foundDocument.title)
         .setType(foundDocument.type)
         .setReviewerId(foundDocument.reviewer?.id)
-        .setApproverId(foundDocument.approver?.id);
+        .setApproverId(foundDocument.approver?.id)
+        .setOriginalName(foundDocument.originalName);
 
       if (foundDocument.applicant) {
         const applicant = new UserEntity()
@@ -109,7 +110,8 @@ export class DocumentDatasourceTypeorm implements IDocumentDatasource {
         .setTitle(updatedDocument.title)
         .setType(updatedDocument.type)
         .setReviewerId(updatedDocument.reviewer?.id)
-        .setApproverId(updatedDocument.approver?.id);
+        .setApproverId(updatedDocument.approver?.id)
+        .setOriginalName(updatedDocument.originalName);
 
       if (updatedDocument.applicant) {
         const applicant = new UserEntity()
@@ -186,7 +188,8 @@ export class DocumentDatasourceTypeorm implements IDocumentDatasource {
         .setTitle(updatedDocument.title)
         .setType(updatedDocument.type)
         .setReviewerId(updatedDocument.reviewer?.id)
-        .setApproverId(updatedDocument.approver?.id);
+        .setApproverId(updatedDocument.approver?.id)
+        .setOriginalName(updatedDocument.originalName);
 
       if (updatedDocument.applicant) {
         const applicant = new UserEntity()
@@ -263,7 +266,8 @@ export class DocumentDatasourceTypeorm implements IDocumentDatasource {
         .setTitle(updatedDocument.title)
         .setType(updatedDocument.type)
         .setReviewerId(updatedDocument.reviewer?.id)
-        .setApproverId(updatedDocument.approver?.id);
+        .setApproverId(updatedDocument.approver?.id)
+        .setOriginalName(updatedDocument.originalName);
 
       if (updatedDocument.applicant) {
         const applicant = new UserEntity()
@@ -343,7 +347,8 @@ export class DocumentDatasourceTypeorm implements IDocumentDatasource {
         .setTitle(updatedDocument.title)
         .setType(updatedDocument.type)
         .setReviewerId(updatedDocument.reviewer?.id)
-        .setApproverId(updatedDocument.approver?.id);
+        .setApproverId(updatedDocument.approver?.id)
+        .setOriginalName(updatedDocument.originalName);
 
       if (updatedDocument.applicant) {
         const applicant = new UserEntity()
@@ -413,7 +418,8 @@ export class DocumentDatasourceTypeorm implements IDocumentDatasource {
         .setTitle(updatedDocument.title)
         .setType(updatedDocument.type)
         .setReviewerId(updatedDocument.reviewer?.id)
-        .setApproverId(updatedDocument.approver?.id);
+        .setApproverId(updatedDocument.approver?.id)
+        .setOriginalName(updatedDocument.originalName);
 
       if (updatedDocument.applicant) {
         const applicant = new UserEntity()
@@ -489,7 +495,8 @@ export class DocumentDatasourceTypeorm implements IDocumentDatasource {
         .setTitle(updatedDocument.title)
         .setType(updatedDocument.type)
         .setReviewerId(updatedDocument.reviewer?.id)
-        .setApproverId(updatedDocument.approver?.id);
+        .setApproverId(updatedDocument.approver?.id)
+        .setOriginalName(updatedDocument.originalName);
 
       if (updatedDocument.applicant) {
         const applicant = new UserEntity()
@@ -559,7 +566,8 @@ export class DocumentDatasourceTypeorm implements IDocumentDatasource {
         .setTitle(updatedDocument.title)
         .setType(updatedDocument.type)
         .setReviewerId(updatedDocument.reviewer?.id)
-        .setApproverId(updatedDocument.approver?.id);
+        .setApproverId(updatedDocument.approver?.id)
+        .setOriginalName(updatedDocument.originalName);
 
       if (updatedDocument.applicant) {
         const applicant = new UserEntity()
@@ -625,13 +633,18 @@ export class DocumentDatasourceTypeorm implements IDocumentDatasource {
     }
   }
 
-  async create(applicantId: string, fileUrl: string): Promise<DocumentEntity> {
+  async create(
+    applicantId: string,
+    fileUrl: string,
+    originalName: string,
+  ): Promise<DocumentEntity> {
     try {
       const newDocument = this.documentRepository.create({
         applicant: {
           id: applicantId,
         },
         fileUrl,
+        originalName,
       });
 
       const createdDocument = await this.documentRepository.save(newDocument);
@@ -647,7 +660,8 @@ export class DocumentDatasourceTypeorm implements IDocumentDatasource {
         .setTitle(createdDocument.title)
         .setType(createdDocument.type)
         .setReviewerId(createdDocument.reviewer?.id)
-        .setApproverId(createdDocument.approver?.id);
+        .setApproverId(createdDocument.approver?.id)
+        .setOriginalName(createdDocument.originalName);
 
       if (createdDocument.applicant) {
         const applicant = new UserEntity()

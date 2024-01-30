@@ -1,10 +1,13 @@
 import { DOCUMENT_STATUS } from 'src/core/constants/document-status.enum';
-import { CreateDocumentInfoDto } from '../dto/create-document-info.dto';
 import { UpdateDocumentDto } from '../dto/update-document.dto';
 import { DocumentEntity } from '../entities/document.entity';
 
 export interface IDocumentDatasource {
-  create(applicantId: string, fileUrl: string): Promise<DocumentEntity>;
+  create(
+    applicantId: string,
+    fileUrl: string,
+    originalName: string,
+  ): Promise<DocumentEntity>;
 
   findById(documentId): Promise<DocumentEntity | null>;
 
