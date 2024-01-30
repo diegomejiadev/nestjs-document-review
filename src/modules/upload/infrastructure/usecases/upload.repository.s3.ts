@@ -13,11 +13,11 @@ import * as fs from 'fs';
 @Injectable()
 export class UploadRepositoryS3 implements IUploadRepository {
   private readonly s3Client = new S3Client({
-    region: this.configService.getOrThrow('AWS_S3_REGION'),
+    region: this.configService.get('AWS_S3_REGION'),
 
     credentials: {
-      secretAccessKey: this.configService.getOrThrow('AWS_S3_SECRET_KEY'),
-      accessKeyId: this.configService.getOrThrow('AWS_S3_ACCESS_KEY'),
+      secretAccessKey: this.configService.get('AWS_S3_SECRET_KEY'),
+      accessKeyId: this.configService.get('AWS_S3_ACCESS_KEY'),
     },
   });
 
@@ -28,7 +28,7 @@ export class UploadRepositoryS3 implements IUploadRepository {
       const stream = fs.createReadStream(file.path);
 
       const uploadParams: PutObjectCommandInput = {
-        Bucket: this.configService.getOrThrow('AWS_S3_BUCKET'),
+        Bucket: this.configService.get('AWS_S3_BUCKET'),
         Key: file.filename,
         Body: stream,
       };
@@ -46,7 +46,7 @@ export class UploadRepositoryS3 implements IUploadRepository {
   async getFile(originalName: string): Promise<any> {
     try {
       const getParams: GetObjectCommandInput = {
-        Bucket: this.configService.getOrThrow('AWS_S3_BUCKET'),
+        Bucket: this.configService.get('AWS_S3_BUCKET'),
         Key: originalName,
       };
 
@@ -64,8 +64,8 @@ export class UploadRepositoryS3 implements IUploadRepository {
 
   async getFileUrl(originalName: string): Promise<string> {
     try {
-      const prefix = this.configService.getOrThrow('AWS_S3_BUCKET');
-      const region = this.configService.getOrThrow('AWS_S3_REGION');
+      const prefix = this.configService.get('AWS_S3_BUCKET');
+      const region = this.configService.get('AWS_S3_REGION');
 
       return `https://${prefix}.s3.${region}.amazonaws.com/${originalName}`;
     } catch (e) {
