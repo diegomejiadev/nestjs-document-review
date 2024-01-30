@@ -1,14 +1,11 @@
-import { ApproverEntity } from 'src/modules/approver/domain/entities/approver.entity';
 import { DocumentEntity } from 'src/modules/document/domain/entities/document.entity';
-import { ReviewerEntity } from 'src/modules/reviewer/domain/entities/reviewer.entity';
+import { UserEntity } from 'src/modules/user/domain/entities/user.entity';
 
 export class CommentEntity {
   id: string;
   description: string;
-  reviewerId?: string;
-  reviewer?: ReviewerEntity;
-  approverId?: string;
-  approver: ApproverEntity;
+  userId: string;
+  user: UserEntity;
   documentId?: string;
   document?: DocumentEntity;
   createdAt?: Date;

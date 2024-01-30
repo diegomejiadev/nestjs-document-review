@@ -1,4 +1,5 @@
 import { ROLE } from 'src/core/constants/role.enum';
+import { CommentEntityTypeorm } from 'src/modules/comment/infrastructure/entities/comment.entity.typeorm';
 import { DocumentEntityTypeorm } from 'src/modules/document/infrastructure/entities/document.entity.typeorm';
 import {
   Column,
@@ -20,6 +21,9 @@ export class UserEntityTypeorm {
 
   @Column()
   lastname: string;
+
+  @OneToMany(() => CommentEntityTypeorm, (comment) => comment.user)
+  comments: CommentEntityTypeorm[];
 
   @OneToMany(() => DocumentEntityTypeorm, (document) => document.applicant)
   uploadedDocuments: DocumentEntityTypeorm[];

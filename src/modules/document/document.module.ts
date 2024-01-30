@@ -13,20 +13,13 @@ import { UpdateBasicInfoDocumentUsecase } from './infrastructure/usecases/update
 import { UpdateFileUrlDocumentUsecase } from './infrastructure/usecases/update-file-url-document.usecase';
 import { FindDocumentByIdUsecase } from './infrastructure/usecases/find-document-by-id.usecase';
 import { AssignReviewerUsecase } from './infrastructure/usecases/assign-reviewer.usecase';
-import { ReviewerModule } from '../reviewer/reviewer.module';
 import { ProceedReviewUsecase } from './infrastructure/usecases/proceed-review.usecase';
 import { ApproveDocumentUsecase } from './infrastructure/usecases/approve-document.usecase';
 import { AssignApproverUsecase } from './infrastructure/usecases/assign-approver.usecase';
-import { ApproverModule } from '../approver/approver.module';
 import { UserModule } from '../user/user.module';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([DocumentEntityTypeorm]),
-    ReviewerModule,
-    ApproverModule,
-    UserModule,
-  ],
+  imports: [TypeOrmModule.forFeature([DocumentEntityTypeorm]), UserModule],
   controllers: [DocumentController],
   providers: [
     { provide: 'DOCUMENT_REPOSITORY', useClass: DocumentDatasourceTypeorm },

@@ -9,8 +9,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { DocumentEntityTypeorm } from 'src/modules/document/infrastructure/entities/document.entity.typeorm';
-import { ReviewerEntityTypeorm } from 'src/modules/reviewer/infrastructure/entities/reviewer.entity.typeorm';
-import { ApproverEntityTypeorm } from 'src/modules/approver/infrastructure/entities/approver.entity.typeorm';
+import { UserEntityTypeorm } from 'src/modules/user/infrastructure/entities/user.entity.typeorm';
 
 @Entity({ name: 'comment' })
 export class CommentEntityTypeorm {
@@ -22,15 +21,12 @@ export class CommentEntityTypeorm {
   })
   description: string;
 
-  @ManyToOne(() => ReviewerEntityTypeorm, (reviewer) => reviewer.comments, {
-    onDelete: 'SET NULL',
+  @ManyToOne(() => UserEntityTypeorm, (user) => user.comments, {
+    onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
   })
-  @JoinColumn({ name: 'reviewer_id' })
-  reviewer: ReviewerEntityTypeorm;
-
-  @ManyToOne(() => ApproverEntityTypeorm, (approver) => approver.comments)
-  approver: ApproverEntityTypeorm;
+  @JoinColumn({ name: 'user_id' })
+  user: UserEntityTypeorm;
 
   @ManyToOne(() => DocumentEntityTypeorm, (document) => document.comments, {
     onDelete: 'CASCADE',
