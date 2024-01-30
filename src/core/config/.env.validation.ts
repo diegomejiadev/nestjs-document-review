@@ -54,6 +54,9 @@ class EnvironmentVariables {
   @IsEnum(StorageProvider)
   STORAGE_PROVIDER: StorageProvider;
 
+  @IsString()
+  STORAGE_UPLOAD_LOCATION: string;
+
   @ValidateIf((o) => o.STORAGE_PROVIDER === StorageProvider.AWS)
   @IsString()
   AWS_S3_BUCKET: string;
@@ -73,7 +76,6 @@ class EnvironmentVariables {
   @ValidateIf((o) => o.STORAGE_PROVIDER === StorageProvider.GCP)
   @IsString()
   GCP_BUCKET: string;
-  
 }
 
 export function validate(config: Record<string, unknown>) {
