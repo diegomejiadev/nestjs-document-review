@@ -23,8 +23,6 @@ export class SendDocumentCheckUsecase {
     body: CreateDocumentInfoDto,
   ): Promise<DocumentEntity> {
     try {
-      const APPLICANT_ID = '94151601-f35b-4405-91cd-7ca9a738a399';
-
       //* 1. Verificamos que exista el documento
       const foundDocument = await this.repository.findById(documentId);
 
@@ -42,7 +40,7 @@ export class SendDocumentCheckUsecase {
 
       //* 4. Creamos el documento en la base de datos
       const createdDocument = await this.repository.updateBasicInfo(
-        APPLICANT_ID,
+        documentId,
         body,
       );
 

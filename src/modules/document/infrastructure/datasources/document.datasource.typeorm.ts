@@ -93,6 +93,8 @@ export class DocumentDatasourceTypeorm implements IDocumentDatasource {
     documentId: string,
     body: UpdateDocumentDto,
   ): Promise<DocumentEntity> {
+    console.log(documentId, body);
+
     try {
       const updatedDocument = await this.documentRepository.save({
         id: documentId,
@@ -157,6 +159,7 @@ export class DocumentDatasourceTypeorm implements IDocumentDatasource {
 
       return documentEntity;
     } catch (e) {
+      console.log(e);
       if (e instanceof HttpException) {
         throw e;
       }
