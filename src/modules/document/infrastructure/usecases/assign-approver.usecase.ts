@@ -9,6 +9,7 @@ import {
 import { DocumentEntity } from '../../domain/entities/document.entity';
 import { IDocumentDatasource } from '../../domain/interfaces/document.datasource';
 import { IUserDatasource } from 'src/modules/user/domain/interfaces/user.datasource';
+import { ContextService } from 'src/shared/services/context.service';
 
 @Injectable()
 export class AssignApproverUsecase {
@@ -17,13 +18,10 @@ export class AssignApproverUsecase {
     private readonly repository: IDocumentDatasource,
     @Inject('USER_REPOSITORY')
     private readonly approverRepository: IUserDatasource,
+    private readonly contextService: ContextService,
   ) {}
 
-  //TODO Se debe extraer del JWT del reviewer
-  async handle(
-    documentId: string,
-    approverId: string,
-  ): Promise<DocumentEntity> {
+  async handle(documentId: string): Promise<DocumentEntity> {
     try {
       //* 1. Verificamos que el document exista
       const foundDocument = await this.repository.findById(documentId);
@@ -40,7 +38,10 @@ export class AssignApproverUsecase {
       }
 
       //* 3. Verificamos que el aprobador exista
-      const foundApprover = await this.approverRepository.findById(approverId);
+      const request = this.contextService.getRequest();
+
+      const userId = request['user']['userId'];
+      const foundApprover = await this.approverRepository.findById(userId);
 
       if (!foundApprover) {
         throw new NotFoundException('No se encontró el aprobador a asignar');
@@ -49,7 +50,7 @@ export class AssignApproverUsecase {
       //* 4. Actualizamos el documento con el id del aprobador, asimismo lo manda a estado 'approver-assigned'
       const updatedDocument = await this.repository.assignApprover(
         documentId,
-        approverId,
+        userId,
       );
 
       //* 5. Devolvemos el entity

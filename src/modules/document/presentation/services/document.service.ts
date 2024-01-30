@@ -60,23 +60,13 @@ export class DocumentService {
   }
 
   async assignReviewer(documentId: string): Promise<IResponse<DocumentEntity>> {
-    const REVIEWER_ID = 'b48e9e66-e02f-42f8-8393-c3abeb5397ac';
-
-    const data = await this.assignReviewerUsecase.handle(
-      documentId,
-      REVIEWER_ID,
-    );
+    const data = await this.assignReviewerUsecase.handle(documentId);
 
     return { data };
   }
 
   async assignApprover(documentId: string): Promise<IResponse<DocumentEntity>> {
-    const APPROVER_ID = '93b0cea9-e7b2-42d6-94c0-fb95090daec2';
-
-    const data = await this.assignApproverUsecase.handle(
-      documentId,
-      APPROVER_ID,
-    );
+    const data = await this.assignApproverUsecase.handle(documentId);
 
     return { data };
   }
