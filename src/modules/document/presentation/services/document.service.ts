@@ -12,6 +12,7 @@ import { ApproveDocumentDto } from '../../domain/dto/approve-document.dto';
 import { ProceedReviewUsecase } from '../../infrastructure/usecases/proceed-review.usecase';
 import { ApproveDocumentUsecase } from '../../infrastructure/usecases/approve-document.usecase';
 import { AssignApproverUsecase } from '../../infrastructure/usecases/assign-approver.usecase';
+import { UploadFileDocumentUsecase } from '../../infrastructure/usecases/upload-file-document.usecase';
 
 @Injectable()
 export class DocumentService {
@@ -24,7 +25,16 @@ export class DocumentService {
     private readonly assignApproverUsecase: AssignApproverUsecase,
     private readonly proceedReviewUsecase: ProceedReviewUsecase,
     private readonly approveDocumentUsecase: ApproveDocumentUsecase,
+    private readonly uploadFileUsecase: UploadFileDocumentUsecase,
   ) {}
+
+  async uploadFile(
+    file: Express.Multer.File,
+  ): Promise<IResponse<DocumentEntity>> {
+    const data = await this.uploadFileUsecase.handle(file);
+
+    return { data };
+  }
 
   async findById(documentId: string): Promise<IResponse<DocumentEntity>> {
     const data = await this.findDocumentByIdUsecase.handle(documentId);

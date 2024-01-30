@@ -19,9 +19,15 @@ import { AssignApproverUsecase } from './infrastructure/usecases/assign-approver
 import { UserModule } from '../user/user.module';
 import { ContextService } from 'src/shared/services/context.service';
 import { ContextMiddleware } from 'src/core/middlewares/context.middleware';
+import { UploadModule } from '../upload/upload.module';
+import { UploadFileDocumentUsecase } from './infrastructure/usecases/upload-file-document.usecase';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([DocumentEntityTypeorm]), UserModule],
+  imports: [
+    TypeOrmModule.forFeature([DocumentEntityTypeorm]),
+    UserModule,
+    UploadModule,
+  ],
   controllers: [DocumentController],
   providers: [
     { provide: 'DOCUMENT_REPOSITORY', useClass: DocumentDatasourceTypeorm },
@@ -35,6 +41,7 @@ import { ContextMiddleware } from 'src/core/middlewares/context.middleware';
     ProceedReviewUsecase,
     ApproveDocumentUsecase,
     AssignApproverUsecase,
+    UploadFileDocumentUsecase,
   ],
 })
 export class DocumentModule implements NestModule {
