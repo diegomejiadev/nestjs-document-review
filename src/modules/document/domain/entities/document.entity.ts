@@ -8,6 +8,7 @@ export class DocumentEntity {
 
   private id: string;
   private title: string;
+  private originalName: string;
   private fileUrl: string;
   private applicant?: UserEntity;
   private applicantId?: string;
@@ -22,6 +23,15 @@ export class DocumentEntity {
   private createdAt?: Date;
   private updatedAt?: Date;
   private deletedAt?: Date;
+
+  public getOriginalName(): string {
+    return this.originalName;
+  }
+
+  public setOriginalName(originalName: string): this {
+    this.originalName = originalName;
+    return this;
+  }
 
   public getId(): string {
     return this.id;

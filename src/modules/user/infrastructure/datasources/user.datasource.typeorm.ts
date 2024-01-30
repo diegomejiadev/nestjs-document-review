@@ -37,7 +37,8 @@ export class UserDatasourceTypeorm implements IUserDatasource {
         .setUpdatedAt(createdUser.updatedAt)
         .setName(createdUser.name)
         .setLastname(createdUser.lastname)
-        .setPassword(createdUser.password);
+        .setPassword(createdUser.password)
+        .setRole(createdUser.role);
     } catch (e) {
       throw new InternalServerErrorException(
         'Hubo un error al crear el usuario',
@@ -76,7 +77,8 @@ export class UserDatasourceTypeorm implements IUserDatasource {
         .setUpdatedAt(foundEmail.updatedAt)
         .setName(foundEmail.name)
         .setLastname(foundEmail.lastname)
-        .setPassword(foundEmail.password);
+        .setPassword(foundEmail.password)
+        .setRole(foundEmail.role);
     } catch (e) {
       throw new InternalServerErrorException(
         'Hubo un error al buscar el usuario',
@@ -107,7 +109,8 @@ export class UserDatasourceTypeorm implements IUserDatasource {
         .setUpdatedAt(foundUser.updatedAt)
         .setName(foundUser.name)
         .setLastname(foundUser.lastname)
-        .setPassword(foundUser.password);
+        .setPassword(foundUser.password)
+        .setRole(foundUser.role);
 
       if (foundUser.uploadedDocuments) {
         const documents = foundUser.uploadedDocuments.map((document) => {
@@ -210,7 +213,8 @@ export class UserDatasourceTypeorm implements IUserDatasource {
         .setUpdatedAt(updatedUser.updatedAt)
         .setName(updatedUser.name)
         .setLastname(updatedUser.lastname)
-        .setPassword(updatedUser.password);
+        .setPassword(updatedUser.password)
+        .setRole(updatedUser.role);
     } catch (e) {
       throw new InternalServerErrorException(
         'Hubo un error al actualizar la información del usuario',
@@ -232,7 +236,8 @@ export class UserDatasourceTypeorm implements IUserDatasource {
         .setUpdatedAt(updatedUser.updatedAt)
         .setName(updatedUser.name)
         .setLastname(updatedUser.lastname)
-        .setPassword(updatedUser.password);
+        .setPassword(updatedUser.password)
+        .setRole(updatedUser.role);
     } catch (e) {
       throw new InternalServerErrorException(
         'Hubo un error al actualizar el correo electrónico del usuario',
@@ -257,7 +262,8 @@ export class UserDatasourceTypeorm implements IUserDatasource {
         .setUpdatedAt(updatedUser.updatedAt)
         .setName(updatedUser.name)
         .setLastname(updatedUser.lastname)
-        .setPassword(updatedUser.password);
+        .setPassword(updatedUser.password)
+        .setRole(updatedUser.role);
     } catch (e) {
       throw new InternalServerErrorException(
         'Hubo un error al actualizar la contraseña del usuario',

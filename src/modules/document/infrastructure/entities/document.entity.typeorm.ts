@@ -58,6 +58,11 @@ export class DocumentEntityTypeorm {
   title: string;
 
   @Column({
+    name: 'original_name',
+  })
+  originalName: string;
+
+  @Column({
     type: 'enum',
     enum: DOCUMENT_STATUS,
     default: DOCUMENT_STATUS.JUST_UPLOADED,
