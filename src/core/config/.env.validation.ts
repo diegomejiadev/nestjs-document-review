@@ -34,6 +34,9 @@ class EnvironmentVariables {
 
   @IsString()
   SECRET_JWT_TOKEN: string;
+
+  @IsString()
+  JWT_EXPIRATION_TIME: string;
 }
 
 export function validate(config: Record<string, unknown>) {
