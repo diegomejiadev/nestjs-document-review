@@ -8,6 +8,10 @@ import { JwtGuard } from '../../core/guards/jwt.guard';
 import { JwtStrategy } from 'src/core/strategies/jwt.strategy';
 import { RoleGuard } from 'src/core/guards/role.guard';
 import { UserModule } from '../user/user.module';
+import { SignUpApplicantUsecase } from './infrastructure/usecases/sign-up-applicant.usecase';
+import { SignUpApproverUsecase } from './infrastructure/usecases/sign-up-approver.usecase';
+import { SignUpReviewerUsecase } from './infrastructure/usecases/sign-up-reviewer.usecase';
+import { SignInUsecase } from './infrastructure/usecases/sign-in.usecase';
 
 @Module({
   controllers: [AuthController],
@@ -16,6 +20,10 @@ import { UserModule } from '../user/user.module';
     JwtStrategy,
     { provide: APP_GUARD, useClass: JwtGuard },
     { provide: APP_GUARD, useClass: RoleGuard },
+    SignUpApplicantUsecase,
+    SignUpApproverUsecase,
+    SignUpReviewerUsecase,
+    SignInUsecase,
   ],
   imports: [
     UserModule,
